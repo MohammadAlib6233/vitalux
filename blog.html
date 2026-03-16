@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Research & Wellness Blog — VITALUX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ======================== VARIABLES ======================== */
+:root {
+  --green:#16a34a; --gl:#22c55e; --gp:#a7f3d0; --gd:#064e3b;
+  --orange:#f97316; --blue:#3b82f6; --purple:#8b5cf6;
+  --yellow:#eab308; --red:#ef4444; --pink:#ec4899; --cyan:#06b6d4;
+  --dark:#05100a; --dark2:#081408; --dark3:#0b1e10; --dark4:#0e2614;
+  --white:#f0faf4;
+  --gray:rgba(255,255,255,.5); --gray-dim:rgba(255,255,255,.25);
+  --border:rgba(255,255,255,.07); --border-g:rgba(34,197,94,.25);
+  --card-bg:rgba(255,255,255,.03);
+  --glow:0 0 40px rgba(34,197,94,.2); --glow-s:0 0 60px rgba(34,197,94,.35);
+  --nav-h:72px; --radius:18px;
+}
+
+/* ======================== RESET ======================== */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { font-family:'DM Sans',sans-serif; background:var(--dark); color:var(--white); overflow-x:hidden; line-height:1.6; }
+img { max-width:100%; display:block; }
+a { text-decoration:none; color:inherit; }
+button { font-family:inherit; cursor:pointer; border:none; background:none; }
+ul { list-style:none; }
+::-webkit-scrollbar { width:3px; }
+::-webkit-scrollbar-track { background:var(--dark); }
+::-webkit-scrollbar-thumb { background:var(--green); border-radius:2px; }
+
+/* ======================== NAVBAR ======================== */
+.navbar {
+  position:fixed; top:0; left:0; right:0; z-index:999;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 3rem; height:var(--nav-h); transition:.4s;
+}
+.navbar.scrolled {
+  background:rgba(5,16,10,.96); backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border); box-shadow:0 4px 30px rgba(0,0,0,.4);
+}
+.nav-logo {
+  font-family:'Bebas Neue',sans-serif; font-size:1.9rem; letter-spacing:4px;
+  background:linear-gradient(135deg,var(--gl),var(--gp));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; cursor:pointer;
+}
+.nav-links { display:flex; align-items:center; gap:.2rem; }
+.nav-links li a {
+  display:flex; align-items:center; gap:.35rem; padding:.5rem 1rem;
+  border-radius:8px; color:rgba(255,255,255,.65); font-size:.88rem;
+  transition:color .2s,background .2s;
+}
+.nav-links li a:hover, .nav-links li a.active { color:var(--gl); background:rgba(34,197,94,.07); }
+.nav-dropdown { position:relative; }
+.nav-dropdown > a::after { content:'▾'; font-size:.7rem; opacity:.5; margin-left:.1rem; }
+.dropdown-menu {
+  position:absolute; top:calc(100% + 8px); left:0; background:var(--dark4);
+  border:1px solid var(--border); border-radius:14px; padding:.6rem;
+  min-width:210px; opacity:0; visibility:hidden;
+  transform:translateY(-8px); transition:all .25s;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+.nav-dropdown:hover .dropdown-menu { opacity:1; visibility:visible; transform:translateY(0); }
+.dropdown-menu a {
+  display:flex; align-items:center; gap:.6rem; padding:.55rem .9rem;
+  border-radius:9px; color:rgba(255,255,255,.6); font-size:.84rem; transition:all .15s;
+}
+.dropdown-menu a:hover { background:rgba(34,197,94,.1); color:var(--gl); }
+.nav-right { display:flex; align-items:center; gap:.7rem; }
+.nav-cart-btn {
+  position:relative; display:flex; align-items:center; gap:.5rem;
+  padding:.5rem 1rem; border-radius:10px; border:1px solid var(--border);
+  color:var(--white); font-size:.82rem; transition:all .2s;
+}
+.nav-cart-btn:hover { border-color:var(--green); color:var(--gl); }
+.cart-badge {
+  position:absolute; top:-6px; right:-6px; background:var(--green); color:#fff;
+  font-size:.58rem; font-weight:700; width:17px; height:17px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+}
+.hamburger { display:none; flex-direction:column; gap:5px; padding:.4rem; border:1px solid var(--border); border-radius:8px; }
+.hamburger span { width:20px; height:2px; background:var(--white); display:block; transition:.3s; }
+
+/* Mobile Nav */
+.mob-nav {
+  position:fixed; top:0; right:-300px; width:280px; height:100vh;
+  background:var(--dark3); border-left:1px solid var(--border); z-index:1100;
+  padding:1.5rem; transition:right .4s cubic-bezier(.4,0,.2,1); overflow-y:auto;
+}
+.mob-nav.open { right:0; }
+.mob-nav-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem; }
+.mob-close { width:32px; height:32px; border-radius:50%; border:1px solid var(--border); color:var(--white); font-size:.85rem; display:flex; align-items:center; justify-content:center; }
+.mob-nav a { display:block; padding:.8rem 0; color:rgba(255,255,255,.7); border-bottom:1px solid var(--border); font-size:.95rem; transition:color .2s; }
+.mob-nav a:hover { color:var(--gl); }
+.mob-overlay { position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:1099; display:none; backdrop-filter:blur(4px); }
+.mob-overlay.open { display:block; }
+
+/* ======================== BUTTONS ======================== */
+.btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+  font-family:'Syne',sans-serif; font-weight:600; font-size:.88rem; letter-spacing:.3px;
+  border-radius:50px; padding:.8rem 1.9rem; transition:all .3s; cursor:pointer; border:none;
+}
+.btn-primary { background:var(--green); color:#fff; }
+.btn-primary:hover { background:var(--gl); transform:translateY(-2px); box-shadow:0 10px 28px rgba(34,197,94,.38); }
+.btn-ghost { background:transparent; color:var(--white); border:1px solid var(--border); }
+.btn-ghost:hover { border-color:var(--green); color:var(--gl); }
+.btn-outline { background:transparent; color:var(--gl); border:1px solid var(--border-g); }
+.btn-outline:hover { background:rgba(34,197,94,.1); }
+.btn-lg { padding:1rem 2.2rem; font-size:.96rem; }
+.btn-sm { padding:.45rem 1rem; font-size:.78rem; }
+.btn-full { width:100%; }
+
+/* ======================== SECTION HEADERS ======================== */
+.sec-head { text-align:center; margin-bottom:3.5rem; }
+.sec-head.left { text-align:left; }
+.eyebrow {
+  display:inline-block; font-size:.68rem; letter-spacing:3px; text-transform:uppercase;
+  color:var(--gl); border:1px solid var(--border-g); padding:.28rem .85rem;
+  border-radius:50px; margin-bottom:.9rem; font-weight:500;
+}
+.sec-head h2 { font-family:'Syne',sans-serif; font-size:clamp(1.9rem,3.5vw,3rem); font-weight:800; line-height:1.1; }
+.sec-head h2 em { font-style:normal; background:linear-gradient(135deg,var(--gl),var(--gp)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.sec-desc { margin-top:.8rem; color:var(--gray); font-size:.92rem; max-width:500px; margin-left:auto; margin-right:auto; }
+.sec-head.left .sec-desc { margin-left:0; }
+
+/* ======================== TAGS / BADGES ======================== */
+.tag { display:inline-block; font-size:.62rem; letter-spacing:1px; text-transform:uppercase; padding:.2rem .55rem; border-radius:50px; font-weight:600; }
+.tag-orange { background:rgba(249,115,22,.15); color:var(--orange); border:1px solid rgba(249,115,22,.3); }
+.tag-green  { background:rgba(34,197,94,.15);  color:var(--gl);     border:1px solid var(--border-g); }
+.tag-red    { background:rgba(239,68,68,.15);   color:var(--red);    border:1px solid rgba(239,68,68,.3); }
+.tag-blue   { background:rgba(59,130,246,.15);  color:var(--blue);   border:1px solid rgba(59,130,246,.3); }
+.tag-purple { background:rgba(139,92,246,.15);  color:var(--purple); border:1px solid rgba(139,92,246,.3); }
+.stars { color:var(--yellow); font-size:.85rem; letter-spacing:.5px; }
+
+/* ======================== PRODUCT CARDS (shared) ======================== */
+.prod-card { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; cursor:pointer; transition:all .4s; }
+.prod-card:hover { transform:translateY(-8px); border-color:rgba(34,197,94,.25); box-shadow:0 20px 50px rgba(0,0,0,.4),var(--glow); }
+.prod-img-area { height:190px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.prod-emoji { font-size:4.8rem; filter:drop-shadow(0 10px 20px rgba(0,0,0,.5)); transition:.4s; position:relative; z-index:2; }
+.prod-card:hover .prod-emoji { transform:scale(1.12) rotate(-5deg); }
+.prod-body { padding:1.4rem; }
+.prod-name { font-family:'Syne',sans-serif; font-size:.98rem; font-weight:700; margin-bottom:.25rem; line-height:1.3; }
+.prod-sub { font-size:.76rem; color:rgba(255,255,255,.35); margin-bottom:.6rem; }
+.rev-count { font-size:.72rem; color:var(--gray-dim); margin-left:.3rem; }
+.prod-foot { display:flex; align-items:center; justify-content:space-between; margin-top:1.1rem; padding-top:1.1rem; border-top:1px solid var(--border); }
+.prod-price { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; color:var(--gl); }
+.old-price { font-size:.78rem; color:rgba(255,255,255,.25); text-decoration:line-through; margin-left:.3rem; }
+.add-btn { width:36px; height:36px; border-radius:50%; background:var(--green); color:#fff; font-size:1.1rem; display:flex; align-items:center; justify-content:center; transition:all .2s; flex-shrink:0; }
+.add-btn:hover { background:var(--gl); transform:scale(1.1); box-shadow:0 5px 15px rgba(34,197,94,.4); }
+
+/* ======================== CART SIDEBAR ======================== */
+.cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:1200; display:none; backdrop-filter:blur(5px); }
+.cart-overlay.open { display:block; }
+.cart-sidebar { position:fixed; top:0; right:-420px; width:400px; height:100vh; background:var(--dark3); border-left:1px solid var(--border-g); z-index:1201; display:flex; flex-direction:column; transition:right .4s cubic-bezier(.4,0,.2,1); }
+.cart-sidebar.open { right:0; }
+.cart-head { display:flex; align-items:center; justify-content:space-between; padding:1.4rem 1.6rem; border-bottom:1px solid var(--border); }
+.cart-head h3 { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700; }
+.cart-close-btn { width:32px; height:32px; border-radius:50%; border:1px solid var(--border); color:var(--white); font-size:.85rem; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+.cart-close-btn:hover { border-color:var(--red); color:var(--red); }
+.cart-body { flex:1; overflow-y:auto; padding:1.2rem 1.6rem; }
+.cart-empty { text-align:center; padding:3.5rem 0; }
+.cart-empty-icon { font-size:3.5rem; margin-bottom:1rem; opacity:.4; }
+.cart-empty p { color:var(--gray-dim); font-size:.88rem; }
+.cart-item { display:flex; align-items:flex-start; gap:1rem; padding:1rem 0; border-bottom:1px solid var(--border); animation:fadeUp .3s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.cart-item-img { font-size:2.4rem; flex-shrink:0; }
+.cart-item-info { flex:1; min-width:0; }
+.cart-item-name { font-family:'Syne',sans-serif; font-size:.86rem; font-weight:700; margin-bottom:.15rem; line-height:1.3; }
+.cart-item-sub { font-size:.74rem; color:var(--gray-dim); margin-bottom:.35rem; }
+.cart-item-price { color:var(--gl); font-weight:600; font-size:.9rem; }
+.cart-qty-row { display:flex; align-items:center; gap:.5rem; margin-top:.4rem; }
+.qty-btn { width:24px; height:24px; border-radius:50%; border:1px solid var(--border); color:var(--white); font-size:.9rem; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+.qty-btn:hover { border-color:var(--green); color:var(--gl); }
+.cart-item-qty { font-size:.84rem; min-width:18px; text-align:center; }
+.cart-remove { color:rgba(255,255,255,.2); font-size:.8rem; padding:.2rem; transition:color .2s; align-self:flex-start; }
+.cart-remove:hover { color:var(--red); }
+.cart-foot { padding:1.4rem 1.6rem; border-top:1px solid var(--border); }
+.cart-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:.5rem; font-size:.85rem; color:var(--gray); }
+.cart-total-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.2rem; }
+.ct-label { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; }
+.ct-val { font-family:'Syne',sans-serif; font-weight:800; font-size:1.2rem; color:var(--gl); }
+.cart-free-ship { font-size:.75rem; color:var(--gl); text-align:center; margin-bottom:1rem; background:rgba(34,197,94,.08); padding:.45rem; border-radius:8px; border:1px solid var(--border-g); }
+
+/* ======================== TOAST ======================== */
+#toast { position:fixed; bottom:2rem; left:50%; transform:translateX(-50%) translateY(80px); background:var(--dark4); border:1px solid var(--green); color:var(--white); padding:.85rem 1.6rem; border-radius:50px; font-family:'Syne',sans-serif; font-size:.85rem; font-weight:600; z-index:9999; opacity:0; transition:all .35s; box-shadow:0 10px 40px rgba(0,0,0,.4),var(--glow); white-space:nowrap; }
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ======================== FOOTER ======================== */
+footer { background:#030a05; border-top:1px solid var(--border); }
+.footer-main { display:grid; grid-template-columns:1.8fr repeat(3,1fr); gap:3rem; padding:5rem 3rem 3rem; max-width:1280px; margin:0 auto; }
+.footer-logo { font-family:'Bebas Neue',sans-serif; font-size:2.2rem; letter-spacing:4px; background:linear-gradient(135deg,var(--gl),var(--gp)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:inline-block; margin-bottom:1rem; }
+.footer-brand p { color:rgba(255,255,255,.35); font-size:.83rem; line-height:1.75; max-width:250px; margin-bottom:1.5rem; }
+.social-row { display:flex; gap:.55rem; }
+.social-link { width:36px; height:36px; border-radius:9px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,.4); font-size:.8rem; font-weight:700; transition:all .2s; }
+.social-link:hover { border-color:var(--green); color:var(--gl); }
+.footer-col h4 { font-family:'Syne',sans-serif; font-size:.86rem; font-weight:700; color:var(--white); margin-bottom:1.1rem; }
+.footer-col a { display:block; color:rgba(255,255,255,.36); font-size:.82rem; margin-bottom:.5rem; transition:color .2s; }
+.footer-col a:hover { color:var(--gl); }
+.footer-bottom { display:flex; align-items:center; justify-content:space-between; padding:1.3rem 3rem; border-top:1px solid var(--border); max-width:1280px; margin:0 auto; font-size:.77rem; color:rgba(255,255,255,.26); }
+.footer-legal { display:flex; gap:1.5rem; }
+.footer-legal a { color:rgba(255,255,255,.26); transition:color .2s; }
+.footer-legal a:hover { color:var(--gl); }
+
+/* ======================== UTILS ======================== */
+.page-wrap { padding-top:var(--nav-h); }
+.section { padding:7rem 3rem; }
+.container { max-width:1280px; margin:0 auto; }
+
+/* ======================== RESPONSIVE ======================== */
+@media(max-width:1024px) { .footer-main { grid-template-columns:1fr 1fr; gap:2rem; } }
+@media(max-width:768px) {
+  .navbar { padding:0 1.5rem; }
+  .nav-links { display:none; }
+  .hamburger { display:flex; }
+  .footer-main { grid-template-columns:1fr; padding:3rem 1.5rem; }
+  .footer-bottom { padding:1.2rem 1.5rem; flex-direction:column; gap:.8rem; text-align:center; }
+  .section { padding:5rem 1.5rem; }
+  .cart-sidebar { width:100%; right:-100%; }
+}
+
+/* ======================== SHOP PAGE ======================== */
+.shop-hero { background:var(--dark2); padding:5rem 3rem 3rem; text-align:center; border-bottom:1px solid var(--border); }
+.shop-hero h1 { font-family:'Syne',sans-serif; font-size:clamp(2rem,4vw,3.2rem); font-weight:800; margin-bottom:.6rem; }
+.shop-hero p { color:var(--gray); max-width:480px; margin:0 auto; }
+
+.shop-layout { display:grid; grid-template-columns:260px 1fr; gap:2.5rem; padding:4rem 3rem; max-width:1280px; margin:0 auto; }
+
+/* Sidebar Filters */
+.shop-sidebar { position:sticky; top:calc(var(--nav-h) + 1.5rem); height:max-content; }
+.filter-panel { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); padding:1.6rem; margin-bottom:1.2rem; }
+.filter-panel h4 { font-family:'Syne',sans-serif; font-size:.9rem; font-weight:700; margin-bottom:1.1rem; display:flex; align-items:center; justify-content:space-between; cursor:pointer; }
+.filter-panel h4 span { font-size:.75rem; color:var(--gray); }
+.filter-option { display:flex; align-items:center; justify-content:space-between; padding:.4rem 0; cursor:pointer; }
+.filter-option input[type=checkbox] { accent-color:var(--green); width:15px; height:15px; cursor:pointer; }
+.filter-option label { font-size:.84rem; color:rgba(255,255,255,.6); cursor:pointer; flex:1; margin-left:.6rem; }
+.filter-option .cnt { font-size:.72rem; color:var(--gray-dim); }
+.price-range-row { display:flex; align-items:center; gap:.5rem; margin-top:.8rem; }
+.price-input { width:100%; background:rgba(255,255,255,.05); border:1px solid var(--border); color:var(--white); padding:.5rem .7rem; border-radius:8px; font-size:.82rem; text-align:center; }
+.price-sep { color:var(--gray-dim); font-size:.8rem; }
+.filter-rating-row { display:flex; align-items:center; gap:.5rem; padding:.35rem 0; cursor:pointer; }
+.filter-rating-row .stars { font-size:.9rem; }
+.filter-rating-row span { font-size:.8rem; color:var(--gray); }
+.filter-rating-row.active .stars { color:var(--yellow); }
+.filter-clear { color:var(--gl); font-size:.78rem; cursor:pointer; text-decoration:underline; margin-top:.5rem; display:inline-block; }
+
+/* Shop Grid */
+.shop-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.8rem; flex-wrap:wrap; gap:1rem; }
+.shop-count { font-size:.88rem; color:var(--gray); }
+.shop-sort { display:flex; align-items:center; gap:.7rem; font-size:.84rem; color:var(--gray); }
+.shop-sort select { background:var(--card-bg); border:1px solid var(--border); color:var(--white); padding:.45rem .8rem; border-radius:8px; font-size:.82rem; cursor:pointer; outline:none; }
+.shop-view-btns { display:flex; gap:.4rem; }
+.view-btn { width:32px; height:32px; border-radius:8px; border:1px solid var(--border); color:var(--gray); font-size:.9rem; display:flex; align-items:center; justify-content:center; transition:.2s; }
+.view-btn.active, .view-btn:hover { border-color:var(--green); color:var(--gl); }
+.shop-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.6rem; }
+.shop-grid.list { grid-template-columns:1fr; }
+.shop-grid.list .prod-card { display:grid; grid-template-columns:160px 1fr; border-radius:var(--radius); }
+.shop-grid.list .prod-img-area { height:100%; min-height:140px; border-radius:var(--radius) 0 0 var(--radius); }
+.shop-pagination { display:flex; align-items:center; justify-content:center; gap:.5rem; margin-top:3rem; }
+.page-btn { width:38px; height:38px; border-radius:10px; border:1px solid var(--border); color:var(--white); font-size:.85rem; display:flex; align-items:center; justify-content:center; transition:.2s; font-family:'Syne',sans-serif; font-weight:600; }
+.page-btn:hover, .page-btn.active { background:var(--green); border-color:var(--green); color:#fff; }
+
+/* ======================== PRODUCT DETAIL PAGE ======================== */
+.product-detail-wrap { padding-top:var(--nav-h); background:var(--dark); }
+.breadcrumb { padding:1.5rem 3rem; display:flex; align-items:center; gap:.5rem; font-size:.8rem; color:var(--gray-dim); border-bottom:1px solid var(--border); max-width:1280px; margin:0 auto; }
+.breadcrumb a { color:var(--gray-dim); transition:color .2s; }
+.breadcrumb a:hover { color:var(--gl); }
+.breadcrumb span { opacity:.4; }
+
+.pd-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; padding:4rem 3rem; max-width:1280px; margin:0 auto; align-items:start; }
+
+/* Product Viewer */
+.pd-viewer { position:sticky; top:calc(var(--nav-h) + 2rem); }
+.pd-main-img { position:relative; background:var(--dark2); border:1px solid var(--border); border-radius:24px; height:460px; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-bottom:1rem; }
+#pdCanvas { width:100%; height:100%; }
+.pd-canvas-hint { position:absolute; bottom:1rem; left:50%; transform:translateX(-50%); font-size:.72rem; color:rgba(255,255,255,.3); letter-spacing:1px; text-transform:uppercase; pointer-events:none; }
+.pd-thumbs { display:flex; gap:.7rem; }
+.pd-thumb { width:68px; height:68px; border-radius:12px; border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:2rem; cursor:pointer; transition:all .2s; background:var(--card-bg); }
+.pd-thumb.active, .pd-thumb:hover { border-color:var(--green); background:rgba(34,197,94,.08); }
+
+/* Product Info */
+.pd-info .tag { margin-bottom:.9rem; }
+.pd-info h1 { font-family:'Syne',sans-serif; font-size:clamp(1.6rem,2.5vw,2.2rem); font-weight:800; line-height:1.2; margin-bottom:.6rem; }
+.pd-rating-row { display:flex; align-items:center; gap:.8rem; margin-bottom:1rem; }
+.pd-rating-row .stars { font-size:1rem; }
+.pd-rating-num { font-family:'Syne',sans-serif; font-weight:700; font-size:.95rem; }
+.pd-rating-count { font-size:.82rem; color:var(--gray-dim); }
+.pd-price-row { display:flex; align-items:baseline; gap:.8rem; margin-bottom:1.5rem; }
+.pd-price { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; color:var(--gl); }
+.pd-old-price { font-size:1rem; color:rgba(255,255,255,.25); text-decoration:line-through; }
+.pd-save { font-size:.78rem; background:rgba(239,68,68,.15); color:var(--red); border:1px solid rgba(239,68,68,.3); padding:.2rem .55rem; border-radius:50px; font-weight:600; }
+.pd-desc { color:rgba(255,255,255,.58); font-size:.9rem; line-height:1.75; margin-bottom:1.8rem; }
+
+/* Size/Variant picker */
+.pd-option-label { font-family:'Syne',sans-serif; font-size:.82rem; font-weight:700; margin-bottom:.6rem; color:rgba(255,255,255,.7); }
+.pd-variants { display:flex; gap:.6rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+.variant-btn { background:var(--card-bg); border:1px solid var(--border); color:rgba(255,255,255,.6); padding:.45rem 1rem; border-radius:50px; font-size:.82rem; cursor:pointer; transition:.2s; font-family:'DM Sans',sans-serif; }
+.variant-btn:hover, .variant-btn.active { border-color:var(--green); color:var(--gl); background:rgba(34,197,94,.08); }
+
+/* Qty & add to cart */
+.pd-qty-row { display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem; }
+.qty-box { display:flex; align-items:center; gap:.6rem; background:var(--card-bg); border:1px solid var(--border); border-radius:50px; padding:.35rem .7rem; }
+.qty-box button { width:28px; height:28px; border-radius:50%; background:rgba(255,255,255,.06); color:var(--white); font-size:1rem; display:flex; align-items:center; justify-content:center; transition:.2s; }
+.qty-box button:hover { background:rgba(34,197,94,.2); color:var(--gl); }
+.qty-box span { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; min-width:24px; text-align:center; }
+.pd-add-btn { flex:1; }
+
+/* Tabs */
+.pd-tabs { margin-top:2.5rem; }
+.tab-btns { display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:1.8rem; }
+.tab-btn { background:none; color:var(--gray); font-family:'Syne',sans-serif; font-size:.88rem; font-weight:600; padding:.75rem 1.2rem; border-bottom:2px solid transparent; margin-bottom:-1px; transition:.2s; cursor:pointer; }
+.tab-btn.active { color:var(--gl); border-bottom-color:var(--gl); }
+.tab-pane { display:none; }
+.tab-pane.active { display:block; }
+.tab-pane p { color:rgba(255,255,255,.55); font-size:.88rem; line-height:1.75; margin-bottom:1rem; }
+.tab-pane ul { padding-left:1.2rem; }
+.tab-pane ul li { color:rgba(255,255,255,.55); font-size:.88rem; line-height:1.8; }
+.tab-pane ul li::marker { color:var(--gl); }
+.nutrition-table { width:100%; border-collapse:collapse; font-size:.84rem; }
+.nutrition-table th { background:rgba(34,197,94,.1); color:var(--gl); font-family:'Syne',sans-serif; padding:.55rem .8rem; text-align:left; font-weight:700; border:1px solid var(--border); }
+.nutrition-table td { padding:.5rem .8rem; border:1px solid var(--border); color:rgba(255,255,255,.6); }
+.nutrition-table tr:nth-child(even) td { background:rgba(255,255,255,.02); }
+
+/* Reviews section in PD */
+.pd-reviews { padding:4rem 3rem; max-width:1280px; margin:0 auto; border-top:1px solid var(--border); }
+.review-summary { display:grid; grid-template-columns:200px 1fr; gap:3rem; margin-bottom:3rem; align-items:center; }
+.review-big-num { font-family:'Syne',sans-serif; font-size:5rem; font-weight:800; color:var(--gl); line-height:1; }
+.review-big-stars { font-size:1.4rem; margin-bottom:.3rem; }
+.review-big-count { font-size:.82rem; color:var(--gray); }
+.rating-bars { flex:1; }
+.rating-bar-row { display:flex; align-items:center; gap:.8rem; margin-bottom:.4rem; }
+.rating-bar-row span:first-child { font-size:.78rem; color:var(--gray); min-width:12px; text-align:right; }
+.rb-track { flex:1; height:6px; background:rgba(255,255,255,.07); border-radius:3px; overflow:hidden; }
+.rb-fill { height:100%; background:var(--yellow); border-radius:3px; }
+.rating-bar-row span:last-child { font-size:.75rem; color:var(--gray-dim); min-width:28px; }
+.review-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1.4rem; }
+.review-item { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); padding:1.6rem; }
+.ri-head { display:flex; align-items:center; gap:.8rem; margin-bottom:.8rem; }
+.ri-av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.95rem; flex-shrink:0; }
+.ri-av span { color:#fff; }
+.ri-name { font-family:'Syne',sans-serif; font-size:.88rem; font-weight:700; }
+.ri-date { font-size:.73rem; color:var(--gray-dim); }
+.ri-title { font-family:'Syne',sans-serif; font-size:.92rem; font-weight:700; margin-bottom:.4rem; }
+.ri-text { color:rgba(255,255,255,.52); font-size:.84rem; line-height:1.65; font-style:italic; }
+
+/* Related Products */
+.related-section { padding:4rem 3rem; max-width:1280px; margin:0 auto; border-top:1px solid var(--border); }
+.related-section h2 { font-family:'Syne',sans-serif; font-size:1.6rem; font-weight:800; margin-bottom:2rem; }
+
+/* ======================== CHECKOUT PAGE ======================== */
+.checkout-wrap { padding-top:var(--nav-h); background:var(--dark); min-height:100vh; }
+.checkout-header { text-align:center; padding:3rem 3rem 0; border-bottom:1px solid var(--border); }
+.checkout-header .nav-logo { font-size:1.6rem; display:inline-block; margin-bottom:1.5rem; }
+.checkout-steps { display:flex; align-items:center; justify-content:center; gap:0; margin-bottom:0; }
+.step { display:flex; align-items:center; gap:.5rem; font-size:.82rem; padding:.8rem 1.5rem; color:rgba(255,255,255,.35); border-bottom:2px solid transparent; }
+.step.done { color:var(--gl); }
+.step.active { color:var(--white); border-bottom-color:var(--gl); }
+.step-num { width:22px; height:22px; border-radius:50%; border:2px solid currentColor; display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:700; }
+.step.done .step-num { background:var(--green); border-color:var(--green); color:#fff; }
+.step-sep { width:40px; height:1px; background:var(--border); }
+
+.checkout-grid { display:grid; grid-template-columns:1fr 400px; gap:3rem; padding:3rem; max-width:1100px; margin:0 auto; align-items:start; }
+.checkout-form-area h2 { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; margin-bottom:1.5rem; }
+.form-section { margin-bottom:2.5rem; }
+.form-section h3 { font-family:'Syne',sans-serif; font-size:.9rem; font-weight:700; color:var(--gl); text-transform:uppercase; letter-spacing:1px; margin-bottom:1.2rem; padding-bottom:.6rem; border-bottom:1px solid var(--border); }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.form-group { margin-bottom:1.1rem; }
+.form-group label { display:block; font-size:.78rem; color:rgba(255,255,255,.5); margin-bottom:.4rem; letter-spacing:.3px; }
+.form-group input, .form-group select { width:100%; background:rgba(255,255,255,.05); border:1px solid var(--border); color:var(--white); padding:.75rem 1rem; border-radius:10px; font-family:'DM Sans',sans-serif; font-size:.88rem; transition:border-color .2s; }
+.form-group input:focus, .form-group select:focus { border-color:var(--green); outline:none; background:rgba(34,197,94,.04); }
+.form-group input::placeholder { color:rgba(255,255,255,.25); }
+.form-group select { cursor:pointer; }
+.form-group select option { background:var(--dark3); }
+.card-icons { display:flex; gap:.4rem; margin-top:.5rem; }
+.card-icon { padding:.2rem .5rem; border:1px solid var(--border); border-radius:5px; font-size:.72rem; color:var(--gray-dim); }
+.same-address-row { display:flex; align-items:center; gap:.6rem; margin-bottom:1.2rem; font-size:.85rem; color:var(--gray); cursor:pointer; }
+.same-address-row input { accent-color:var(--green); width:15px; height:15px; }
+.payment-methods { display:flex; gap:.7rem; margin-bottom:1.4rem; flex-wrap:wrap; }
+.pay-method { border:1px solid var(--border); border-radius:10px; padding:.7rem 1.2rem; cursor:pointer; display:flex; align-items:center; gap:.5rem; font-size:.82rem; color:var(--gray); transition:.2s; }
+.pay-method.active { border-color:var(--green); color:var(--gl); background:rgba(34,197,94,.06); }
+
+/* Order Summary */
+.order-summary { background:var(--dark3); border:1px solid var(--border); border-radius:var(--radius); padding:1.8rem; position:sticky; top:calc(var(--nav-h) + 2rem); }
+.order-summary h3 { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:1.4rem; padding-bottom:.8rem; border-bottom:1px solid var(--border); }
+.order-item { display:flex; align-items:center; gap:.8rem; padding:.65rem 0; border-bottom:1px solid var(--border); }
+.order-item-img { font-size:2rem; flex-shrink:0; }
+.order-item-info { flex:1; }
+.order-item-info .name { font-family:'Syne',sans-serif; font-size:.84rem; font-weight:700; line-height:1.3; }
+.order-item-info .sub { font-size:.73rem; color:var(--gray-dim); }
+.order-item-price { font-family:'Syne',sans-serif; font-weight:700; font-size:.9rem; color:var(--gl); }
+.coupon-row { display:flex; gap:.6rem; margin:1.2rem 0; }
+.coupon-row input { flex:1; background:rgba(255,255,255,.04); border:1px solid var(--border); color:var(--white); padding:.55rem .9rem; border-radius:8px; font-size:.82rem; }
+.coupon-row input:focus { border-color:var(--green); outline:none; }
+.order-totals { margin:1.2rem 0; }
+.order-line { display:flex; justify-content:space-between; font-size:.84rem; color:var(--gray); margin-bottom:.45rem; }
+.order-total-line { display:flex; justify-content:space-between; font-family:'Syne',sans-serif; font-weight:800; font-size:1.05rem; margin-top:.8rem; padding-top:.8rem; border-top:1px solid var(--border); }
+.order-total-line span:last-child { color:var(--gl); }
+.trust-row { display:flex; flex-direction:column; gap:.5rem; margin-top:1.5rem; }
+.trust-item-sm { display:flex; align-items:center; gap:.5rem; font-size:.76rem; color:rgba(255,255,255,.38); }
+
+/* ======================== BLOG PAGE ======================== */
+.blog-hero { background:var(--dark2); padding:5rem 3rem 3rem; text-align:center; border-bottom:1px solid var(--border); }
+.blog-hero h1 { font-family:'Syne',sans-serif; font-size:clamp(2rem,4vw,3.2rem); font-weight:800; margin-bottom:.6rem; }
+.blog-hero p { color:var(--gray); max-width:480px; margin:0 auto; }
+.blog-page-section { padding:5rem 3rem; max-width:1280px; margin:0 auto; }
+.blog-page-grid { display:grid; grid-template-columns:1fr 300px; gap:3rem; }
+.blog-list { display:flex; flex-direction:column; gap:1.8rem; }
+.blog-post-card { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; display:grid; grid-template-columns:260px 1fr; transition:.35s; cursor:pointer; }
+.blog-post-card:hover { transform:translateX(4px); border-color:rgba(255,255,255,.12); }
+.blog-post-img { height:100%; min-height:160px; display:flex; align-items:center; justify-content:center; font-size:3.5rem; }
+.blog-post-body { padding:1.6rem; }
+.blog-meta { display:flex; align-items:center; gap:.8rem; margin-bottom:.7rem; font-size:.76rem; color:var(--gray-dim); }
+.blog-post-body h2 { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700; line-height:1.35; margin-bottom:.5rem; }
+.blog-post-body p { color:rgba(255,255,255,.45); font-size:.84rem; line-height:1.6; margin-bottom:1rem; }
+.blog-sidebar { position:sticky; top:calc(var(--nav-h) + 1.5rem); height:max-content; }
+.sidebar-widget { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem; margin-bottom:1.4rem; }
+.sidebar-widget h4 { font-family:'Syne',sans-serif; font-size:.9rem; font-weight:700; margin-bottom:1rem; padding-bottom:.6rem; border-bottom:1px solid var(--border); }
+.sidebar-widget input { width:100%; background:rgba(255,255,255,.04); border:1px solid var(--border); color:var(--white); padding:.6rem .9rem; border-radius:8px; font-size:.82rem; margin-bottom:.5rem; }
+.sidebar-tag { display:inline-block; background:rgba(255,255,255,.04); border:1px solid var(--border); padding:.3rem .7rem; border-radius:50px; font-size:.76rem; color:var(--gray); margin:.25rem; cursor:pointer; transition:.2s; }
+.sidebar-tag:hover { border-color:var(--green); color:var(--gl); }
+.recent-post { display:flex; gap:.7rem; padding:.6rem 0; border-bottom:1px solid var(--border); cursor:pointer; }
+.recent-post:last-child { border:none; }
+.recent-post-img { width:52px; height:52px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0; }
+.recent-post h5 { font-family:'Syne',sans-serif; font-size:.82rem; font-weight:700; line-height:1.35; margin-bottom:.2rem; }
+.recent-post span { font-size:.73rem; color:var(--gray-dim); }
+
+/* ======================== ABOUT PAGE ======================== */
+.about-hero { position:relative; background:var(--dark2); padding:8rem 3rem 6rem; text-align:center; overflow:hidden; border-bottom:1px solid var(--border); }
+.about-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 60%,rgba(22,163,74,.1),transparent 70%); pointer-events:none; }
+.about-hero h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(3rem,7vw,6rem); letter-spacing:2px; margin-bottom:1rem; position:relative; }
+.about-hero h1 em { font-style:normal; background:linear-gradient(135deg,var(--gl),var(--gp)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.about-hero p { color:var(--gray); max-width:580px; margin:0 auto; font-size:1rem; line-height:1.75; position:relative; }
+.about-mission { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; padding:7rem 3rem; max-width:1280px; margin:0 auto; }
+.about-mission h2 { font-family:'Syne',sans-serif; font-size:clamp(1.8rem,3vw,2.6rem); font-weight:800; margin-bottom:1.2rem; }
+.about-mission p { color:rgba(255,255,255,.55); font-size:.95rem; line-height:1.8; margin-bottom:1.2rem; }
+.about-values-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1.2rem; }
+.value-card { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); padding:1.6rem; transition:.35s; }
+.value-card:hover { transform:translateY(-4px); border-color:var(--border-g); }
+.value-card .icon { font-size:2rem; margin-bottom:.8rem; }
+.value-card h4 { font-family:'Syne',sans-serif; font-size:.95rem; font-weight:700; margin-bottom:.4rem; }
+.value-card p { color:var(--gray); font-size:.82rem; line-height:1.6; }
+.team-section { background:var(--dark2); padding:7rem 3rem; }
+.team-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1.8rem; max-width:1100px; margin:0 auto; }
+.team-card { text-align:center; }
+.team-avatar { width:100px; height:100px; border-radius:50%; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; font-size:2.5rem; border:3px solid var(--border-g); }
+.team-card h4 { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:.25rem; }
+.team-card .role { font-size:.8rem; color:var(--gl); margin-bottom:.4rem; }
+.team-card p { font-size:.8rem; color:var(--gray); line-height:1.55; }
+.cert-section { padding:7rem 3rem; max-width:1280px; margin:0 auto; }
+.cert-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1.4rem; }
+.cert-card { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); padding:1.8rem; text-align:center; transition:.35s; }
+.cert-card:hover { border-color:var(--border-g); transform:translateY(-3px); }
+.cert-card .cert-icon { font-size:2.5rem; margin-bottom:.9rem; }
+.cert-card h4 { font-family:'Syne',sans-serif; font-size:.92rem; font-weight:700; margin-bottom:.4rem; }
+.cert-card p { font-size:.78rem; color:var(--gray); line-height:1.5; }
+
+/* ======================== RESPONSIVE PAGES ======================== */
+@media(max-width:1024px) {
+  .shop-layout { grid-template-columns:1fr; padding:3rem 1.5rem; }
+  .shop-sidebar { position:static; }
+  .pd-grid { grid-template-columns:1fr; gap:2.5rem; padding:3rem 1.5rem; }
+  .pd-viewer { position:static; }
+  .checkout-grid { grid-template-columns:1fr; padding:2rem 1.5rem; }
+  .order-summary { position:static; }
+  .blog-page-grid { grid-template-columns:1fr; }
+  .blog-sidebar { position:static; }
+  .about-mission { grid-template-columns:1fr; gap:3rem; padding:5rem 1.5rem; }
+  .review-summary { grid-template-columns:1fr; gap:1.5rem; }
+}
+@media(max-width:768px) {
+  .shop-hero, .blog-hero, .about-hero { padding:4rem 1.5rem 2.5rem; }
+  .blog-post-card { grid-template-columns:1fr; }
+  .blog-post-img { height:160px; }
+  .breadcrumb { padding:1.2rem 1.5rem; }
+  .form-row { grid-template-columns:1fr; }
+  .payment-methods { flex-direction:column; }
+  .pd-main-img { height:300px; }
+  .related-section, .pd-reviews { padding:3rem 1.5rem; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">VITALUX</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li class="nav-dropdown">
+      <a href="shop.html">Shop</a>
+      <div class="dropdown-menu">
+        <a href="shop.html?cat=multivitamins"><span class="dm-icon">💊</span>Multivitamins</a>
+        <a href="shop.html?cat=immunity"><span class="dm-icon">🛡️</span>Immunity</a>
+        <a href="shop.html?cat=protein"><span class="dm-icon">💪</span>Protein</a>
+        <a href="shop.html?cat=omega"><span class="dm-icon">🐟</span>Omega-3</a>
+        <a href="shop.html?cat=brain"><span class="dm-icon">🧠</span>Brain Health</a>
+        <a href="shop.html?cat=energy"><span class="dm-icon">⚡</span>Energy</a>
+        <a href="shop.html?cat=beauty"><span class="dm-icon">✨</span>Beauty</a>
+      </div>
+    </li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="blog.html"  class="active">Research</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="nav-cart-btn" id="cartBtn">🛒 Cart <span class="cart-badge" id="cartBadge">0</span></button>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mob-nav" id="mobNav">
+  <div class="mob-nav-top"><span class="nav-logo" style="font-size:1.5rem">VITALUX</span><button class="mob-close" id="mobClose">✕</button></div>
+  <a href="index.html">Home</a>
+  <a href="shop.html">Shop All</a>
+  <a href="shop.html?cat=multivitamins">Multivitamins</a>
+  <a href="shop.html?cat=immunity">Immunity</a>
+  <a href="shop.html?cat=protein">Protein</a>
+  <a href="shop.html?cat=omega">Omega-3</a>
+  <a href="shop.html?cat=brain">Brain Health</a>
+  <a href="shop.html?cat=energy">Energy</a>
+  <a href="about.html">About</a>
+  <a href="blog.html">Research Blog</a>
+  <a href="checkout.html" style="color:var(--gl)">🛒 Cart / Checkout</a>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-sidebar" id="cartSidebar">
+  <div class="cart-head"><h3>🛒 Your Cart</h3><button class="cart-close-btn" id="cartCloseBtn">✕</button></div>
+  <div class="cart-body" id="cartBody"><div class="cart-empty"><div class="cart-empty-icon">🧪</div><p>Your cart is empty</p></div></div>
+  <div class="cart-foot" id="cartFoot" style="display:none">
+    <div class="cart-free-ship" id="cartShipMsg"></div>
+    <div class="cart-row"><span>Subtotal</span><span id="cartTotalVal">$0.00</span></div>
+    <div class="cart-total-row"><span class="ct-label">Total</span><span class="ct-val" id="cartTotalVal2">$0.00</span></div>
+    <a href="checkout.html" class="btn btn-primary btn-full" style="display:flex">Proceed to Checkout →</a>
+  </div>
+</aside>
+<div id="toast"></div>
+
+<div class="page-wrap">
+
+  <!-- BLOG HERO -->
+  <div class="blog-hero">
+    <div class="eyebrow" style="margin-bottom:.9rem">Research & Wellness</div>
+    <h1>Health <em style="font-style:normal;background:linear-gradient(135deg,var(--gl),var(--gp));-webkit-background-clip:text;-webkit-text-fill-color:transparent">Insights</em></h1>
+    <p>Science-backed articles written by our team of nutritionists, biochemists, and health practitioners.</p>
+  </div>
+
+  <!-- FEATURED ARTICLE -->
+  <div style="background:linear-gradient(135deg,var(--gd),var(--dark3));border-bottom:1px solid var(--border);padding:4rem 3rem;cursor:pointer" onclick="openArticle(0)">
+    <div style="max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center">
+      <div style="height:280px;background:linear-gradient(135deg,#064e3b,#065f46,#0d7a4a);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:6rem">🧬</div>
+      <div>
+        <div style="display:flex;align-items:center;gap:.8rem;margin-bottom:1rem">
+          <span class="tag tag-green">Featured</span>
+          <span style="font-size:.75rem;color:var(--gray-dim)">March 2025 · 8 min read</span>
+        </div>
+        <h2 style="font-family:'Syne',sans-serif;font-size:clamp(1.4rem,2.5vw,2rem);font-weight:800;margin-bottom:.9rem;line-height:1.2">The Complete Science Behind Multivitamin Bioavailability — What the Research Actually Says</h2>
+        <p style="color:var(--gray);font-size:.92rem;line-height:1.75;margin-bottom:1.5rem">New meta-analyses confirm that methylated and chelated forms of vitamins outperform synthetic alternatives by up to 3x in absorption rates. Here's what this means for your daily supplement routine.</p>
+        <div style="display:flex;align-items:center;gap:1rem">
+          <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--gl),var(--gd));display:flex;align-items:center;justify-content:center;font-size:.9rem">👩‍🔬</div>
+          <div>
+            <div style="font-family:'Syne',sans-serif;font-size:.84rem;font-weight:700">Dr. Sarah Mitchell</div>
+            <div style="font-size:.74rem;color:var(--gray-dim)">Chief Science Officer</div>
+          </div>
+          <span class="btn btn-outline btn-sm" style="margin-left:auto">Read Article →</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOG PAGE SECTION -->
+  <div class="blog-page-section">
+    <div class="blog-page-grid">
+
+      <!-- ARTICLES LIST -->
+      <div>
+        <!-- Category Filter -->
+        <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:2rem">
+          <button class="flt on" onclick="filterBlog('all',this)" style="background:transparent;border:1px solid var(--border);color:rgba(255,255,255,.55);padding:.4rem 1rem;border-radius:50px;font-size:.8rem;cursor:pointer;transition:.2s">All Topics</button>
+          <button class="flt" onclick="filterBlog('immunity',this)" style="background:transparent;border:1px solid var(--border);color:rgba(255,255,255,.55);padding:.4rem 1rem;border-radius:50px;font-size:.8rem;cursor:pointer;transition:.2s">Immunity</button>
+          <button class="flt" onclick="filterBlog('heart',this)" style="background:transparent;border:1px solid var(--border);color:rgba(255,255,255,.55);padding:.4rem 1rem;border-radius:50px;font-size:.8rem;cursor:pointer;transition:.2s">Heart Health</button>
+          <button class="flt" onclick="filterBlog('brain',this)" style="background:transparent;border:1px solid var(--border);color:rgba(255,255,255,.55);padding:.4rem 1rem;border-radius:50px;font-size:.8rem;cursor:pointer;transition:.2s">Brain Health</button>
+          <button class="flt" onclick="filterBlog('nutrition',this)" style="background:transparent;border:1px solid var(--border);color:rgba(255,255,255,.55);padding:.4rem 1rem;border-radius:50px;font-size:.8rem;cursor:pointer;transition:.2s">Nutrition</button>
+          <button class="flt" onclick="filterBlog('performance',this)" style="background:transparent;border:1px solid var(--border);color:rgba(255,255,255,.55);padding:.4rem 1rem;border-radius:50px;font-size:.8rem;cursor:pointer;transition:.2s">Performance</button>
+        </div>
+
+        <div class="blog-list" id="blogList"></div>
+
+        <!-- Pagination -->
+        <div style="display:flex;align-items:center;gap:.5rem;margin-top:2.5rem" id="blogPagination"></div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <div class="blog-sidebar">
+        <div class="sidebar-widget">
+          <h4>Search Articles</h4>
+          <input type="text" placeholder="Search health topics…" id="blogSearch" oninput="searchBlog(this.value)" style="width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--white);padding:.6rem .9rem;border-radius:8px;font-size:.82rem;outline:none"/>
+        </div>
+
+        <div class="sidebar-widget">
+          <h4>Popular Topics</h4>
+          <div style="display:flex;flex-wrap:wrap;gap:.3rem">
+            <span class="sidebar-tag" onclick="filterBlog('immunity',null)">Immunity</span>
+            <span class="sidebar-tag" onclick="filterBlog('heart',null)">Heart Health</span>
+            <span class="sidebar-tag" onclick="filterBlog('brain',null)">Brain Health</span>
+            <span class="sidebar-tag" onclick="filterBlog('nutrition',null)">Nutrition</span>
+            <span class="sidebar-tag" onclick="filterBlog('performance',null)">Performance</span>
+            <span class="sidebar-tag">Vitamin D</span>
+            <span class="sidebar-tag">Omega-3</span>
+            <span class="sidebar-tag">Gut Health</span>
+            <span class="sidebar-tag">Sleep</span>
+            <span class="sidebar-tag">Weight Loss</span>
+            <span class="sidebar-tag">Protein</span>
+            <span class="sidebar-tag">Anti-Aging</span>
+          </div>
+        </div>
+
+        <div class="sidebar-widget">
+          <h4>Recent Articles</h4>
+          <div class="recent-post" onclick="openArticle(1)">
+            <div class="recent-post-img" style="background:linear-gradient(135deg,#0c4a6e,#0369a1)">❤️</div>
+            <div><h5>How Omega-3 Transforms Heart Health</h5><span>Feb 2025</span></div>
+          </div>
+          <div class="recent-post" onclick="openArticle(2)">
+            <div class="recent-post-img" style="background:linear-gradient(135deg,#4c1d95,#6d28d9)">🛡️</div>
+            <div><h5>Top 5 Supplements for Immune Defence</h5><span>Jan 2025</span></div>
+          </div>
+          <div class="recent-post" onclick="openArticle(3)">
+            <div class="recent-post-img" style="background:linear-gradient(135deg,#3b0764,#6d28d9)">🧠</div>
+            <div><h5>Lion's Mane & Neurogenesis Explained</h5><span>Jan 2025</span></div>
+          </div>
+          <div class="recent-post" onclick="openArticle(4)">
+            <div class="recent-post-img" style="background:linear-gradient(135deg,#78350f,#b45309)">⚡</div>
+            <div><h5>Daily Nutrition Habits for Peak Wellness</h5><span>Dec 2024</span></div>
+          </div>
+        </div>
+
+        <!-- Newsletter widget -->
+        <div class="sidebar-widget" style="background:linear-gradient(135deg,var(--gd),var(--dark3));border-color:var(--border-g)">
+          <h4>Weekly Health Tips</h4>
+          <p style="font-size:.82rem;color:var(--gray);margin-bottom:1rem;line-height:1.6">Get our science-backed insights delivered to your inbox every week.</p>
+          <input type="email" placeholder="your@email.com" style="width:100%;background:rgba(255,255,255,.07);border:1px solid var(--border);color:var(--white);padding:.6rem .9rem;border-radius:8px;font-size:.82rem;outline:none;margin-bottom:.6rem"/>
+          <button class="btn btn-primary btn-full btn-sm" onclick="VLX.showToast('✅ Subscribed to weekly health tips!')">Subscribe Free</button>
+        </div>
+
+        <!-- Featured product -->
+        <div class="sidebar-widget" style="cursor:pointer" onclick="location.href='product.html?id=1'">
+          <h4>Featured Supplement</h4>
+          <div style="display:flex;align-items:center;gap:.8rem;padding:.8rem;background:var(--dark);border-radius:10px;border:1px solid var(--border)">
+            <div style="font-size:2.5rem">💊</div>
+            <div>
+              <div style="font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700">Multivitamin Daily Elite</div>
+              <div style="font-size:.74rem;color:var(--gray-dim);margin-bottom:.3rem">90 Capsules · Best Seller</div>
+              <div style="font-family:'Syne',sans-serif;color:var(--gl);font-weight:700">$44.99</div>
+            </div>
+          </div>
+          <button class="btn btn-outline btn-full btn-sm" style="margin-top:.8rem">View Product →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ARTICLE MODAL -->
+  <div id="articleModal" style="display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);overflow-y:auto;padding:2rem">
+    <div style="max-width:760px;margin:0 auto;background:var(--dark3);border:1px solid var(--border);border-radius:20px;padding:3rem;position:relative">
+      <button onclick="closeArticle()" style="position:absolute;top:1.5rem;right:1.5rem;width:34px;height:34px;border-radius:50%;border:1px solid var(--border);color:var(--white);font-size:.85rem;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--white)'">✕</button>
+      <div id="articleContent"></div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div class="footer-logo">VITALUX</div>
+      <p>Premium science-backed supplements for modern health optimisation.</p>
+      <div class="social-row">
+        <a href="#" class="social-link">𝕏</a><a href="#" class="social-link">in</a>
+        <a href="#" class="social-link">ig</a><a href="#" class="social-link">yt</a>
+      </div>
+    </div>
+    <div class="footer-col"><h4>Shop</h4>
+      <a href="shop.html">All Products</a><a href="shop.html?cat=multivitamins">Multivitamins</a>
+      <a href="shop.html?cat=immunity">Immunity</a><a href="shop.html?cat=omega">Omega-3</a>
+    </div>
+    <div class="footer-col"><h4>Company</h4>
+      <a href="about.html">About Us</a><a href="blog.html">Research Blog</a><a href="about.html#certs">Certifications</a>
+    </div>
+    <div class="footer-col"><h4>Support</h4>
+      <a href="#">FAQ</a><a href="#">Shipping Policy</a><a href="#">Returns</a><a href="checkout.html">Checkout</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 VITALUX. All rights reserved.</p>
+    <div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a><a href="#">Cookies</a></div>
+  </div>
+</footer>
+
+
+<script>
+/* ============================================================
+   VITALUX — Products Data & Shared State
+   ============================================================ */
+
+const PRODUCTS = [
+  {
+    id:1, name:'Multivitamin Daily Elite', sub:'90 Capsules · 3-Month Supply',
+    price:44.99, oldPrice:59.99, emoji:'💊',
+    cat:'multivitamins', badge:'bestseller', rating:4.9, reviews:2847,
+    bg:'linear-gradient(135deg,#064e3b,#065f46,#0d7a4a)',
+    desc:'Our most comprehensive multivitamin with 25+ vitamins and minerals in their most bioavailable forms. Methylated B-vitamins, chelated minerals, zero fillers.',
+    benefits:['Complete daily micronutrient coverage (25+ nutrients)','Methylated B-vitamins for superior absorption','Immune system fortification with Zinc & Selenium','Antioxidant protection from Vitamins C, E & Beta-Carotene','Energy production support via B-complex','Bone density support with Vitamin D3 & K2'],
+    ingredients:[{n:'Vitamin A (Beta-Carotene)',a:'5000 IU'},{n:'Vitamin C (Buffered)',a:'500mg'},{n:'Vitamin D3',a:'2000 IU'},{n:'Vitamin E (d-Alpha)',a:'400 IU'},{n:'Vitamin K2 (MK-7)',a:'100mcg'},{n:'B-Complex (Methylated)',a:'Full Spectrum'},{n:'Zinc Picolinate',a:'15mg'},{n:'Magnesium Glycinate',a:'100mg'},{n:'Selenium',a:'200mcg'},{n:'Chromium Picolinate',a:'200mcg'}],
+    usage:'Take 2 capsules daily with food. Best taken in the morning with breakfast for optimal absorption. Store in a cool, dry place below 25°C.',
+    inStock:true
+  },
+  {
+    id:2, name:'Immunity Shield Pro', sub:'60 Capsules · 2-Month Supply',
+    price:38.99, oldPrice:null, emoji:'🛡️',
+    cat:'immunity', badge:'new', rating:4.8, reviews:1204,
+    bg:'linear-gradient(135deg,#7c2d12,#9a3412,#c2410c)',
+    desc:'Advanced immune complex featuring Elderberry Extract, Vitamin C 1000mg, Zinc, and Quercetin. Clinically studied ingredients for year-round immune resilience.',
+    benefits:['Activates innate and adaptive immune response','Rich in antioxidant polyphenols from Elderberry','Reduces duration and severity of seasonal illness','Supports respiratory health and mucosal barriers','Anti-inflammatory cytokine modulation','Zinc Picolinate for T-cell function'],
+    ingredients:[{n:'Elderberry Extract (4:1)',a:'400mg'},{n:'Vitamin C (Ascorbic Acid)',a:'1000mg'},{n:'Zinc Picolinate',a:'25mg'},{n:'Quercetin Dihydrate',a:'500mg'},{n:'Echinacea Extract',a:'200mg'},{n:'Vitamin D3',a:'5000 IU'},{n:'Beta-Glucan (1,3/1,6)',a:'250mg'}],
+    usage:'Take 2 capsules daily during active cold/flu season. For acute immune support, take 3 capsules daily for up to 7 consecutive days.',
+    inStock:true
+  },
+  {
+    id:3, name:'Omega-3 Elite Triple Strength', sub:'90 Softgels · 3-Month Supply',
+    price:52.99, oldPrice:69.99, emoji:'🐟',
+    cat:'omega', badge:'bestseller', rating:4.9, reviews:3102,
+    bg:'linear-gradient(135deg,#0c4a6e,#0369a1,#0284c7)',
+    desc:'Ultra-pure, molecularly distilled Omega-3 fish oil with 2400mg EPA/DHA per serving. IFOS 5-Star certified, no fishy aftertaste, enteric coated softgels.',
+    benefits:['Heart health & healthy triglyceride levels','Brain function, memory and cognitive support','Joint comfort, lubrication and mobility','Mood regulation and mental clarity','Healthy inflammatory response','Eye health and macular support'],
+    ingredients:[{n:'EPA (Eicosapentaenoic Acid)',a:'1400mg'},{n:'DHA (Docosahexaenoic Acid)',a:'1000mg'},{n:'Other Omega-3 Fatty Acids',a:'200mg'},{n:'Fish Gelatin Capsule',a:'-'},{n:'d-Alpha Tocopherol (Vit E)',a:'5 IU'},{n:'Natural Lemon Flavour',a:'trace'}],
+    usage:'Take 3 softgels daily with a meal containing fat for best absorption. Refrigerate after opening. Best consumed within 90 days of opening.',
+    inStock:true
+  },
+  {
+    id:4, name:'Whey Protein Isolate Pro', sub:'2.5kg · 83 Servings',
+    price:74.99, oldPrice:89.99, emoji:'💪',
+    cat:'protein', badge:'bestseller', rating:4.8, reviews:5621,
+    bg:'linear-gradient(135deg,#1e3a5f,#1d4ed8,#2563eb)',
+    desc:'Cold-processed whey isolate delivering 27g of complete protein per scoop. Minimal carbs, zero artificial sweeteners, rapid absorption for peak recovery.',
+    benefits:['27g pure protein per serving (38g scoop)','Complete essential amino acid profile','Fast post-workout absorption (< 30 min)','Only 1g sugar, 2g carbs per serving','Supports lean muscle growth and retention','Digestive enzyme blend for gut comfort'],
+    ingredients:[{n:'Whey Protein Isolate 90%',a:'30g'},{n:'Protein per serving',a:'27g'},{n:'Total Carbohydrates',a:'2g'},{n:'Total Fats',a:'0.5g'},{n:'Digestive Enzyme Blend',a:'50mg'},{n:'Sunflower Lecithin',a:'trace'},{n:'Stevia Leaf Extract',a:'trace'}],
+    usage:'Mix 1 scoop (38g) with 240–280ml water, milk or plant-based milk. Shake for 20 seconds. Consume within 30 minutes post-workout or between meals as a protein supplement.',
+    inStock:true
+  },
+  {
+    id:5, name:'Brain Boost Pro', sub:'60 Capsules · 2-Month Supply',
+    price:56.99, oldPrice:null, emoji:'🧠',
+    cat:'brain', badge:'new', rating:4.7, reviews:892,
+    bg:'linear-gradient(135deg,#3b0764,#6d28d9,#7c3aed)',
+    desc:'Premium nootropic formula with clinically-dosed Lion\'s Mane, Bacopa Monnieri, and Phosphatidylserine. Engineered for sustained focus, memory consolidation, and neurogenesis.',
+    benefits:['Enhances working memory and recall','Promotes neurogenesis via NGF stimulation','Reduces cognitive fatigue and brain fog','Supports long-term brain plasticity','Improves sustained concentration and focus','Adaptogenic stress resilience (HPA axis)'],
+    ingredients:[{n:"Lion's Mane Extract (50% poly)",a:'600mg'},{n:'Bacopa Monnieri (55% bacosides)',a:'300mg'},{n:'Phosphatidylserine (PS)',a:'200mg'},{n:'Alpha-GPC (50%)',a:'150mg'},{n:'Rhodiola Rosea (3% rosavins)',a:'200mg'},{n:'Huperzine A (1%)',a:'100mcg'},{n:'B-Vitamin Cofactor Blend',a:'25mg'}],
+    usage:'Take 2 capsules with breakfast. Cognitive benefits build over 4–6 weeks of consistent use. Best combined with 7–9 hours of sleep and adequate hydration.',
+    inStock:true
+  },
+  {
+    id:6, name:'Hair & Skin Radiance', sub:'60 Capsules · 2-Month Supply',
+    price:42.99, oldPrice:54.99, emoji:'✨',
+    cat:'beauty', badge:'bestseller', rating:4.8, reviews:1876,
+    bg:'linear-gradient(135deg,#701a75,#be185d,#db2777)',
+    desc:'Complete beauty-from-within formula with 5000mcg Biotin, Marine Collagen Peptides, and Hyaluronic Acid. Visibly stronger hair, radiant skin, and resilient nails.',
+    benefits:['Stimulates hair follicle growth cycle','Reduces daily hair shedding (telogen effluvium)','Plumps and hydrates skin from within','Strengthens brittle, peeling nails','Provides potent antioxidant skin protection','Supports joint and connective tissue health'],
+    ingredients:[{n:'Biotin (Vitamin B7)',a:'5000mcg'},{n:'Marine Collagen Peptides (Type I&III)',a:'2000mg'},{n:'Hyaluronic Acid (High MW)',a:'150mg'},{n:'Vitamin E (d-Alpha Tocopherol)',a:'400 IU'},{n:'Bamboo Silica',a:'25mg'},{n:'Selenium (Selenomethionine)',a:'200mcg'},{n:'Vitamin C (as Ascorbate)',a:'250mg'}],
+    usage:'Take 2 capsules daily with food, ideally in the morning. Visible hair and skin improvements typically noticed after 6–8 weeks of consistent use.',
+    inStock:true
+  },
+  {
+    id:7, name:'Energy & Performance Stack', sub:'90 Capsules · 3-Month Supply',
+    price:48.99, oldPrice:62.99, emoji:'⚡',
+    cat:'energy', badge:'sale', rating:4.7, reviews:1423,
+    bg:'linear-gradient(135deg,#713f12,#b45309,#d97706)',
+    desc:'Natural energy complex featuring CoQ10 Ubiquinol, Methylcobalamin B12, and adaptogenic Ashwagandha KSM-66. Clean, sustained energy without stimulants or afternoon crashes.',
+    benefits:['Mitochondrial ATP energy production','Adrenal fatigue support and cortisol balance','Zero caffeine — no jitteriness or crash','Both mental and physical performance support','Stress resilience via adaptogenic herbs','Antioxidant protection at cellular level'],
+    ingredients:[{n:'CoQ10 (Ubiquinol active form)',a:'200mg'},{n:'Vitamin B12 (Methylcobalamin)',a:'1000mcg'},{n:'Ashwagandha KSM-66®',a:'300mg'},{n:'Panax Ginseng (30% ginsenosides)',a:'400mg'},{n:'NADH (stabilized)',a:'10mg'},{n:'Magnesium Malate',a:'200mg'},{n:'Ribose (D-Ribose)',a:'500mg'}],
+    usage:'Take 3 capsules each morning with food. Cycle pattern: 5 days on, 2 days off for best adaptogenic effect. Avoid taking within 4 hours of bedtime.',
+    inStock:true
+  },
+  {
+    id:8, name:'Magnesium Glycinate Sleep', sub:'120 Capsules · 2-Month Supply',
+    price:34.99, oldPrice:null, emoji:'🌙',
+    cat:'multivitamins', badge:'new', rating:4.9, reviews:2311,
+    bg:'linear-gradient(135deg,#0f172a,#1e293b,#1e3a5f)',
+    desc:'Highly absorbable Magnesium Glycinate formulated for deep, restorative sleep. With L-Theanine and Ashwagandha for nervous system calm and cortisol reduction.',
+    benefits:['Improves sleep onset latency and REM quality','Reduces nighttime muscle cramps and restlessness','Calms overactive nervous system activity','Reduces cortisol and anxiety markers','Bone density and skeletal muscle support','GABA-ergic pathway support for relaxation'],
+    ingredients:[{n:'Magnesium Glycinate',a:'400mg'},{n:'L-Theanine',a:'200mg'},{n:'Ashwagandha (KSM-66)',a:'150mg'},{n:'Glycine',a:'1000mg'},{n:'Passion Flower Extract',a:'100mg'},{n:'Tart Cherry Extract',a:'150mg'}],
+    usage:'Take 3 capsules 30–60 minutes before bedtime. Take with a small snack if you have a sensitive stomach. Do not exceed recommended dose.',
+    inStock:true
+  },
+  {
+    id:9, name:'Vitamin D3 + K2 Complex', sub:'120 Capsules · 4-Month Supply',
+    price:28.99, oldPrice:36.99, emoji:'☀️',
+    cat:'multivitamins', badge:'bestseller', rating:4.8, reviews:3455,
+    bg:'linear-gradient(135deg,#78350f,#92400e,#b45309)',
+    desc:'The synergistic D3+K2 combination for optimal calcium utilization. 5000 IU D3 with MK-7 K2 ensures calcium is directed to bones and away from arteries.',
+    benefits:['Immune system modulation and response','Bone mineralization and calcium absorption','Cardiovascular health — arterial flexibility','Mood regulation and seasonal wellbeing','Muscle function and nerve signalling','Testosterone and hormonal support'],
+    ingredients:[{n:'Vitamin D3 (Cholecalciferol)',a:'5000 IU'},{n:'Vitamin K2 (MK-7 form)',a:'200mcg'},{n:'Organic Olive Oil (carrier)',a:'50mg'},{n:'Non-GMO Sunflower Lecithin',a:'trace'}],
+    usage:'Take 1 capsule daily with your largest meal of the day. Fat-soluble — always take with a meal containing dietary fat for optimal absorption.',
+    inStock:true
+  },
+  {
+    id:10, name:'Collagen Peptides Advanced', sub:'300g · 30 Servings',
+    price:62.99, oldPrice:79.99, emoji:'💎',
+    cat:'beauty', badge:'bestseller', rating:4.7, reviews:2108,
+    bg:'linear-gradient(135deg,#4c1d95,#5b21b6,#7c3aed)',
+    desc:'Hydrolyzed Marine Collagen Peptides (Type I, II & III) with Vitamin C co-factor for maximum collagen synthesis. Unflavored powder, mixes instantly in any beverage.',
+    benefits:['Skin elasticity, hydration and firmness','Joint cartilage regeneration and comfort','Gut lining integrity and permeability support','Hair growth, thickness and shine','Nail strength and growth stimulation','Bone matrix protein reinforcement'],
+    ingredients:[{n:'Marine Collagen Peptides (Hydrolyzed)',a:'10,000mg'},{n:'Type I Collagen',a:'7000mg'},{n:'Type III Collagen',a:'2000mg'},{n:'Type II Collagen',a:'1000mg'},{n:'Vitamin C (Ascorbic Acid)',a:'200mg'},{n:'Hyaluronic Acid',a:'50mg'}],
+    usage:'Mix 1 scoop (10g) into hot or cold water, coffee, smoothies or food. Odorless and tasteless. Consume once daily — best taken in the morning or post-workout.',
+    inStock:true
+  },
+  {
+    id:11, name:'Zinc Picolinate Elite', sub:'120 Capsules · 4-Month Supply',
+    price:22.99, oldPrice:null, emoji:'🔬',
+    cat:'immunity', badge:'new', rating:4.7, reviews:1087,
+    bg:'linear-gradient(135deg,#134e4a,#0f766e,#0d9488)',
+    desc:'Pharmaceutical-grade Zinc Picolinate — the most bioavailable zinc chelate. Essential for immune function, testosterone production, wound healing, and enzyme activity.',
+    benefits:['Immune cell development and function','Testosterone biosynthesis support','Wound healing and tissue regeneration','Protein synthesis and enzyme cofactor','Skin health and acne reduction','Taste and smell sensation maintenance'],
+    ingredients:[{n:'Zinc Picolinate',a:'50mg'},{n:'Elemental Zinc (from picolinate)',a:'25mg'},{n:'Picolinic Acid (carrier)',a:'25mg'}],
+    usage:'Take 1 capsule daily with food. Taking on an empty stomach may cause nausea in some individuals. Do not exceed 40mg elemental zinc daily without medical supervision.',
+    inStock:true
+  },
+  {
+    id:12, name:'Pre-Workout Ignite', sub:'300g · 30 Servings',
+    price:44.99, oldPrice:54.99, emoji:'🔥',
+    cat:'energy', badge:'sale', rating:4.6, reviews:1932,
+    bg:'linear-gradient(135deg,#7f1d1d,#991b1b,#dc2626)',
+    desc:'Performance pre-workout with clinically-dosed Citrulline Malate, Beta-Alanine, and natural caffeine. Maximum pump, endurance and focus without proprietary blends.',
+    benefits:['Explosive muscular power output','Nitric oxide production for muscle pumps','Reduced fatigue via buffered lactic acid','Laser-sharp mental focus and drive','Improved blood flow and oxygen delivery','No crash, no jitters — clean energy profile'],
+    ingredients:[{n:'L-Citrulline Malate (2:1)',a:'6000mg'},{n:'Beta-Alanine',a:'3200mg'},{n:'Betaine Anhydrous',a:'2500mg'},{n:'Caffeine Anhydrous (natural)',a:'200mg'},{n:'L-Tyrosine',a:'1000mg'},{n:'Alpha-GPC (50%)',a:'300mg'},{n:'Electrolyte Blend',a:'500mg'}],
+    usage:'Mix 1 scoop with 300ml cold water. Consume 20–30 minutes before training. Start with half a scoop to assess tolerance. Do not exceed 1 scoop per day.',
+    inStock:true
+  }
+];
+
+// ===================== SHARED CART STATE =====================
+window.VLX = window.VLX || {};
+
+VLX.cart = JSON.parse(localStorage.getItem('vlx_cart') || '[]');
+
+VLX.saveCart = function() {
+  localStorage.setItem('vlx_cart', JSON.stringify(VLX.cart));
+};
+
+VLX.addToCart = function(productId, qty = 1) {
+  const product = PRODUCTS.find(p => p.id === productId);
+  if (!product) return;
+  const existing = VLX.cart.find(i => i.id === productId);
+  if (existing) existing.qty += qty;
+  else VLX.cart.push({ id: product.id, name: product.name, sub: product.sub, price: product.price, emoji: product.emoji, qty });
+  VLX.saveCart();
+  VLX.updateCartUI();
+  VLX.showToast('✅ ' + product.name + ' added to cart');
+  VLX.openCart();
+};
+
+VLX.removeFromCart = function(id) {
+  VLX.cart = VLX.cart.filter(i => i.id !== id);
+  VLX.saveCart();
+  VLX.updateCartUI();
+};
+
+VLX.updateQty = function(id, delta) {
+  const item = VLX.cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty = Math.max(0, item.qty + delta);
+  if (item.qty === 0) VLX.cart = VLX.cart.filter(i => i.id !== id);
+  VLX.saveCart();
+  VLX.updateCartUI();
+};
+
+VLX.cartTotal = function() {
+  return VLX.cart.reduce((s, i) => s + i.price * i.qty, 0);
+};
+
+VLX.cartCount = function() {
+  return VLX.cart.reduce((s, i) => s + i.qty, 0);
+};
+
+VLX.updateCartUI = function() {
+  const count = VLX.cartCount();
+  document.querySelectorAll('.cart-badge').forEach(el => el.textContent = count);
+
+  const body = document.getElementById('cartBody');
+  const foot = document.getElementById('cartFoot');
+  if (!body) return;
+
+  if (VLX.cart.length === 0) {
+    body.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🧪</div><p>Your cart is empty</p></div>`;
+    if (foot) foot.style.display = 'none';
+    return;
+  }
+
+  body.innerHTML = VLX.cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-img">${item.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-sub">${item.sub}</div>
+        <div class="cart-item-price">$${(item.price * item.qty).toFixed(2)}</div>
+        <div class="cart-qty-row">
+          <button class="qty-btn" onclick="VLX.updateQty(${item.id},-1)">−</button>
+          <span class="cart-item-qty">${item.qty}</span>
+          <button class="qty-btn" onclick="VLX.updateQty(${item.id},1)">+</button>
+        </div>
+      </div>
+      <button class="cart-remove" onclick="VLX.removeFromCart(${item.id})">✕</button>
+    </div>
+  `).join('');
+
+  if (foot) {
+    foot.style.display = 'block';
+    const total = VLX.cartTotal();
+    const el = document.getElementById('cartTotalVal');
+    if (el) el.textContent = '$' + total.toFixed(2);
+    const ship = document.getElementById('cartShipMsg');
+    if (ship) {
+      if (total >= 50) ship.textContent = '🎉 You qualify for FREE shipping!';
+      else ship.textContent = `🚚 Add $${(50 - total).toFixed(2)} more for free shipping`;
+    }
+  }
+};
+
+VLX.openCart = function() {
+  document.getElementById('cartSidebar')?.classList.add('open');
+  document.getElementById('cartOverlay')?.classList.add('open');
+};
+
+VLX.closeCart = function() {
+  document.getElementById('cartSidebar')?.classList.remove('open');
+  document.getElementById('cartOverlay')?.classList.remove('open');
+};
+
+VLX.showToast = function(msg) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 3200);
+};
+
+// ===================== NAVBAR INIT =====================
+VLX.initNav = function() {
+  const nav = document.querySelector('.navbar');
+  window.addEventListener('scroll', () => {
+    nav?.classList.toggle('scrolled', window.scrollY > 50);
+  }, { passive: true });
+
+  document.getElementById('cartBtn')?.addEventListener('click', VLX.openCart);
+  document.getElementById('cartOverlay')?.addEventListener('click', VLX.closeCart);
+  document.getElementById('cartCloseBtn')?.addEventListener('click', VLX.closeCart);
+
+  const ham = document.getElementById('hamburger');
+  const mobNav = document.getElementById('mobNav');
+  const mobOverlay = document.getElementById('mobOverlay');
+  const mobClose = document.getElementById('mobClose');
+  ham?.addEventListener('click', () => { mobNav?.classList.add('open'); mobOverlay?.classList.add('open'); });
+  mobClose?.addEventListener('click', () => { mobNav?.classList.remove('open'); mobOverlay?.classList.remove('open'); });
+  mobOverlay?.addEventListener('click', () => { mobNav?.classList.remove('open'); mobOverlay?.classList.remove('open'); });
+
+  VLX.updateCartUI();
+};
+
+// ===================== 3D BOTTLE HELPER =====================
+VLX.createBottle = function(canvas, colorHex, capHex, isInteractive) {
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const updateSize = () => {
+    const w = canvas.clientWidth || canvas.parentElement?.clientWidth || 400;
+    const h = canvas.clientHeight || canvas.parentElement?.clientHeight || 400;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  };
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  camera.position.set(0, 0, 5.5);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+  const dl = new THREE.DirectionalLight(0x22c55e, 3);
+  dl.position.set(5, 8, 5); scene.add(dl);
+  const dl2 = new THREE.DirectionalLight(0xffffff, 1.5);
+  dl2.position.set(-5, -3, 5); scene.add(dl2);
+  const pt = new THREE.PointLight(0x22c55e, 4, 12);
+  pt.position.set(2, 4, 3); scene.add(pt);
+  const pt2 = new THREE.PointLight(0x3b82f6, 2, 10);
+  pt2.position.set(-3, -2, 2); scene.add(pt2);
+
+  const group = new THREE.Group();
+
+  const bodyMat = new THREE.MeshPhysicalMaterial({
+    color: colorHex, metalness: 0.1, roughness: 0.2,
+    transparent: true, opacity: 0.92, clearcoat: 1,
+    clearcoatRoughness: 0.05, transmission: 0.35, thickness: 1.2
+  });
+  const capMat = new THREE.MeshPhysicalMaterial({ color: capHex, metalness: 0.6, roughness: 0.2, clearcoat: 1 });
+  const labelMat = new THREE.MeshStandardMaterial({ color: capHex, roughness: 0.85, emissive: capHex, emissiveIntensity: 0.15 });
+
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(.75, .9, 3.2, 32), bodyMat);
+  const sho  = new THREE.Mesh(new THREE.CylinderGeometry(.58, .75, .5, 32), bodyMat); sho.position.y = 1.85;
+  const neck = new THREE.Mesh(new THREE.CylinderGeometry(.4, .58, .6, 32), bodyMat);  neck.position.y = 2.35;
+  const cap  = new THREE.Mesh(new THREE.CylinderGeometry(.45, .45, .55, 32), capMat); cap.position.y = 2.9;
+  const dome = new THREE.Mesh(new THREE.SphereGeometry(.45, 32, 16, 0, Math.PI*2, 0, Math.PI/2), capMat); dome.position.y = 3.17;
+  const lbl  = new THREE.Mesh(new THREE.CylinderGeometry(.765, .765, 1.8, 32), labelMat); lbl.position.y = .1;
+  const strip= new THREE.Mesh(new THREE.CylinderGeometry(.768, .768, .25, 32), new THREE.MeshStandardMaterial({color:0xf0faf4,roughness:.9})); strip.position.y = 1.0;
+
+  [body, sho, neck, cap, dome, lbl, strip].forEach(m => group.add(m));
+  group.position.y = -1.5;
+  scene.add(group);
+
+  let angle = 0, dragging = false, lastX = 0;
+
+  if (isInteractive) {
+    canvas.style.cursor = 'grab';
+    canvas.addEventListener('mousedown', e => { dragging = true; lastX = e.clientX; canvas.style.cursor = 'grabbing'; });
+    window.addEventListener('mousemove', e => { if (!dragging) return; angle += (e.clientX - lastX) * .012; lastX = e.clientX; group.rotation.y = angle; });
+    window.addEventListener('mouseup', () => { dragging = false; canvas.style.cursor = 'grab'; });
+    canvas.addEventListener('touchstart', e => { dragging = true; lastX = e.touches[0].clientX; });
+    canvas.addEventListener('touchmove', e => { if (!dragging) return; e.preventDefault(); angle += (e.touches[0].clientX - lastX) * .012; lastX = e.touches[0].clientX; group.rotation.y = angle; }, { passive: false });
+    canvas.addEventListener('touchend', () => { dragging = false; });
+  }
+
+  updateSize();
+  window.addEventListener('resize', updateSize);
+
+  let t = 0;
+  const animate = () => {
+    requestAnimationFrame(animate);
+    t += 0.016;
+    if (!dragging) group.rotation.y += 0.008;
+    group.position.y = -1.5 + Math.sin(t * 0.6) * 0.15;
+    renderer.render(scene, camera);
+  };
+  animate();
+  return { renderer, group };
+};
+
+const ARTICLES = [
+  {
+    title: 'The Complete Science Behind Multivitamin Bioavailability',
+    tag: 'Research', tagClass: 'tag-green', emoji: '🧬',
+    bg: 'linear-gradient(135deg,#064e3b,#065f46)',
+    date: 'March 15, 2025', read: '8 min read',
+    author: 'Dr. Sarah Mitchell', authorRole: 'Chief Science Officer',
+    cat: 'nutrition',
+    excerpt: 'New meta-analyses confirm that methylated and chelated forms of vitamins outperform synthetic alternatives by up to 3x in absorption rates.',
+    content: `<p>When evaluating multivitamin supplements, most consumers focus on what's on the label — the list of vitamins and minerals. But what's far more important, and far less discussed, is the <em>form</em> those nutrients take. Bioavailability — the degree to which a nutrient is absorbed and used by the body — varies dramatically between different ingredient forms.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">Methylated B-Vitamins: The Gold Standard</h3>
+    <p>Take Vitamin B12 as an example. Cyanocobalamin, the synthetic form found in cheap multivitamins, must be converted by the body into methylcobalamin before it can be used. For the estimated 15–20% of people with MTHFR gene mutations, this conversion is severely impaired — meaning they derive almost no benefit from cyanocobalamin supplementation. Methylcobalamin, however, is immediately bioavailable to all individuals regardless of genetic variation.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">Chelated Minerals: Why Form Matters</h3>
+    <p>The same principle applies to minerals. Magnesium oxide — the most common form in cheap supplements — has a bioavailability of only 4%. Magnesium glycinate, by contrast, achieves bioavailability rates of 80–90% because the mineral is bound to glycine, an amino acid, which facilitates active transport across the intestinal wall.</p>
+    <p>A 2023 meta-analysis published in the Journal of Nutritional Biochemistry reviewed 47 randomised controlled trials comparing chelated mineral forms to their inorganic counterparts. The conclusion was unambiguous: chelated forms demonstrated 2.8–4.2x superior absorption across all tested minerals.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">What This Means for Your Supplement Routine</h3>
+    <p>Before purchasing any multivitamin, examine the ingredient forms — not just the doses. A supplement containing 500mg of a poorly absorbed mineral form may actually deliver less to your cells than one containing 200mg of a well-absorbed chelated form.</p>
+    <p>At VITALUX, every mineral in our Multivitamin Daily Elite uses the highest-bioavailability form available, and every B-vitamin is in its active, methylated state. We believe the effort to source premium ingredient forms is non-negotiable.</p>`
+  },
+  {
+    title: 'How Omega-3 Fatty Acids Transform Heart Health',
+    tag: 'Cardiology', tagClass: 'tag-blue', emoji: '❤️',
+    bg: 'linear-gradient(135deg,#0c4a6e,#0369a1)',
+    date: 'February 28, 2025', read: '6 min read',
+    author: 'Dr. James Okafor', authorRole: 'Medical Director',
+    cat: 'heart',
+    excerpt: 'EPA and DHA reduce triglycerides and inflammation markers in landmark cardiovascular trials. Here\'s what decades of research actually conclude.',
+    content: `<p>The cardiovascular benefits of Omega-3 fatty acids — specifically EPA (eicosapentaenoic acid) and DHA (docosahexaenoic acid) — represent one of the most thoroughly researched areas in nutritional science. With over 3,000 peer-reviewed studies published in the last two decades, the evidence base is formidable.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">Triglyceride Reduction</h3>
+    <p>The most consistent and well-documented effect of Omega-3 supplementation is its ability to lower serum triglyceride levels. Multiple large-scale trials have demonstrated triglyceride reductions of 20–50% at doses of 2–4g of EPA+DHA daily. The REDUCE-IT trial, involving over 8,000 patients, found a 25% reduction in major cardiovascular events in high-risk patients taking icosapentaenoic acid.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">Anti-Inflammatory Mechanisms</h3>
+    <p>Beyond lipid modulation, Omega-3s exert powerful anti-inflammatory effects through the production of resolvins and protectins — specialised pro-resolving mediators that actively resolve inflammation rather than simply suppressing it. Chronic low-grade inflammation is now recognised as a primary driver of cardiovascular disease, making this mechanism particularly significant.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">Arterial Flexibility and Blood Pressure</h3>
+    <p>Regular Omega-3 supplementation has been shown to improve endothelial function — the ability of blood vessels to dilate appropriately — and modestly reduce blood pressure. A systematic review of 70 randomised trials found mean reductions of 2.1 mmHg systolic and 1.6 mmHg diastolic with Omega-3 supplementation, effects comparable to first-line antihypertensive lifestyle interventions.</p>
+    <p>For optimal cardiovascular benefit, look for a supplement providing at least 2,000mg of combined EPA+DHA daily, sourced from molecularly distilled fish oil and independently tested for purity.</p>`
+  },
+  {
+    title: 'Top 5 Evidence-Based Supplements for Immune Defence',
+    tag: 'Immunity', tagClass: 'tag-orange', emoji: '🛡️',
+    bg: 'linear-gradient(135deg,#4c1d95,#6d28d9)',
+    date: 'January 20, 2025', read: '5 min read',
+    author: 'Dr. Sarah Mitchell', authorRole: 'Chief Science Officer',
+    cat: 'immunity',
+    excerpt: 'Zinc, Vitamin D3, Elderberry, Quercetin, and Vitamin C — the five most clinically validated supplements for immune system support.',
+    content: `<p>The immune supplement market is flooded with products making extraordinary claims. Cutting through the noise requires looking at the clinical evidence — what has actually been tested in randomised controlled trials with human subjects, at appropriate doses, with measured outcomes.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">1. Zinc Picolinate (25–50mg/day)</h3>
+    <p>Zinc is essential for the development and function of immune cells, including neutrophils, natural killer cells, and T-lymphocytes. A deficiency — even a marginal one — significantly impairs immune response. Clinical trials demonstrate that zinc supplementation reduces the duration of common cold symptoms by approximately 33% when initiated within 24 hours of onset.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">2. Vitamin D3 (2,000–5,000 IU/day)</h3>
+    <p>Vitamin D receptors are found on virtually every immune cell. Deficiency — affecting an estimated 42% of American adults — is strongly associated with increased susceptibility to respiratory infections. A landmark 2017 BMJ meta-analysis of 25 RCTs concluded that Vitamin D supplementation reduces the risk of acute respiratory infection by 12% overall, rising to 70% in those who were severely deficient.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">3. Elderberry Extract (400–600mg/day)</h3>
+    <p>Sambucus nigra (elderberry) contains high concentrations of anthocyanins with demonstrated antiviral and immunomodulatory properties. A meta-analysis of four RCTs found elderberry supplementation substantially reduced the duration and severity of upper respiratory symptoms. Its mechanism includes direct inhibition of viral entry into host cells and stimulation of cytokine production.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">4. Quercetin (500–1,000mg/day)</h3>
+    <p>This flavonoid acts as a natural zinc ionophore — facilitating zinc transport into cells where it can inhibit viral replication. Quercetin also modulates NF-κB signalling, reducing excessive inflammatory cytokine production while maintaining effective immune surveillance.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">5. Vitamin C (1,000mg buffered/day)</h3>
+    <p>While Vitamin C cannot prevent colds, robust evidence supports its role in reducing duration and severity. Its mechanisms include supporting epithelial barrier function, enhancing neutrophil migration to infection sites, and acting as a cofactor for collagen synthesis in mucosal tissues.</p>`
+  },
+  {
+    title: "Lion's Mane Mushroom & Neurogenesis: The Science Explained",
+    tag: 'Brain Health', tagClass: 'tag-purple', emoji: '🧠',
+    bg: 'linear-gradient(135deg,#3b0764,#6d28d9)',
+    date: 'January 8, 2025', read: '7 min read',
+    author: 'Marcus Chen', authorRole: 'Lead Research Scientist',
+    cat: 'brain',
+    excerpt: "Lion's Mane contains unique compounds that stimulate nerve growth factor production — potentially one of the most exciting developments in brain health research.",
+    content: `<p>Hericium erinaceus — commonly known as Lion's Mane mushroom — has emerged as one of the most compelling nootropic compounds identified in modern nutritional science. Its unique bioactive compounds, hericenones and erinacines, have demonstrated the ability to stimulate the synthesis of Nerve Growth Factor (NGF) — a protein critical to the growth, maintenance, and survival of neurons.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">The NGF Connection</h3>
+    <p>NGF plays a crucial role in neuroplasticity — the brain's ability to reorganise itself by forming new neural connections. Declining NGF levels are associated with cognitive decline and are observed in conditions including Alzheimer's disease. The key insight from Lion's Mane research is that its erinacines are small enough to cross the blood-brain barrier directly, enabling them to stimulate NGF production within the central nervous system itself.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">Clinical Evidence in Humans</h3>
+    <p>A 2009 double-blind, placebo-controlled trial published in Phytotherapy Research enrolled 30 older adults with mild cognitive impairment. Participants receiving 3g of Lion's Mane powder daily for 16 weeks showed significantly improved cognitive function scores compared to placebo, with no adverse effects. Importantly, scores declined again four weeks after supplementation ceased, suggesting the effect is ongoing rather than curative.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">Mood and Anxiety Effects</h3>
+    <p>Beyond cognitive function, Lion's Mane has demonstrated anxiolytic (anti-anxiety) effects in clinical populations. A 2010 study in Biomedical Research found that women who consumed Lion's Mane cookies for four weeks reported significantly reduced anxiety, depression, and sleep quality issues compared to placebo. The proposed mechanism involves reduced inflammatory cytokines in the hippocampus.</p>
+    <p>For optimal benefit, look for a Lion's Mane extract standardised to at least 30% polysaccharides at a dose of 500–1,000mg daily. Full-spectrum fruiting body extracts are preferred over mycelium-on-grain products, which contain significantly lower concentrations of active compounds.</p>`
+  },
+  {
+    title: 'Daily Nutrition Habits That Compound Into Peak Wellness',
+    tag: 'Nutrition', tagClass: 'tag-orange', emoji: '⚡',
+    bg: 'linear-gradient(135deg,#78350f,#b45309)',
+    date: 'December 12, 2024', read: '6 min read',
+    author: 'Elena Vasquez', authorRole: 'Head of Product Development',
+    cat: 'nutrition',
+    excerpt: 'Timing, food synergies, and supplementation strategies that compound over weeks and months into transformative health outcomes.',
+    content: `<p>The most transformative health improvements don't come from single interventions — they emerge from the accumulation of consistently applied small habits. The concept of compound interest applies to wellness just as powerfully as it does to finance. Small daily improvements in nutrition, sleep, movement, and supplementation accumulate into profound long-term outcomes.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">Supplement Timing Matters More Than You Think</h3>
+    <p>Fat-soluble vitamins (A, D, E, K) must be taken with a meal containing dietary fat for optimal absorption. Taking your Vitamin D supplement with breakfast while avoiding fat is a remarkably common mistake that significantly impairs its bioavailability. Conversely, water-soluble B-vitamins are better taken in the morning due to their energy-stimulating effects — taking them at night may interfere with sleep quality.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">Food Synergies That Maximise Nutrient Absorption</h3>
+    <p>Vitamin C dramatically enhances non-haem iron absorption when consumed together — a critical consideration for plant-based eaters. Turmeric's curcumin bioavailability increases 2,000% when combined with piperine from black pepper. Magnesium is required as a cofactor for Vitamin D activation — meaning Vitamin D supplementation without adequate magnesium may produce limited benefit.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">The Three Habits That Matter Most</h3>
+    <p>Research consistently points to three foundational nutrition habits that produce the largest health dividends: (1) eating at least 30 different plant species per week to support microbiome diversity, (2) consuming 1.6–2.2g of protein per kilogram of bodyweight daily to support lean mass maintenance, and (3) ending eating at least 3 hours before sleep to allow optimal metabolic recovery. Build on these foundations before optimising anything else.</p>`
+  },
+  {
+    title: 'Collagen: Separating the Science from the Hype',
+    tag: 'Research', tagClass: 'tag-green', emoji: '💎',
+    bg: 'linear-gradient(135deg,#4c1d95,#5b21b6)',
+    date: 'November 30, 2024', read: '5 min read',
+    author: 'Dr. Sarah Mitchell', authorRole: 'Chief Science Officer',
+    cat: 'nutrition',
+    excerpt: 'Hydrolyzed collagen peptides have genuinely strong clinical evidence for skin, joints, and gut health. Here\'s what the research actually shows.',
+    content: `<p>Collagen supplements have faced scepticism from some clinicians who question whether orally consumed collagen survives digestion intact. This was a legitimate concern before modern research clarified the mechanism — and the mechanism turns out to be more interesting than originally assumed.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">How Hydrolyzed Collagen Actually Works</h3>
+    <p>Hydrolyzed collagen peptides are not absorbed whole. Instead, they're broken down during digestion into specific dipeptides — primarily hydroxyproline-proline and hydroxyproline-glycine — which are then absorbed intact into the bloodstream. These specific peptides have been shown to accumulate in cartilage and skin tissue, where they act as signalling molecules, stimulating local fibroblasts to increase collagen synthesis.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">Skin Health Evidence</h3>
+    <p>A 2019 systematic review of 11 randomised controlled trials concluded that hydrolyzed collagen supplementation significantly improved skin hydration, elasticity, and roughness, while reducing the depth of wrinkles. The most consistent effects were observed at doses of 5–10g daily over 8–24 weeks.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">Joint Health Evidence</h3>
+    <p>For joint health, the evidence is particularly compelling in athletic populations. A study published in Current Medical Research and Opinion found that athletes consuming 10g of collagen hydrolysate daily for 24 weeks experienced significantly greater reductions in joint pain during activity compared to placebo. Type II collagen, specifically, has demonstrated clinical efficacy for osteoarthritis symptom management.</p>`
+  },
+  {
+    title: 'Magnesium Deficiency: The Silent Epidemic Affecting Your Sleep and Energy',
+    tag: 'Nutrition', tagClass: 'tag-blue', emoji: '🌙',
+    bg: 'linear-gradient(135deg,#0f172a,#1e3a5f)',
+    date: 'November 15, 2024', read: '6 min read',
+    author: 'Dr. James Okafor', authorRole: 'Medical Director',
+    cat: 'nutrition',
+    excerpt: 'An estimated 50% of Americans are deficient in magnesium — a mineral involved in over 300 enzymatic reactions. The consequences are wide-ranging.',
+    content: `<p>Magnesium is involved in over 300 enzymatic reactions in the human body, including protein synthesis, muscle and nerve function, blood glucose regulation, and blood pressure control. It is also required as a cofactor for the activation of Vitamin D — meaning widespread magnesium deficiency may explain why many people fail to respond adequately to Vitamin D supplementation.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">Why Deficiency is So Common</h3>
+    <p>Modern agricultural practices have significantly depleted magnesium levels in soil, meaning that even a diet rich in vegetables and whole grains provides considerably less magnesium than the same foods would have provided 50 years ago. Simultaneously, high stress levels increase urinary magnesium excretion, and common medications including proton pump inhibitors and diuretics further deplete magnesium stores.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">Sleep Architecture Effects</h3>
+    <p>Magnesium plays a direct role in sleep regulation through its activation of the parasympathetic nervous system and its role as a natural NMDA antagonist and GABA agonist — effectively calming neurological activity to facilitate sleep onset. Supplementation studies consistently demonstrate improvements in sleep onset latency, sleep efficiency, and morning alertness, with the most pronounced effects in individuals who were deficient at baseline.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">Choosing the Right Form</h3>
+    <p>Magnesium glycinate offers the best combination of bioavailability (80–90%) and tolerability — unlike magnesium oxide which has only 4% bioavailability and commonly causes gastrointestinal distress. For sleep support specifically, magnesium glycinate taken 30–60 minutes before bed at a dose of 300–400mg is well-supported by both research and clinical practice.</p>`
+  },
+  {
+    title: 'Pre-Workout Nutrition: Timing, Macros, and Supplementation',
+    tag: 'Performance', tagClass: 'tag-orange', emoji: '💪',
+    bg: 'linear-gradient(135deg,#1e3a5f,#1d4ed8)',
+    date: 'October 22, 2024', read: '7 min read',
+    author: 'Marcus Chen', authorRole: 'Lead Research Scientist',
+    cat: 'performance',
+    excerpt: 'The 90-minute pre-workout nutrition window has significant implications for performance, muscle protein synthesis, and recovery.',
+    content: `<p>Pre-workout nutrition is one of the most consequential — and most misunderstood — aspects of sports nutrition. The choices made in the 60–120 minutes before training can significantly affect performance output, muscle protein synthesis rates, and post-exercise recovery quality.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">Carbohydrate Timing and Glycogen</h3>
+    <p>Muscle glycogen is the primary fuel for high-intensity exercise. A pre-workout meal or snack containing 30–60g of moderate-glycaemic index carbohydrates consumed 60–90 minutes before training optimises glycogen availability without causing mid-workout insulin crashes. For sessions under 45 minutes, the impact of pre-workout carbohydrate timing is less pronounced, but for endurance or high-volume resistance training, it becomes critically important.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">Protein: The Pre-Workout Opportunity</h3>
+    <p>Consuming 20–40g of high-quality protein before training initiates muscle protein synthesis that continues during and after the session, effectively extending the anabolic window. Whey protein isolate, with its high leucine content and rapid absorption, is the gold standard. Research suggests that pre-workout protein intake is at least as important as post-workout protein for muscle adaptation.</p>
+    <h3 style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:700;margin:1.5rem 0 .7rem">Evidence-Based Ergogenic Supplements</h3>
+    <p>Of the dozens of marketed pre-workout ingredients, only a handful have robust clinical evidence: Creatine monohydrate (3–5g/day) consistently improves power output in short-duration, high-intensity activities. Beta-alanine (3.2g/day) delays neuromuscular fatigue by buffering lactic acid accumulation. Citrulline malate (6–8g, taken 60 minutes pre-workout) enhances blood flow and has demonstrated significant improvements in both endurance and strength performance in multiple RCTs.</p>`
+  }
+];
+
+let activeCategory = 'all';
+const perPage = 4;
+let currentPage = 1;
+
+document.addEventListener('DOMContentLoaded', () => {
+  VLX.initNav();
+  renderBlog();
+});
+
+function getFiltered() {
+  const search = document.getElementById('blogSearch')?.value.toLowerCase() || '';
+  return ARTICLES.filter(a => {
+    const matchCat = activeCategory === 'all' || a.cat === activeCategory;
+    const matchSearch = !search || a.title.toLowerCase().includes(search) || a.excerpt.toLowerCase().includes(search);
+    return matchCat && matchSearch;
+  });
+}
+
+function renderBlog() {
+  const list = getFiltered();
+  const container = document.getElementById('blogList');
+  const pag = document.getElementById('blogPagination');
+  const start = (currentPage - 1) * perPage;
+  const pageItems = list.slice(start, start + perPage);
+
+  if (list.length === 0) {
+    container.innerHTML = `<div style="text-align:center;padding:3rem;color:var(--gray)"><div style="font-size:2.5rem;margin-bottom:1rem">🔍</div><p>No articles found. Try a different search or category.</p></div>`;
+    pag.innerHTML = '';
+    return;
+  }
+
+  container.innerHTML = pageItems.map((a, i) => `
+    <div class="blog-post-card" onclick="openArticle(${ARTICLES.indexOf(a)})">
+      <div class="blog-post-img" style="background:${a.bg}">${a.emoji}</div>
+      <div class="blog-post-body">
+        <div class="blog-meta">
+          <span class="tag ${a.tagClass}">${a.tag}</span>
+          <span>${a.date}</span>
+          <span>· ${a.read}</span>
+        </div>
+        <h2>${a.title}</h2>
+        <p>${a.excerpt}</p>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem">
+          <div style="font-size:.78rem;color:var(--gray-dim)">By ${a.author}</div>
+          <span class="blog-link">Read Article →</span>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  const totalPages = Math.ceil(list.length / perPage);
+  if (totalPages <= 1) { pag.innerHTML = ''; return; }
+  pag.innerHTML = '';
+  for (let i = 1; i <= totalPages; i++) {
+    const btn = document.createElement('button');
+    btn.textContent = i;
+    btn.style.cssText = `width:36px;height:36px;border-radius:8px;border:1px solid var(--border);color:var(--white);background:${i===currentPage?'var(--green)':'transparent'};font-size:.82rem;cursor:pointer;transition:.2s`;
+    btn.addEventListener('click', () => { currentPage = i; renderBlog(); window.scrollTo({top:300,behavior:'smooth'}); });
+    pag.appendChild(btn);
+  }
+}
+
+function filterBlog(cat, btn) {
+  activeCategory = cat;
+  currentPage = 1;
+  if (btn) {
+    document.querySelectorAll('.flt').forEach(b => { b.style.background='transparent'; b.style.color='rgba(255,255,255,.55)'; b.style.borderColor='var(--border)'; });
+    btn.style.background = 'var(--green)';
+    btn.style.color = '#fff';
+    btn.style.borderColor = 'var(--green)';
+  }
+  renderBlog();
+}
+
+function searchBlog(val) {
+  currentPage = 1;
+  renderBlog();
+}
+
+function openArticle(idx) {
+  const a = ARTICLES[idx];
+  if (!a) return;
+  document.getElementById('articleContent').innerHTML = `
+    <div style="height:200px;background:${a.bg};border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:5rem;margin-bottom:1.5rem">${a.emoji}</div>
+    <span class="tag ${a.tagClass}" style="margin-bottom:1rem;display:inline-block">${a.tag}</span>
+    <h1 style="font-family:'Syne',sans-serif;font-size:clamp(1.4rem,2.5vw,1.9rem);font-weight:800;margin-bottom:.8rem;line-height:1.2">${a.title}</h1>
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:2rem;padding-bottom:1.5rem;border-bottom:1px solid var(--border)">
+      <div style="width:38px;height:38px;border-radius:50%;background:var(--dark);border:1px solid var(--border-g);display:flex;align-items:center;justify-content:center">👤</div>
+      <div>
+        <div style="font-family:'Syne',sans-serif;font-size:.88rem;font-weight:700">${a.author}</div>
+        <div style="font-size:.74rem;color:var(--gray-dim)">${a.authorRole} · ${a.date} · ${a.read}</div>
+      </div>
+    </div>
+    <div style="font-size:.92rem;line-height:1.85;color:rgba(255,255,255,.7)">${a.content}</div>
+    <div style="margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--border);display:flex;gap:1rem;flex-wrap:wrap">
+      <a href="shop.html" class="btn btn-primary btn-sm">Shop Related Products →</a>
+      <button onclick="closeArticle()" class="btn btn-ghost btn-sm">← Back to Blog</button>
+    </div>
+  `;
+  document.getElementById('articleModal').style.display = 'block';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeArticle() {
+  document.getElementById('articleModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+</script>
+</body>
+</html>

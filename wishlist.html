@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>My Wishlist — VITALUX</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ======================== VARIABLES ======================== */
+:root {
+  --green:#16a34a; --gl:#22c55e; --gp:#a7f3d0; --gd:#064e3b;
+  --orange:#f97316; --blue:#3b82f6; --purple:#8b5cf6;
+  --yellow:#eab308; --red:#ef4444; --pink:#ec4899; --cyan:#06b6d4;
+  --dark:#05100a; --dark2:#081408; --dark3:#0b1e10; --dark4:#0e2614;
+  --white:#f0faf4;
+  --gray:rgba(255,255,255,.5); --gray-dim:rgba(255,255,255,.25);
+  --border:rgba(255,255,255,.07); --border-g:rgba(34,197,94,.25);
+  --card-bg:rgba(255,255,255,.03);
+  --glow:0 0 40px rgba(34,197,94,.2); --glow-s:0 0 60px rgba(34,197,94,.35);
+  --nav-h:72px; --radius:18px;
+}
+
+/* ======================== RESET ======================== */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { font-family:'DM Sans',sans-serif; background:var(--dark); color:var(--white); overflow-x:hidden; line-height:1.6; }
+img { max-width:100%; display:block; }
+a { text-decoration:none; color:inherit; }
+button { font-family:inherit; cursor:pointer; border:none; background:none; }
+ul { list-style:none; }
+::-webkit-scrollbar { width:3px; }
+::-webkit-scrollbar-track { background:var(--dark); }
+::-webkit-scrollbar-thumb { background:var(--green); border-radius:2px; }
+
+/* ======================== NAVBAR ======================== */
+.navbar {
+  position:fixed; top:0; left:0; right:0; z-index:999;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 3rem; height:var(--nav-h); transition:.4s;
+}
+.navbar.scrolled {
+  background:rgba(5,16,10,.96); backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border); box-shadow:0 4px 30px rgba(0,0,0,.4);
+}
+.nav-logo {
+  font-family:'Bebas Neue',sans-serif; font-size:1.9rem; letter-spacing:4px;
+  background:linear-gradient(135deg,var(--gl),var(--gp));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; cursor:pointer;
+}
+.nav-links { display:flex; align-items:center; gap:.2rem; }
+.nav-links li a {
+  display:flex; align-items:center; gap:.35rem; padding:.5rem 1rem;
+  border-radius:8px; color:rgba(255,255,255,.65); font-size:.88rem;
+  transition:color .2s,background .2s;
+}
+.nav-links li a:hover, .nav-links li a.active { color:var(--gl); background:rgba(34,197,94,.07); }
+.nav-dropdown { position:relative; }
+.nav-dropdown > a::after { content:'▾'; font-size:.7rem; opacity:.5; margin-left:.1rem; }
+.dropdown-menu {
+  position:absolute; top:calc(100% + 8px); left:0; background:var(--dark4);
+  border:1px solid var(--border); border-radius:14px; padding:.6rem;
+  min-width:210px; opacity:0; visibility:hidden;
+  transform:translateY(-8px); transition:all .25s;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+.nav-dropdown:hover .dropdown-menu { opacity:1; visibility:visible; transform:translateY(0); }
+.dropdown-menu a {
+  display:flex; align-items:center; gap:.6rem; padding:.55rem .9rem;
+  border-radius:9px; color:rgba(255,255,255,.6); font-size:.84rem; transition:all .15s;
+}
+.dropdown-menu a:hover { background:rgba(34,197,94,.1); color:var(--gl); }
+.nav-right { display:flex; align-items:center; gap:.7rem; }
+.nav-cart-btn {
+  position:relative; display:flex; align-items:center; gap:.5rem;
+  padding:.5rem 1rem; border-radius:10px; border:1px solid var(--border);
+  color:var(--white); font-size:.82rem; transition:all .2s;
+}
+.nav-cart-btn:hover { border-color:var(--green); color:var(--gl); }
+.cart-badge {
+  position:absolute; top:-6px; right:-6px; background:var(--green); color:#fff;
+  font-size:.58rem; font-weight:700; width:17px; height:17px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+}
+.hamburger { display:none; flex-direction:column; gap:5px; padding:.4rem; border:1px solid var(--border); border-radius:8px; }
+.hamburger span { width:20px; height:2px; background:var(--white); display:block; transition:.3s; }
+
+/* Mobile Nav */
+.mob-nav {
+  position:fixed; top:0; right:-300px; width:280px; height:100vh;
+  background:var(--dark3); border-left:1px solid var(--border); z-index:1100;
+  padding:1.5rem; transition:right .4s cubic-bezier(.4,0,.2,1); overflow-y:auto;
+}
+.mob-nav.open { right:0; }
+.mob-nav-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem; }
+.mob-close { width:32px; height:32px; border-radius:50%; border:1px solid var(--border); color:var(--white); font-size:.85rem; display:flex; align-items:center; justify-content:center; }
+.mob-nav a { display:block; padding:.8rem 0; color:rgba(255,255,255,.7); border-bottom:1px solid var(--border); font-size:.95rem; transition:color .2s; }
+.mob-nav a:hover { color:var(--gl); }
+.mob-overlay { position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:1099; display:none; backdrop-filter:blur(4px); }
+.mob-overlay.open { display:block; }
+
+/* ======================== BUTTONS ======================== */
+.btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+  font-family:'Syne',sans-serif; font-weight:600; font-size:.88rem; letter-spacing:.3px;
+  border-radius:50px; padding:.8rem 1.9rem; transition:all .3s; cursor:pointer; border:none;
+}
+.btn-primary { background:var(--green); color:#fff; }
+.btn-primary:hover { background:var(--gl); transform:translateY(-2px); box-shadow:0 10px 28px rgba(34,197,94,.38); }
+.btn-ghost { background:transparent; color:var(--white); border:1px solid var(--border); }
+.btn-ghost:hover { border-color:var(--green); color:var(--gl); }
+.btn-outline { background:transparent; color:var(--gl); border:1px solid var(--border-g); }
+.btn-outline:hover { background:rgba(34,197,94,.1); }
+.btn-lg { padding:1rem 2.2rem; font-size:.96rem; }
+.btn-sm { padding:.45rem 1rem; font-size:.78rem; }
+.btn-full { width:100%; }
+
+/* ======================== SECTION HEADERS ======================== */
+.sec-head { text-align:center; margin-bottom:3.5rem; }
+.sec-head.left { text-align:left; }
+.eyebrow {
+  display:inline-block; font-size:.68rem; letter-spacing:3px; text-transform:uppercase;
+  color:var(--gl); border:1px solid var(--border-g); padding:.28rem .85rem;
+  border-radius:50px; margin-bottom:.9rem; font-weight:500;
+}
+.sec-head h2 { font-family:'Syne',sans-serif; font-size:clamp(1.9rem,3.5vw,3rem); font-weight:800; line-height:1.1; }
+.sec-head h2 em { font-style:normal; background:linear-gradient(135deg,var(--gl),var(--gp)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.sec-desc { margin-top:.8rem; color:var(--gray); font-size:.92rem; max-width:500px; margin-left:auto; margin-right:auto; }
+.sec-head.left .sec-desc { margin-left:0; }
+
+/* ======================== TAGS / BADGES ======================== */
+.tag { display:inline-block; font-size:.62rem; letter-spacing:1px; text-transform:uppercase; padding:.2rem .55rem; border-radius:50px; font-weight:600; }
+.tag-orange { background:rgba(249,115,22,.15); color:var(--orange); border:1px solid rgba(249,115,22,.3); }
+.tag-green  { background:rgba(34,197,94,.15);  color:var(--gl);     border:1px solid var(--border-g); }
+.tag-red    { background:rgba(239,68,68,.15);   color:var(--red);    border:1px solid rgba(239,68,68,.3); }
+.tag-blue   { background:rgba(59,130,246,.15);  color:var(--blue);   border:1px solid rgba(59,130,246,.3); }
+.tag-purple { background:rgba(139,92,246,.15);  color:var(--purple); border:1px solid rgba(139,92,246,.3); }
+.stars { color:var(--yellow); font-size:.85rem; letter-spacing:.5px; }
+
+/* ======================== PRODUCT CARDS (shared) ======================== */
+.prod-card { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; cursor:pointer; transition:all .4s; }
+.prod-card:hover { transform:translateY(-8px); border-color:rgba(34,197,94,.25); box-shadow:0 20px 50px rgba(0,0,0,.4),var(--glow); }
+.prod-img-area { height:190px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.prod-emoji { font-size:4.8rem; filter:drop-shadow(0 10px 20px rgba(0,0,0,.5)); transition:.4s; position:relative; z-index:2; }
+.prod-card:hover .prod-emoji { transform:scale(1.12) rotate(-5deg); }
+.prod-body { padding:1.4rem; }
+.prod-name { font-family:'Syne',sans-serif; font-size:.98rem; font-weight:700; margin-bottom:.25rem; line-height:1.3; }
+.prod-sub { font-size:.76rem; color:rgba(255,255,255,.35); margin-bottom:.6rem; }
+.rev-count { font-size:.72rem; color:var(--gray-dim); margin-left:.3rem; }
+.prod-foot { display:flex; align-items:center; justify-content:space-between; margin-top:1.1rem; padding-top:1.1rem; border-top:1px solid var(--border); }
+.prod-price { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; color:var(--gl); }
+.old-price { font-size:.78rem; color:rgba(255,255,255,.25); text-decoration:line-through; margin-left:.3rem; }
+.add-btn { width:36px; height:36px; border-radius:50%; background:var(--green); color:#fff; font-size:1.1rem; display:flex; align-items:center; justify-content:center; transition:all .2s; flex-shrink:0; }
+.add-btn:hover { background:var(--gl); transform:scale(1.1); box-shadow:0 5px 15px rgba(34,197,94,.4); }
+
+/* ======================== CART SIDEBAR ======================== */
+.cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:1200; display:none; backdrop-filter:blur(5px); }
+.cart-overlay.open { display:block; }
+.cart-sidebar { position:fixed; top:0; right:-420px; width:400px; height:100vh; background:var(--dark3); border-left:1px solid var(--border-g); z-index:1201; display:flex; flex-direction:column; transition:right .4s cubic-bezier(.4,0,.2,1); }
+.cart-sidebar.open { right:0; }
+.cart-head { display:flex; align-items:center; justify-content:space-between; padding:1.4rem 1.6rem; border-bottom:1px solid var(--border); }
+.cart-head h3 { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700; }
+.cart-close-btn { width:32px; height:32px; border-radius:50%; border:1px solid var(--border); color:var(--white); font-size:.85rem; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+.cart-close-btn:hover { border-color:var(--red); color:var(--red); }
+.cart-body { flex:1; overflow-y:auto; padding:1.2rem 1.6rem; }
+.cart-empty { text-align:center; padding:3.5rem 0; }
+.cart-empty-icon { font-size:3.5rem; margin-bottom:1rem; opacity:.4; }
+.cart-empty p { color:var(--gray-dim); font-size:.88rem; }
+.cart-item { display:flex; align-items:flex-start; gap:1rem; padding:1rem 0; border-bottom:1px solid var(--border); animation:fadeUp .3s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.cart-item-img { font-size:2.4rem; flex-shrink:0; }
+.cart-item-info { flex:1; min-width:0; }
+.cart-item-name { font-family:'Syne',sans-serif; font-size:.86rem; font-weight:700; margin-bottom:.15rem; line-height:1.3; }
+.cart-item-sub { font-size:.74rem; color:var(--gray-dim); margin-bottom:.35rem; }
+.cart-item-price { color:var(--gl); font-weight:600; font-size:.9rem; }
+.cart-qty-row { display:flex; align-items:center; gap:.5rem; margin-top:.4rem; }
+.qty-btn { width:24px; height:24px; border-radius:50%; border:1px solid var(--border); color:var(--white); font-size:.9rem; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+.qty-btn:hover { border-color:var(--green); color:var(--gl); }
+.cart-item-qty { font-size:.84rem; min-width:18px; text-align:center; }
+.cart-remove { color:rgba(255,255,255,.2); font-size:.8rem; padding:.2rem; transition:color .2s; align-self:flex-start; }
+.cart-remove:hover { color:var(--red); }
+.cart-foot { padding:1.4rem 1.6rem; border-top:1px solid var(--border); }
+.cart-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:.5rem; font-size:.85rem; color:var(--gray); }
+.cart-total-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.2rem; }
+.ct-label { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; }
+.ct-val { font-family:'Syne',sans-serif; font-weight:800; font-size:1.2rem; color:var(--gl); }
+.cart-free-ship { font-size:.75rem; color:var(--gl); text-align:center; margin-bottom:1rem; background:rgba(34,197,94,.08); padding:.45rem; border-radius:8px; border:1px solid var(--border-g); }
+
+/* ======================== TOAST ======================== */
+#toast { position:fixed; bottom:2rem; left:50%; transform:translateX(-50%) translateY(80px); background:var(--dark4); border:1px solid var(--green); color:var(--white); padding:.85rem 1.6rem; border-radius:50px; font-family:'Syne',sans-serif; font-size:.85rem; font-weight:600; z-index:9999; opacity:0; transition:all .35s; box-shadow:0 10px 40px rgba(0,0,0,.4),var(--glow); white-space:nowrap; }
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ======================== FOOTER ======================== */
+footer { background:#030a05; border-top:1px solid var(--border); }
+.footer-main { display:grid; grid-template-columns:1.8fr repeat(3,1fr); gap:3rem; padding:5rem 3rem 3rem; max-width:1280px; margin:0 auto; }
+.footer-logo { font-family:'Bebas Neue',sans-serif; font-size:2.2rem; letter-spacing:4px; background:linear-gradient(135deg,var(--gl),var(--gp)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:inline-block; margin-bottom:1rem; }
+.footer-brand p { color:rgba(255,255,255,.35); font-size:.83rem; line-height:1.75; max-width:250px; margin-bottom:1.5rem; }
+.social-row { display:flex; gap:.55rem; }
+.social-link { width:36px; height:36px; border-radius:9px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,.4); font-size:.8rem; font-weight:700; transition:all .2s; }
+.social-link:hover { border-color:var(--green); color:var(--gl); }
+.footer-col h4 { font-family:'Syne',sans-serif; font-size:.86rem; font-weight:700; color:var(--white); margin-bottom:1.1rem; }
+.footer-col a { display:block; color:rgba(255,255,255,.36); font-size:.82rem; margin-bottom:.5rem; transition:color .2s; }
+.footer-col a:hover { color:var(--gl); }
+.footer-bottom { display:flex; align-items:center; justify-content:space-between; padding:1.3rem 3rem; border-top:1px solid var(--border); max-width:1280px; margin:0 auto; font-size:.77rem; color:rgba(255,255,255,.26); }
+.footer-legal { display:flex; gap:1.5rem; }
+.footer-legal a { color:rgba(255,255,255,.26); transition:color .2s; }
+.footer-legal a:hover { color:var(--gl); }
+
+/* ======================== UTILS ======================== */
+.page-wrap { padding-top:var(--nav-h); }
+.section { padding:7rem 3rem; }
+.container { max-width:1280px; margin:0 auto; }
+
+/* ======================== RESPONSIVE ======================== */
+@media(max-width:1024px) { .footer-main { grid-template-columns:1fr 1fr; gap:2rem; } }
+@media(max-width:768px) {
+  .navbar { padding:0 1.5rem; }
+  .nav-links { display:none; }
+  .hamburger { display:flex; }
+  .footer-main { grid-template-columns:1fr; padding:3rem 1.5rem; }
+  .footer-bottom { padding:1.2rem 1.5rem; flex-direction:column; gap:.8rem; text-align:center; }
+  .section { padding:5rem 1.5rem; }
+  .cart-sidebar { width:100%; right:-100%; }
+}
+
+/* ======================== SHOP PAGE ======================== */
+.shop-hero { background:var(--dark2); padding:5rem 3rem 3rem; text-align:center; border-bottom:1px solid var(--border); }
+.shop-hero h1 { font-family:'Syne',sans-serif; font-size:clamp(2rem,4vw,3.2rem); font-weight:800; margin-bottom:.6rem; }
+.shop-hero p { color:var(--gray); max-width:480px; margin:0 auto; }
+
+.shop-layout { display:grid; grid-template-columns:260px 1fr; gap:2.5rem; padding:4rem 3rem; max-width:1280px; margin:0 auto; }
+
+/* Sidebar Filters */
+.shop-sidebar { position:sticky; top:calc(var(--nav-h) + 1.5rem); height:max-content; }
+.filter-panel { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); padding:1.6rem; margin-bottom:1.2rem; }
+.filter-panel h4 { font-family:'Syne',sans-serif; font-size:.9rem; font-weight:700; margin-bottom:1.1rem; display:flex; align-items:center; justify-content:space-between; cursor:pointer; }
+.filter-panel h4 span { font-size:.75rem; color:var(--gray); }
+.filter-option { display:flex; align-items:center; justify-content:space-between; padding:.4rem 0; cursor:pointer; }
+.filter-option input[type=checkbox] { accent-color:var(--green); width:15px; height:15px; cursor:pointer; }
+.filter-option label { font-size:.84rem; color:rgba(255,255,255,.6); cursor:pointer; flex:1; margin-left:.6rem; }
+.filter-option .cnt { font-size:.72rem; color:var(--gray-dim); }
+.price-range-row { display:flex; align-items:center; gap:.5rem; margin-top:.8rem; }
+.price-input { width:100%; background:rgba(255,255,255,.05); border:1px solid var(--border); color:var(--white); padding:.5rem .7rem; border-radius:8px; font-size:.82rem; text-align:center; }
+.price-sep { color:var(--gray-dim); font-size:.8rem; }
+.filter-rating-row { display:flex; align-items:center; gap:.5rem; padding:.35rem 0; cursor:pointer; }
+.filter-rating-row .stars { font-size:.9rem; }
+.filter-rating-row span { font-size:.8rem; color:var(--gray); }
+.filter-rating-row.active .stars { color:var(--yellow); }
+.filter-clear { color:var(--gl); font-size:.78rem; cursor:pointer; text-decoration:underline; margin-top:.5rem; display:inline-block; }
+
+/* Shop Grid */
+.shop-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.8rem; flex-wrap:wrap; gap:1rem; }
+.shop-count { font-size:.88rem; color:var(--gray); }
+.shop-sort { display:flex; align-items:center; gap:.7rem; font-size:.84rem; color:var(--gray); }
+.shop-sort select { background:var(--card-bg); border:1px solid var(--border); color:var(--white); padding:.45rem .8rem; border-radius:8px; font-size:.82rem; cursor:pointer; outline:none; }
+.shop-view-btns { display:flex; gap:.4rem; }
+.view-btn { width:32px; height:32px; border-radius:8px; border:1px solid var(--border); color:var(--gray); font-size:.9rem; display:flex; align-items:center; justify-content:center; transition:.2s; }
+.view-btn.active, .view-btn:hover { border-color:var(--green); color:var(--gl); }
+.shop-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.6rem; }
+.shop-grid.list { grid-template-columns:1fr; }
+.shop-grid.list .prod-card { display:grid; grid-template-columns:160px 1fr; border-radius:var(--radius); }
+.shop-grid.list .prod-img-area { height:100%; min-height:140px; border-radius:var(--radius) 0 0 var(--radius); }
+.shop-pagination { display:flex; align-items:center; justify-content:center; gap:.5rem; margin-top:3rem; }
+.page-btn { width:38px; height:38px; border-radius:10px; border:1px solid var(--border); color:var(--white); font-size:.85rem; display:flex; align-items:center; justify-content:center; transition:.2s; font-family:'Syne',sans-serif; font-weight:600; }
+.page-btn:hover, .page-btn.active { background:var(--green); border-color:var(--green); color:#fff; }
+
+/* ======================== PRODUCT DETAIL PAGE ======================== */
+.product-detail-wrap { padding-top:var(--nav-h); background:var(--dark); }
+.breadcrumb { padding:1.5rem 3rem; display:flex; align-items:center; gap:.5rem; font-size:.8rem; color:var(--gray-dim); border-bottom:1px solid var(--border); max-width:1280px; margin:0 auto; }
+.breadcrumb a { color:var(--gray-dim); transition:color .2s; }
+.breadcrumb a:hover { color:var(--gl); }
+.breadcrumb span { opacity:.4; }
+
+.pd-grid { display:grid; grid-template-columns:1fr 1fr; gap:4rem; padding:4rem 3rem; max-width:1280px; margin:0 auto; align-items:start; }
+
+/* Product Viewer */
+.pd-viewer { position:sticky; top:calc(var(--nav-h) + 2rem); }
+.pd-main-img { position:relative; background:var(--dark2); border:1px solid var(--border); border-radius:24px; height:460px; display:flex; align-items:center; justify-content:center; overflow:hidden; margin-bottom:1rem; }
+#pdCanvas { width:100%; height:100%; }
+.pd-canvas-hint { position:absolute; bottom:1rem; left:50%; transform:translateX(-50%); font-size:.72rem; color:rgba(255,255,255,.3); letter-spacing:1px; text-transform:uppercase; pointer-events:none; }
+.pd-thumbs { display:flex; gap:.7rem; }
+.pd-thumb { width:68px; height:68px; border-radius:12px; border:2px solid var(--border); display:flex; align-items:center; justify-content:center; font-size:2rem; cursor:pointer; transition:all .2s; background:var(--card-bg); }
+.pd-thumb.active, .pd-thumb:hover { border-color:var(--green); background:rgba(34,197,94,.08); }
+
+/* Product Info */
+.pd-info .tag { margin-bottom:.9rem; }
+.pd-info h1 { font-family:'Syne',sans-serif; font-size:clamp(1.6rem,2.5vw,2.2rem); font-weight:800; line-height:1.2; margin-bottom:.6rem; }
+.pd-rating-row { display:flex; align-items:center; gap:.8rem; margin-bottom:1rem; }
+.pd-rating-row .stars { font-size:1rem; }
+.pd-rating-num { font-family:'Syne',sans-serif; font-weight:700; font-size:.95rem; }
+.pd-rating-count { font-size:.82rem; color:var(--gray-dim); }
+.pd-price-row { display:flex; align-items:baseline; gap:.8rem; margin-bottom:1.5rem; }
+.pd-price { font-family:'Syne',sans-serif; font-size:2rem; font-weight:800; color:var(--gl); }
+.pd-old-price { font-size:1rem; color:rgba(255,255,255,.25); text-decoration:line-through; }
+.pd-save { font-size:.78rem; background:rgba(239,68,68,.15); color:var(--red); border:1px solid rgba(239,68,68,.3); padding:.2rem .55rem; border-radius:50px; font-weight:600; }
+.pd-desc { color:rgba(255,255,255,.58); font-size:.9rem; line-height:1.75; margin-bottom:1.8rem; }
+
+/* Size/Variant picker */
+.pd-option-label { font-family:'Syne',sans-serif; font-size:.82rem; font-weight:700; margin-bottom:.6rem; color:rgba(255,255,255,.7); }
+.pd-variants { display:flex; gap:.6rem; flex-wrap:wrap; margin-bottom:1.5rem; }
+.variant-btn { background:var(--card-bg); border:1px solid var(--border); color:rgba(255,255,255,.6); padding:.45rem 1rem; border-radius:50px; font-size:.82rem; cursor:pointer; transition:.2s; font-family:'DM Sans',sans-serif; }
+.variant-btn:hover, .variant-btn.active { border-color:var(--green); color:var(--gl); background:rgba(34,197,94,.08); }
+
+/* Qty & add to cart */
+.pd-qty-row { display:flex; align-items:center; gap:1rem; margin-bottom:1.5rem; }
+.qty-box { display:flex; align-items:center; gap:.6rem; background:var(--card-bg); border:1px solid var(--border); border-radius:50px; padding:.35rem .7rem; }
+.qty-box button { width:28px; height:28px; border-radius:50%; background:rgba(255,255,255,.06); color:var(--white); font-size:1rem; display:flex; align-items:center; justify-content:center; transition:.2s; }
+.qty-box button:hover { background:rgba(34,197,94,.2); color:var(--gl); }
+.qty-box span { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; min-width:24px; text-align:center; }
+.pd-add-btn { flex:1; }
+
+/* Tabs */
+.pd-tabs { margin-top:2.5rem; }
+.tab-btns { display:flex; gap:0; border-bottom:1px solid var(--border); margin-bottom:1.8rem; }
+.tab-btn { background:none; color:var(--gray); font-family:'Syne',sans-serif; font-size:.88rem; font-weight:600; padding:.75rem 1.2rem; border-bottom:2px solid transparent; margin-bottom:-1px; transition:.2s; cursor:pointer; }
+.tab-btn.active { color:var(--gl); border-bottom-color:var(--gl); }
+.tab-pane { display:none; }
+.tab-pane.active { display:block; }
+.tab-pane p { color:rgba(255,255,255,.55); font-size:.88rem; line-height:1.75; margin-bottom:1rem; }
+.tab-pane ul { padding-left:1.2rem; }
+.tab-pane ul li { color:rgba(255,255,255,.55); font-size:.88rem; line-height:1.8; }
+.tab-pane ul li::marker { color:var(--gl); }
+.nutrition-table { width:100%; border-collapse:collapse; font-size:.84rem; }
+.nutrition-table th { background:rgba(34,197,94,.1); color:var(--gl); font-family:'Syne',sans-serif; padding:.55rem .8rem; text-align:left; font-weight:700; border:1px solid var(--border); }
+.nutrition-table td { padding:.5rem .8rem; border:1px solid var(--border); color:rgba(255,255,255,.6); }
+.nutrition-table tr:nth-child(even) td { background:rgba(255,255,255,.02); }
+
+/* Reviews section in PD */
+.pd-reviews { padding:4rem 3rem; max-width:1280px; margin:0 auto; border-top:1px solid var(--border); }
+.review-summary { display:grid; grid-template-columns:200px 1fr; gap:3rem; margin-bottom:3rem; align-items:center; }
+.review-big-num { font-family:'Syne',sans-serif; font-size:5rem; font-weight:800; color:var(--gl); line-height:1; }
+.review-big-stars { font-size:1.4rem; margin-bottom:.3rem; }
+.review-big-count { font-size:.82rem; color:var(--gray); }
+.rating-bars { flex:1; }
+.rating-bar-row { display:flex; align-items:center; gap:.8rem; margin-bottom:.4rem; }
+.rating-bar-row span:first-child { font-size:.78rem; color:var(--gray); min-width:12px; text-align:right; }
+.rb-track { flex:1; height:6px; background:rgba(255,255,255,.07); border-radius:3px; overflow:hidden; }
+.rb-fill { height:100%; background:var(--yellow); border-radius:3px; }
+.rating-bar-row span:last-child { font-size:.75rem; color:var(--gray-dim); min-width:28px; }
+.review-list { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:1.4rem; }
+.review-item { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); padding:1.6rem; }
+.ri-head { display:flex; align-items:center; gap:.8rem; margin-bottom:.8rem; }
+.ri-av { width:40px; height:40px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:.95rem; flex-shrink:0; }
+.ri-av span { color:#fff; }
+.ri-name { font-family:'Syne',sans-serif; font-size:.88rem; font-weight:700; }
+.ri-date { font-size:.73rem; color:var(--gray-dim); }
+.ri-title { font-family:'Syne',sans-serif; font-size:.92rem; font-weight:700; margin-bottom:.4rem; }
+.ri-text { color:rgba(255,255,255,.52); font-size:.84rem; line-height:1.65; font-style:italic; }
+
+/* Related Products */
+.related-section { padding:4rem 3rem; max-width:1280px; margin:0 auto; border-top:1px solid var(--border); }
+.related-section h2 { font-family:'Syne',sans-serif; font-size:1.6rem; font-weight:800; margin-bottom:2rem; }
+
+/* ======================== CHECKOUT PAGE ======================== */
+.checkout-wrap { padding-top:var(--nav-h); background:var(--dark); min-height:100vh; }
+.checkout-header { text-align:center; padding:3rem 3rem 0; border-bottom:1px solid var(--border); }
+.checkout-header .nav-logo { font-size:1.6rem; display:inline-block; margin-bottom:1.5rem; }
+.checkout-steps { display:flex; align-items:center; justify-content:center; gap:0; margin-bottom:0; }
+.step { display:flex; align-items:center; gap:.5rem; font-size:.82rem; padding:.8rem 1.5rem; color:rgba(255,255,255,.35); border-bottom:2px solid transparent; }
+.step.done { color:var(--gl); }
+.step.active { color:var(--white); border-bottom-color:var(--gl); }
+.step-num { width:22px; height:22px; border-radius:50%; border:2px solid currentColor; display:flex; align-items:center; justify-content:center; font-size:.72rem; font-weight:700; }
+.step.done .step-num { background:var(--green); border-color:var(--green); color:#fff; }
+.step-sep { width:40px; height:1px; background:var(--border); }
+
+.checkout-grid { display:grid; grid-template-columns:1fr 400px; gap:3rem; padding:3rem; max-width:1100px; margin:0 auto; align-items:start; }
+.checkout-form-area h2 { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; margin-bottom:1.5rem; }
+.form-section { margin-bottom:2.5rem; }
+.form-section h3 { font-family:'Syne',sans-serif; font-size:.9rem; font-weight:700; color:var(--gl); text-transform:uppercase; letter-spacing:1px; margin-bottom:1.2rem; padding-bottom:.6rem; border-bottom:1px solid var(--border); }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.form-group { margin-bottom:1.1rem; }
+.form-group label { display:block; font-size:.78rem; color:rgba(255,255,255,.5); margin-bottom:.4rem; letter-spacing:.3px; }
+.form-group input, .form-group select { width:100%; background:rgba(255,255,255,.05); border:1px solid var(--border); color:var(--white); padding:.75rem 1rem; border-radius:10px; font-family:'DM Sans',sans-serif; font-size:.88rem; transition:border-color .2s; }
+.form-group input:focus, .form-group select:focus { border-color:var(--green); outline:none; background:rgba(34,197,94,.04); }
+.form-group input::placeholder { color:rgba(255,255,255,.25); }
+.form-group select { cursor:pointer; }
+.form-group select option { background:var(--dark3); }
+.card-icons { display:flex; gap:.4rem; margin-top:.5rem; }
+.card-icon { padding:.2rem .5rem; border:1px solid var(--border); border-radius:5px; font-size:.72rem; color:var(--gray-dim); }
+.same-address-row { display:flex; align-items:center; gap:.6rem; margin-bottom:1.2rem; font-size:.85rem; color:var(--gray); cursor:pointer; }
+.same-address-row input { accent-color:var(--green); width:15px; height:15px; }
+.payment-methods { display:flex; gap:.7rem; margin-bottom:1.4rem; flex-wrap:wrap; }
+.pay-method { border:1px solid var(--border); border-radius:10px; padding:.7rem 1.2rem; cursor:pointer; display:flex; align-items:center; gap:.5rem; font-size:.82rem; color:var(--gray); transition:.2s; }
+.pay-method.active { border-color:var(--green); color:var(--gl); background:rgba(34,197,94,.06); }
+
+/* Order Summary */
+.order-summary { background:var(--dark3); border:1px solid var(--border); border-radius:var(--radius); padding:1.8rem; position:sticky; top:calc(var(--nav-h) + 2rem); }
+.order-summary h3 { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:1.4rem; padding-bottom:.8rem; border-bottom:1px solid var(--border); }
+.order-item { display:flex; align-items:center; gap:.8rem; padding:.65rem 0; border-bottom:1px solid var(--border); }
+.order-item-img { font-size:2rem; flex-shrink:0; }
+.order-item-info { flex:1; }
+.order-item-info .name { font-family:'Syne',sans-serif; font-size:.84rem; font-weight:700; line-height:1.3; }
+.order-item-info .sub { font-size:.73rem; color:var(--gray-dim); }
+.order-item-price { font-family:'Syne',sans-serif; font-weight:700; font-size:.9rem; color:var(--gl); }
+.coupon-row { display:flex; gap:.6rem; margin:1.2rem 0; }
+.coupon-row input { flex:1; background:rgba(255,255,255,.04); border:1px solid var(--border); color:var(--white); padding:.55rem .9rem; border-radius:8px; font-size:.82rem; }
+.coupon-row input:focus { border-color:var(--green); outline:none; }
+.order-totals { margin:1.2rem 0; }
+.order-line { display:flex; justify-content:space-between; font-size:.84rem; color:var(--gray); margin-bottom:.45rem; }
+.order-total-line { display:flex; justify-content:space-between; font-family:'Syne',sans-serif; font-weight:800; font-size:1.05rem; margin-top:.8rem; padding-top:.8rem; border-top:1px solid var(--border); }
+.order-total-line span:last-child { color:var(--gl); }
+.trust-row { display:flex; flex-direction:column; gap:.5rem; margin-top:1.5rem; }
+.trust-item-sm { display:flex; align-items:center; gap:.5rem; font-size:.76rem; color:rgba(255,255,255,.38); }
+
+/* ======================== BLOG PAGE ======================== */
+.blog-hero { background:var(--dark2); padding:5rem 3rem 3rem; text-align:center; border-bottom:1px solid var(--border); }
+.blog-hero h1 { font-family:'Syne',sans-serif; font-size:clamp(2rem,4vw,3.2rem); font-weight:800; margin-bottom:.6rem; }
+.blog-hero p { color:var(--gray); max-width:480px; margin:0 auto; }
+.blog-page-section { padding:5rem 3rem; max-width:1280px; margin:0 auto; }
+.blog-page-grid { display:grid; grid-template-columns:1fr 300px; gap:3rem; }
+.blog-list { display:flex; flex-direction:column; gap:1.8rem; }
+.blog-post-card { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; display:grid; grid-template-columns:260px 1fr; transition:.35s; cursor:pointer; }
+.blog-post-card:hover { transform:translateX(4px); border-color:rgba(255,255,255,.12); }
+.blog-post-img { height:100%; min-height:160px; display:flex; align-items:center; justify-content:center; font-size:3.5rem; }
+.blog-post-body { padding:1.6rem; }
+.blog-meta { display:flex; align-items:center; gap:.8rem; margin-bottom:.7rem; font-size:.76rem; color:var(--gray-dim); }
+.blog-post-body h2 { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700; line-height:1.35; margin-bottom:.5rem; }
+.blog-post-body p { color:rgba(255,255,255,.45); font-size:.84rem; line-height:1.6; margin-bottom:1rem; }
+.blog-sidebar { position:sticky; top:calc(var(--nav-h) + 1.5rem); height:max-content; }
+.sidebar-widget { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); padding:1.4rem; margin-bottom:1.4rem; }
+.sidebar-widget h4 { font-family:'Syne',sans-serif; font-size:.9rem; font-weight:700; margin-bottom:1rem; padding-bottom:.6rem; border-bottom:1px solid var(--border); }
+.sidebar-widget input { width:100%; background:rgba(255,255,255,.04); border:1px solid var(--border); color:var(--white); padding:.6rem .9rem; border-radius:8px; font-size:.82rem; margin-bottom:.5rem; }
+.sidebar-tag { display:inline-block; background:rgba(255,255,255,.04); border:1px solid var(--border); padding:.3rem .7rem; border-radius:50px; font-size:.76rem; color:var(--gray); margin:.25rem; cursor:pointer; transition:.2s; }
+.sidebar-tag:hover { border-color:var(--green); color:var(--gl); }
+.recent-post { display:flex; gap:.7rem; padding:.6rem 0; border-bottom:1px solid var(--border); cursor:pointer; }
+.recent-post:last-child { border:none; }
+.recent-post-img { width:52px; height:52px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:1.5rem; flex-shrink:0; }
+.recent-post h5 { font-family:'Syne',sans-serif; font-size:.82rem; font-weight:700; line-height:1.35; margin-bottom:.2rem; }
+.recent-post span { font-size:.73rem; color:var(--gray-dim); }
+
+/* ======================== ABOUT PAGE ======================== */
+.about-hero { position:relative; background:var(--dark2); padding:8rem 3rem 6rem; text-align:center; overflow:hidden; border-bottom:1px solid var(--border); }
+.about-hero::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 60%,rgba(22,163,74,.1),transparent 70%); pointer-events:none; }
+.about-hero h1 { font-family:'Bebas Neue',sans-serif; font-size:clamp(3rem,7vw,6rem); letter-spacing:2px; margin-bottom:1rem; position:relative; }
+.about-hero h1 em { font-style:normal; background:linear-gradient(135deg,var(--gl),var(--gp)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.about-hero p { color:var(--gray); max-width:580px; margin:0 auto; font-size:1rem; line-height:1.75; position:relative; }
+.about-mission { display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center; padding:7rem 3rem; max-width:1280px; margin:0 auto; }
+.about-mission h2 { font-family:'Syne',sans-serif; font-size:clamp(1.8rem,3vw,2.6rem); font-weight:800; margin-bottom:1.2rem; }
+.about-mission p { color:rgba(255,255,255,.55); font-size:.95rem; line-height:1.8; margin-bottom:1.2rem; }
+.about-values-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1.2rem; }
+.value-card { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); padding:1.6rem; transition:.35s; }
+.value-card:hover { transform:translateY(-4px); border-color:var(--border-g); }
+.value-card .icon { font-size:2rem; margin-bottom:.8rem; }
+.value-card h4 { font-family:'Syne',sans-serif; font-size:.95rem; font-weight:700; margin-bottom:.4rem; }
+.value-card p { color:var(--gray); font-size:.82rem; line-height:1.6; }
+.team-section { background:var(--dark2); padding:7rem 3rem; }
+.team-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1.8rem; max-width:1100px; margin:0 auto; }
+.team-card { text-align:center; }
+.team-avatar { width:100px; height:100px; border-radius:50%; margin:0 auto 1rem; display:flex; align-items:center; justify-content:center; font-size:2.5rem; border:3px solid var(--border-g); }
+.team-card h4 { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; margin-bottom:.25rem; }
+.team-card .role { font-size:.8rem; color:var(--gl); margin-bottom:.4rem; }
+.team-card p { font-size:.8rem; color:var(--gray); line-height:1.55; }
+.cert-section { padding:7rem 3rem; max-width:1280px; margin:0 auto; }
+.cert-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:1.4rem; }
+.cert-card { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); padding:1.8rem; text-align:center; transition:.35s; }
+.cert-card:hover { border-color:var(--border-g); transform:translateY(-3px); }
+.cert-card .cert-icon { font-size:2.5rem; margin-bottom:.9rem; }
+.cert-card h4 { font-family:'Syne',sans-serif; font-size:.92rem; font-weight:700; margin-bottom:.4rem; }
+.cert-card p { font-size:.78rem; color:var(--gray); line-height:1.5; }
+
+/* ======================== RESPONSIVE PAGES ======================== */
+@media(max-width:1024px) {
+  .shop-layout { grid-template-columns:1fr; padding:3rem 1.5rem; }
+  .shop-sidebar { position:static; }
+  .pd-grid { grid-template-columns:1fr; gap:2.5rem; padding:3rem 1.5rem; }
+  .pd-viewer { position:static; }
+  .checkout-grid { grid-template-columns:1fr; padding:2rem 1.5rem; }
+  .order-summary { position:static; }
+  .blog-page-grid { grid-template-columns:1fr; }
+  .blog-sidebar { position:static; }
+  .about-mission { grid-template-columns:1fr; gap:3rem; padding:5rem 1.5rem; }
+  .review-summary { grid-template-columns:1fr; gap:1.5rem; }
+}
+@media(max-width:768px) {
+  .shop-hero, .blog-hero, .about-hero { padding:4rem 1.5rem 2.5rem; }
+  .blog-post-card { grid-template-columns:1fr; }
+  .blog-post-img { height:160px; }
+  .breadcrumb { padding:1.2rem 1.5rem; }
+  .form-row { grid-template-columns:1fr; }
+  .payment-methods { flex-direction:column; }
+  .pd-main-img { height:300px; }
+  .related-section, .pd-reviews { padding:3rem 1.5rem; }
+}
+
+
+.wl-hero{background:var(--dark2);padding:4rem 3rem 2.5rem;border-bottom:1px solid var(--border)}
+.wl-hero h1{font-family:'Syne',sans-serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;margin-bottom:.4rem}
+.wl-wrap{max-width:1280px;margin:0 auto;padding:3rem}
+.wl-empty{text-align:center;padding:6rem 2rem}
+.wl-empty-icon{font-size:5rem;margin-bottom:1.5rem;filter:grayscale(1);opacity:.4}
+.wl-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:1.8rem}
+.wl-card{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;position:relative;transition:all .35s}
+.wl-card:hover{transform:translateY(-6px);border-color:rgba(34,197,94,.25);box-shadow:0 20px 50px rgba(0,0,0,.4),var(--glow)}
+.wl-remove-btn{position:absolute;top:.8rem;right:.8rem;width:34px;height:34px;border-radius:50%;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25);color:var(--red);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.85rem;transition:all .2s;z-index:5}
+.wl-remove-btn:hover{background:var(--red);color:#fff}
+.wl-card-img{height:180px;display:flex;align-items:center;justify-content:center;font-size:4.5rem;filter:drop-shadow(0 8px 16px rgba(0,0,0,.4));position:relative;overflow:hidden}
+.wl-card-img .prod-emoji{transition:.4s}
+.wl-card:hover .prod-emoji{transform:scale(1.1) rotate(-5deg)}
+.wl-card-body{padding:1.3rem}
+.wl-card-body .name{font-family:'Syne',sans-serif;font-size:.98rem;font-weight:700;margin-bottom:.2rem}
+.wl-card-body .sub{font-size:.76rem;color:rgba(255,255,255,.35);margin-bottom:.6rem}
+.wl-card-foot{display:flex;align-items:center;justify-content:space-between;padding:1rem 1.3rem;border-top:1px solid var(--border)}
+.wl-sort-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:2rem;flex-wrap:wrap;gap:1rem}
+.wl-count{font-family:'Syne',sans-serif;font-weight:700;color:var(--gl)}
+@media(max-width:768px){.wl-wrap{padding:2rem 1.5rem}.wl-hero{padding:3rem 1.5rem 2rem}}
+</style>
+</head>
+<body>
+<nav class="navbar scrolled" id="navbar">
+  <a href="index.html" class="nav-logo">VITALUX</a>
+  <ul class="nav-links"><li><a href="index.html">Home</a></li>
+    <li class="nav-dropdown"><a href="shop.html">Shop</a>
+      <div class="dropdown-menu">
+        <a href="shop.html?cat=multivitamins"><span class="dm-icon">💊</span>Multivitamins</a>
+        <a href="shop.html?cat=immunity"><span class="dm-icon">🛡️</span>Immunity</a>
+        <a href="shop.html?cat=protein"><span class="dm-icon">💪</span>Protein</a>
+        <a href="shop.html?cat=omega"><span class="dm-icon">🐟</span>Omega-3</a>
+        <a href="shop.html?cat=brain"><span class="dm-icon">🧠</span>Brain Health</a>
+        <a href="shop.html?cat=energy"><span class="dm-icon">⚡</span>Energy</a>
+        <a href="shop.html?cat=beauty"><span class="dm-icon">✨</span>Beauty</a>
+      </div>
+    </li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="blog.html">Research</a></li></ul>
+  <div class="nav-right">
+    <a href="search.html" style="width:38px;height:38px;border-radius:10px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--white);font-size:1rem;text-decoration:none" title="Search">🔍</a>
+    <a href="wishlist.html" style="width:38px;height:38px;border-radius:10px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--white);font-size:1rem;text-decoration:none;position:relative" title="Wishlist">🤍<span id="wishBadge" style="position:absolute;top:-5px;right:-5px;background:var(--pnk);color:#fff;font-size:.55rem;font-weight:700;width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center">0</span></a>
+    <a href="account.html" style="width:38px;height:38px;border-radius:10px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--white);font-size:1rem;text-decoration:none" title="My Account">👤</a>
+    <button class="nav-cart-btn" id="cartBtn">🛒 Cart <span class="cart-badge" id="cartBadge">0</span></button>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mob-nav" id="mobNav">
+  <div class="mob-nav-top"><span class="nav-logo" style="font-size:1.5rem">VITALUX</span><button class="mob-close" id="mobClose">✕</button></div>
+  <a href="index.html">Home</a><a href="shop.html">Shop All</a><a href="search.html">🔍 Search</a>
+  <a href="about.html">About</a><a href="blog.html">Research</a><a href="faq.html">FAQ</a>
+  <a href="account.html">👤 My Account</a><a href="wishlist.html">🤍 Wishlist</a>
+  <a href="login.html">Login</a><a href="signup.html">Sign Up</a><a href="contact.html">Contact Us</a>
+  <a href="checkout.html" style="color:var(--gl)">🛒 Checkout</a>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-sidebar" id="cartSidebar">
+  <div class="cart-head"><h3>🛒 Your Cart</h3><button class="cart-close-btn" id="cartCloseBtn">✕</button></div>
+  <div class="cart-body" id="cartBody"><div class="cart-empty"><div class="cart-empty-icon">🧪</div><p>Your cart is empty</p></div></div>
+  <div class="cart-foot" id="cartFoot" style="display:none">
+    <div class="cart-free-ship" id="cartShipMsg"></div>
+    <div class="cart-row"><span>Subtotal</span><span id="cartTotalVal">$0.00</span></div>
+    <div class="cart-total-row"><span class="ct-label">Total</span><span class="ct-val" id="cartTotalVal2">$0.00</span></div>
+    <a href="checkout.html" class="btn btn-primary btn-full" style="display:flex">Proceed to Checkout →</a>
+  </div>
+</aside>
+<div id="toast"></div>
+<div class="page-wrap">
+  <div class="wl-hero">
+    <div style="max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+      <div>
+        <span class="eyebrow" style="margin-bottom:.7rem">Saved for Later</span>
+        <h1>My <em style="font-style:normal;background:linear-gradient(135deg,var(--pnk),#f9a8d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Wishlist</em></h1>
+        <p style="color:var(--gray);margin-top:.4rem;font-size:.88rem">Products you've saved. Add them to your cart whenever you're ready.</p>
+      </div>
+      <div style="display:flex;gap:.8rem">
+        <button class="btn btn-outline btn-sm" onclick="addAllToCart()">🛒 Add All to Cart</button>
+        <button class="btn btn-ghost btn-sm" onclick="clearWishlist()">🗑️ Clear All</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="wl-wrap">
+    <!-- Empty state -->
+    <div class="wl-empty" id="wlEmpty" style="display:none">
+      <div class="wl-empty-icon">🤍</div>
+      <h2 style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800;margin-bottom:.7rem">Your wishlist is empty</h2>
+      <p style="color:var(--gray);max-width:380px;margin:0 auto 2rem">Browse our supplements and click the 🤍 heart icon on any product to save it here.</p>
+      <a href="shop.html" class="btn btn-primary btn-lg">Browse All Supplements</a>
+    </div>
+
+    <!-- Wishlist grid -->
+    <div id="wlContent" style="display:none">
+      <div class="wl-sort-row">
+        <div class="wl-count" id="wlCount"></div>
+        <div style="display:flex;align-items:center;gap:.8rem;font-size:.84rem;color:var(--gray)">
+          Sort:
+          <select id="wlSort" onchange="renderWishlist()" style="background:var(--card);border:1px solid var(--border);color:var(--white);padding:.4rem .8rem;border-radius:8px;font-size:.82rem;outline:none;cursor:pointer">
+            <option value="added">Recently Added</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="name">Name A–Z</option>
+          </select>
+        </div>
+      </div>
+      <div class="wl-grid" id="wlGrid"></div>
+    </div>
+
+    <!-- Recommended -->
+    <div style="margin-top:4rem;padding-top:3rem;border-top:1px solid var(--border)">
+      <div class="sec-head left" style="margin-bottom:2rem">
+        <span class="eyebrow">You Might Also Like</span>
+        <h2 style="font-family:'Syne',sans-serif;font-size:1.6rem;font-weight:800">Recommended <em style="font-style:normal;color:var(--gl)">For You</em></h2>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.4rem" id="wlRecs"></div>
+    </div>
+  </div>
+</div>
+<footer><div class="footer-main"><div class="footer-brand"><div class="footer-logo">VITALUX</div><p>Premium science-backed supplements for modern health optimisation.</p><div class="social-row"><a href="#" class="social-link">𝕏</a><a href="#" class="social-link">in</a><a href="#" class="social-link">ig</a><a href="#" class="social-link">yt</a></div></div><div class="footer-col"><h4>Shop</h4><a href="shop.html">All Products</a><a href="shop.html?cat=multivitamins">Multivitamins</a><a href="shop.html?cat=immunity">Immunity</a></div><div class="footer-col"><h4>Company</h4><a href="about.html">About Us</a><a href="blog.html">Research Blog</a><a href="faq.html">FAQ</a></div><div class="footer-col"><h4>Account</h4><a href="login.html">Login</a><a href="signup.html">Sign Up</a><a href="account.html">Dashboard</a><a href="wishlist.html">Wishlist</a></div></div><div class="footer-bottom"><p>© 2025 VITALUX. All rights reserved.</p><div class="footer-legal"><a href="#">Privacy</a><a href="#">Terms</a></div></div></footer>
+<script>
+
+/* ============================================================
+   VITALUX — Products Data & Shared State
+   ============================================================ */
+
+const PRODUCTS = [
+  {
+    id:1, name:'Multivitamin Daily Elite', sub:'90 Capsules · 3-Month Supply',
+    price:44.99, oldPrice:59.99, emoji:'💊',
+    cat:'multivitamins', badge:'bestseller', rating:4.9, reviews:2847,
+    bg:'linear-gradient(135deg,#064e3b,#065f46,#0d7a4a)',
+    desc:'Our most comprehensive multivitamin with 25+ vitamins and minerals in their most bioavailable forms. Methylated B-vitamins, chelated minerals, zero fillers.',
+    benefits:['Complete daily micronutrient coverage (25+ nutrients)','Methylated B-vitamins for superior absorption','Immune system fortification with Zinc & Selenium','Antioxidant protection from Vitamins C, E & Beta-Carotene','Energy production support via B-complex','Bone density support with Vitamin D3 & K2'],
+    ingredients:[{n:'Vitamin A (Beta-Carotene)',a:'5000 IU'},{n:'Vitamin C (Buffered)',a:'500mg'},{n:'Vitamin D3',a:'2000 IU'},{n:'Vitamin E (d-Alpha)',a:'400 IU'},{n:'Vitamin K2 (MK-7)',a:'100mcg'},{n:'B-Complex (Methylated)',a:'Full Spectrum'},{n:'Zinc Picolinate',a:'15mg'},{n:'Magnesium Glycinate',a:'100mg'},{n:'Selenium',a:'200mcg'},{n:'Chromium Picolinate',a:'200mcg'}],
+    usage:'Take 2 capsules daily with food. Best taken in the morning with breakfast for optimal absorption. Store in a cool, dry place below 25°C.',
+    inStock:true
+  },
+  {
+    id:2, name:'Immunity Shield Pro', sub:'60 Capsules · 2-Month Supply',
+    price:38.99, oldPrice:null, emoji:'🛡️',
+    cat:'immunity', badge:'new', rating:4.8, reviews:1204,
+    bg:'linear-gradient(135deg,#7c2d12,#9a3412,#c2410c)',
+    desc:'Advanced immune complex featuring Elderberry Extract, Vitamin C 1000mg, Zinc, and Quercetin. Clinically studied ingredients for year-round immune resilience.',
+    benefits:['Activates innate and adaptive immune response','Rich in antioxidant polyphenols from Elderberry','Reduces duration and severity of seasonal illness','Supports respiratory health and mucosal barriers','Anti-inflammatory cytokine modulation','Zinc Picolinate for T-cell function'],
+    ingredients:[{n:'Elderberry Extract (4:1)',a:'400mg'},{n:'Vitamin C (Ascorbic Acid)',a:'1000mg'},{n:'Zinc Picolinate',a:'25mg'},{n:'Quercetin Dihydrate',a:'500mg'},{n:'Echinacea Extract',a:'200mg'},{n:'Vitamin D3',a:'5000 IU'},{n:'Beta-Glucan (1,3/1,6)',a:'250mg'}],
+    usage:'Take 2 capsules daily during active cold/flu season. For acute immune support, take 3 capsules daily for up to 7 consecutive days.',
+    inStock:true
+  },
+  {
+    id:3, name:'Omega-3 Elite Triple Strength', sub:'90 Softgels · 3-Month Supply',
+    price:52.99, oldPrice:69.99, emoji:'🐟',
+    cat:'omega', badge:'bestseller', rating:4.9, reviews:3102,
+    bg:'linear-gradient(135deg,#0c4a6e,#0369a1,#0284c7)',
+    desc:'Ultra-pure, molecularly distilled Omega-3 fish oil with 2400mg EPA/DHA per serving. IFOS 5-Star certified, no fishy aftertaste, enteric coated softgels.',
+    benefits:['Heart health & healthy triglyceride levels','Brain function, memory and cognitive support','Joint comfort, lubrication and mobility','Mood regulation and mental clarity','Healthy inflammatory response','Eye health and macular support'],
+    ingredients:[{n:'EPA (Eicosapentaenoic Acid)',a:'1400mg'},{n:'DHA (Docosahexaenoic Acid)',a:'1000mg'},{n:'Other Omega-3 Fatty Acids',a:'200mg'},{n:'Fish Gelatin Capsule',a:'-'},{n:'d-Alpha Tocopherol (Vit E)',a:'5 IU'},{n:'Natural Lemon Flavour',a:'trace'}],
+    usage:'Take 3 softgels daily with a meal containing fat for best absorption. Refrigerate after opening. Best consumed within 90 days of opening.',
+    inStock:true
+  },
+  {
+    id:4, name:'Whey Protein Isolate Pro', sub:'2.5kg · 83 Servings',
+    price:74.99, oldPrice:89.99, emoji:'💪',
+    cat:'protein', badge:'bestseller', rating:4.8, reviews:5621,
+    bg:'linear-gradient(135deg,#1e3a5f,#1d4ed8,#2563eb)',
+    desc:'Cold-processed whey isolate delivering 27g of complete protein per scoop. Minimal carbs, zero artificial sweeteners, rapid absorption for peak recovery.',
+    benefits:['27g pure protein per serving (38g scoop)','Complete essential amino acid profile','Fast post-workout absorption (< 30 min)','Only 1g sugar, 2g carbs per serving','Supports lean muscle growth and retention','Digestive enzyme blend for gut comfort'],
+    ingredients:[{n:'Whey Protein Isolate 90%',a:'30g'},{n:'Protein per serving',a:'27g'},{n:'Total Carbohydrates',a:'2g'},{n:'Total Fats',a:'0.5g'},{n:'Digestive Enzyme Blend',a:'50mg'},{n:'Sunflower Lecithin',a:'trace'},{n:'Stevia Leaf Extract',a:'trace'}],
+    usage:'Mix 1 scoop (38g) with 240–280ml water, milk or plant-based milk. Shake for 20 seconds. Consume within 30 minutes post-workout or between meals as a protein supplement.',
+    inStock:true
+  },
+  {
+    id:5, name:'Brain Boost Pro', sub:'60 Capsules · 2-Month Supply',
+    price:56.99, oldPrice:null, emoji:'🧠',
+    cat:'brain', badge:'new', rating:4.7, reviews:892,
+    bg:'linear-gradient(135deg,#3b0764,#6d28d9,#7c3aed)',
+    desc:'Premium nootropic formula with clinically-dosed Lion\'s Mane, Bacopa Monnieri, and Phosphatidylserine. Engineered for sustained focus, memory consolidation, and neurogenesis.',
+    benefits:['Enhances working memory and recall','Promotes neurogenesis via NGF stimulation','Reduces cognitive fatigue and brain fog','Supports long-term brain plasticity','Improves sustained concentration and focus','Adaptogenic stress resilience (HPA axis)'],
+    ingredients:[{n:"Lion's Mane Extract (50% poly)",a:'600mg'},{n:'Bacopa Monnieri (55% bacosides)',a:'300mg'},{n:'Phosphatidylserine (PS)',a:'200mg'},{n:'Alpha-GPC (50%)',a:'150mg'},{n:'Rhodiola Rosea (3% rosavins)',a:'200mg'},{n:'Huperzine A (1%)',a:'100mcg'},{n:'B-Vitamin Cofactor Blend',a:'25mg'}],
+    usage:'Take 2 capsules with breakfast. Cognitive benefits build over 4–6 weeks of consistent use. Best combined with 7–9 hours of sleep and adequate hydration.',
+    inStock:true
+  },
+  {
+    id:6, name:'Hair & Skin Radiance', sub:'60 Capsules · 2-Month Supply',
+    price:42.99, oldPrice:54.99, emoji:'✨',
+    cat:'beauty', badge:'bestseller', rating:4.8, reviews:1876,
+    bg:'linear-gradient(135deg,#701a75,#be185d,#db2777)',
+    desc:'Complete beauty-from-within formula with 5000mcg Biotin, Marine Collagen Peptides, and Hyaluronic Acid. Visibly stronger hair, radiant skin, and resilient nails.',
+    benefits:['Stimulates hair follicle growth cycle','Reduces daily hair shedding (telogen effluvium)','Plumps and hydrates skin from within','Strengthens brittle, peeling nails','Provides potent antioxidant skin protection','Supports joint and connective tissue health'],
+    ingredients:[{n:'Biotin (Vitamin B7)',a:'5000mcg'},{n:'Marine Collagen Peptides (Type I&III)',a:'2000mg'},{n:'Hyaluronic Acid (High MW)',a:'150mg'},{n:'Vitamin E (d-Alpha Tocopherol)',a:'400 IU'},{n:'Bamboo Silica',a:'25mg'},{n:'Selenium (Selenomethionine)',a:'200mcg'},{n:'Vitamin C (as Ascorbate)',a:'250mg'}],
+    usage:'Take 2 capsules daily with food, ideally in the morning. Visible hair and skin improvements typically noticed after 6–8 weeks of consistent use.',
+    inStock:true
+  },
+  {
+    id:7, name:'Energy & Performance Stack', sub:'90 Capsules · 3-Month Supply',
+    price:48.99, oldPrice:62.99, emoji:'⚡',
+    cat:'energy', badge:'sale', rating:4.7, reviews:1423,
+    bg:'linear-gradient(135deg,#713f12,#b45309,#d97706)',
+    desc:'Natural energy complex featuring CoQ10 Ubiquinol, Methylcobalamin B12, and adaptogenic Ashwagandha KSM-66. Clean, sustained energy without stimulants or afternoon crashes.',
+    benefits:['Mitochondrial ATP energy production','Adrenal fatigue support and cortisol balance','Zero caffeine — no jitteriness or crash','Both mental and physical performance support','Stress resilience via adaptogenic herbs','Antioxidant protection at cellular level'],
+    ingredients:[{n:'CoQ10 (Ubiquinol active form)',a:'200mg'},{n:'Vitamin B12 (Methylcobalamin)',a:'1000mcg'},{n:'Ashwagandha KSM-66®',a:'300mg'},{n:'Panax Ginseng (30% ginsenosides)',a:'400mg'},{n:'NADH (stabilized)',a:'10mg'},{n:'Magnesium Malate',a:'200mg'},{n:'Ribose (D-Ribose)',a:'500mg'}],
+    usage:'Take 3 capsules each morning with food. Cycle pattern: 5 days on, 2 days off for best adaptogenic effect. Avoid taking within 4 hours of bedtime.',
+    inStock:true
+  },
+  {
+    id:8, name:'Magnesium Glycinate Sleep', sub:'120 Capsules · 2-Month Supply',
+    price:34.99, oldPrice:null, emoji:'🌙',
+    cat:'multivitamins', badge:'new', rating:4.9, reviews:2311,
+    bg:'linear-gradient(135deg,#0f172a,#1e293b,#1e3a5f)',
+    desc:'Highly absorbable Magnesium Glycinate formulated for deep, restorative sleep. With L-Theanine and Ashwagandha for nervous system calm and cortisol reduction.',
+    benefits:['Improves sleep onset latency and REM quality','Reduces nighttime muscle cramps and restlessness','Calms overactive nervous system activity','Reduces cortisol and anxiety markers','Bone density and skeletal muscle support','GABA-ergic pathway support for relaxation'],
+    ingredients:[{n:'Magnesium Glycinate',a:'400mg'},{n:'L-Theanine',a:'200mg'},{n:'Ashwagandha (KSM-66)',a:'150mg'},{n:'Glycine',a:'1000mg'},{n:'Passion Flower Extract',a:'100mg'},{n:'Tart Cherry Extract',a:'150mg'}],
+    usage:'Take 3 capsules 30–60 minutes before bedtime. Take with a small snack if you have a sensitive stomach. Do not exceed recommended dose.',
+    inStock:true
+  },
+  {
+    id:9, name:'Vitamin D3 + K2 Complex', sub:'120 Capsules · 4-Month Supply',
+    price:28.99, oldPrice:36.99, emoji:'☀️',
+    cat:'multivitamins', badge:'bestseller', rating:4.8, reviews:3455,
+    bg:'linear-gradient(135deg,#78350f,#92400e,#b45309)',
+    desc:'The synergistic D3+K2 combination for optimal calcium utilization. 5000 IU D3 with MK-7 K2 ensures calcium is directed to bones and away from arteries.',
+    benefits:['Immune system modulation and response','Bone mineralization and calcium absorption','Cardiovascular health — arterial flexibility','Mood regulation and seasonal wellbeing','Muscle function and nerve signalling','Testosterone and hormonal support'],
+    ingredients:[{n:'Vitamin D3 (Cholecalciferol)',a:'5000 IU'},{n:'Vitamin K2 (MK-7 form)',a:'200mcg'},{n:'Organic Olive Oil (carrier)',a:'50mg'},{n:'Non-GMO Sunflower Lecithin',a:'trace'}],
+    usage:'Take 1 capsule daily with your largest meal of the day. Fat-soluble — always take with a meal containing dietary fat for optimal absorption.',
+    inStock:true
+  },
+  {
+    id:10, name:'Collagen Peptides Advanced', sub:'300g · 30 Servings',
+    price:62.99, oldPrice:79.99, emoji:'💎',
+    cat:'beauty', badge:'bestseller', rating:4.7, reviews:2108,
+    bg:'linear-gradient(135deg,#4c1d95,#5b21b6,#7c3aed)',
+    desc:'Hydrolyzed Marine Collagen Peptides (Type I, II & III) with Vitamin C co-factor for maximum collagen synthesis. Unflavored powder, mixes instantly in any beverage.',
+    benefits:['Skin elasticity, hydration and firmness','Joint cartilage regeneration and comfort','Gut lining integrity and permeability support','Hair growth, thickness and shine','Nail strength and growth stimulation','Bone matrix protein reinforcement'],
+    ingredients:[{n:'Marine Collagen Peptides (Hydrolyzed)',a:'10,000mg'},{n:'Type I Collagen',a:'7000mg'},{n:'Type III Collagen',a:'2000mg'},{n:'Type II Collagen',a:'1000mg'},{n:'Vitamin C (Ascorbic Acid)',a:'200mg'},{n:'Hyaluronic Acid',a:'50mg'}],
+    usage:'Mix 1 scoop (10g) into hot or cold water, coffee, smoothies or food. Odorless and tasteless. Consume once daily — best taken in the morning or post-workout.',
+    inStock:true
+  },
+  {
+    id:11, name:'Zinc Picolinate Elite', sub:'120 Capsules · 4-Month Supply',
+    price:22.99, oldPrice:null, emoji:'🔬',
+    cat:'immunity', badge:'new', rating:4.7, reviews:1087,
+    bg:'linear-gradient(135deg,#134e4a,#0f766e,#0d9488)',
+    desc:'Pharmaceutical-grade Zinc Picolinate — the most bioavailable zinc chelate. Essential for immune function, testosterone production, wound healing, and enzyme activity.',
+    benefits:['Immune cell development and function','Testosterone biosynthesis support','Wound healing and tissue regeneration','Protein synthesis and enzyme cofactor','Skin health and acne reduction','Taste and smell sensation maintenance'],
+    ingredients:[{n:'Zinc Picolinate',a:'50mg'},{n:'Elemental Zinc (from picolinate)',a:'25mg'},{n:'Picolinic Acid (carrier)',a:'25mg'}],
+    usage:'Take 1 capsule daily with food. Taking on an empty stomach may cause nausea in some individuals. Do not exceed 40mg elemental zinc daily without medical supervision.',
+    inStock:true
+  },
+  {
+    id:12, name:'Pre-Workout Ignite', sub:'300g · 30 Servings',
+    price:44.99, oldPrice:54.99, emoji:'🔥',
+    cat:'energy', badge:'sale', rating:4.6, reviews:1932,
+    bg:'linear-gradient(135deg,#7f1d1d,#991b1b,#dc2626)',
+    desc:'Performance pre-workout with clinically-dosed Citrulline Malate, Beta-Alanine, and natural caffeine. Maximum pump, endurance and focus without proprietary blends.',
+    benefits:['Explosive muscular power output','Nitric oxide production for muscle pumps','Reduced fatigue via buffered lactic acid','Laser-sharp mental focus and drive','Improved blood flow and oxygen delivery','No crash, no jitters — clean energy profile'],
+    ingredients:[{n:'L-Citrulline Malate (2:1)',a:'6000mg'},{n:'Beta-Alanine',a:'3200mg'},{n:'Betaine Anhydrous',a:'2500mg'},{n:'Caffeine Anhydrous (natural)',a:'200mg'},{n:'L-Tyrosine',a:'1000mg'},{n:'Alpha-GPC (50%)',a:'300mg'},{n:'Electrolyte Blend',a:'500mg'}],
+    usage:'Mix 1 scoop with 300ml cold water. Consume 20–30 minutes before training. Start with half a scoop to assess tolerance. Do not exceed 1 scoop per day.',
+    inStock:true
+  }
+];
+
+// ===================== SHARED CART STATE =====================
+window.VLX = window.VLX || {};
+
+VLX.cart = JSON.parse(localStorage.getItem('vlx_cart') || '[]');
+
+VLX.saveCart = function() {
+  localStorage.setItem('vlx_cart', JSON.stringify(VLX.cart));
+};
+
+VLX.addToCart = function(productId, qty = 1) {
+  const product = PRODUCTS.find(p => p.id === productId);
+  if (!product) return;
+  const existing = VLX.cart.find(i => i.id === productId);
+  if (existing) existing.qty += qty;
+  else VLX.cart.push({ id: product.id, name: product.name, sub: product.sub, price: product.price, emoji: product.emoji, qty });
+  VLX.saveCart();
+  VLX.updateCartUI();
+  VLX.showToast('✅ ' + product.name + ' added to cart');
+  VLX.openCart();
+};
+
+VLX.removeFromCart = function(id) {
+  VLX.cart = VLX.cart.filter(i => i.id !== id);
+  VLX.saveCart();
+  VLX.updateCartUI();
+};
+
+VLX.updateQty = function(id, delta) {
+  const item = VLX.cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty = Math.max(0, item.qty + delta);
+  if (item.qty === 0) VLX.cart = VLX.cart.filter(i => i.id !== id);
+  VLX.saveCart();
+  VLX.updateCartUI();
+};
+
+VLX.cartTotal = function() {
+  return VLX.cart.reduce((s, i) => s + i.price * i.qty, 0);
+};
+
+VLX.cartCount = function() {
+  return VLX.cart.reduce((s, i) => s + i.qty, 0);
+};
+
+VLX.updateCartUI = function() {
+  const count = VLX.cartCount();
+  document.querySelectorAll('.cart-badge').forEach(el => el.textContent = count);
+
+  const body = document.getElementById('cartBody');
+  const foot = document.getElementById('cartFoot');
+  if (!body) return;
+
+  if (VLX.cart.length === 0) {
+    body.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🧪</div><p>Your cart is empty</p></div>`;
+    if (foot) foot.style.display = 'none';
+    return;
+  }
+
+  body.innerHTML = VLX.cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-img">${item.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-sub">${item.sub}</div>
+        <div class="cart-item-price">$${(item.price * item.qty).toFixed(2)}</div>
+        <div class="cart-qty-row">
+          <button class="qty-btn" onclick="VLX.updateQty(${item.id},-1)">−</button>
+          <span class="cart-item-qty">${item.qty}</span>
+          <button class="qty-btn" onclick="VLX.updateQty(${item.id},1)">+</button>
+        </div>
+      </div>
+      <button class="cart-remove" onclick="VLX.removeFromCart(${item.id})">✕</button>
+    </div>
+  `).join('');
+
+  if (foot) {
+    foot.style.display = 'block';
+    const total = VLX.cartTotal();
+    const el = document.getElementById('cartTotalVal');
+    if (el) el.textContent = '$' + total.toFixed(2);
+    const ship = document.getElementById('cartShipMsg');
+    if (ship) {
+      if (total >= 50) ship.textContent = '🎉 You qualify for FREE shipping!';
+      else ship.textContent = `🚚 Add $${(50 - total).toFixed(2)} more for free shipping`;
+    }
+  }
+};
+
+VLX.openCart = function() {
+  document.getElementById('cartSidebar')?.classList.add('open');
+  document.getElementById('cartOverlay')?.classList.add('open');
+};
+
+VLX.closeCart = function() {
+  document.getElementById('cartSidebar')?.classList.remove('open');
+  document.getElementById('cartOverlay')?.classList.remove('open');
+};
+
+VLX.showToast = function(msg) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 3200);
+};
+
+// ===================== NAVBAR INIT =====================
+VLX.initNav = function() {
+  const nav = document.querySelector('.navbar');
+  window.addEventListener('scroll', () => {
+    nav?.classList.toggle('scrolled', window.scrollY > 50);
+  }, { passive: true });
+
+  document.getElementById('cartBtn')?.addEventListener('click', VLX.openCart);
+  document.getElementById('cartOverlay')?.addEventListener('click', VLX.closeCart);
+  document.getElementById('cartCloseBtn')?.addEventListener('click', VLX.closeCart);
+
+  const ham = document.getElementById('hamburger');
+  const mobNav = document.getElementById('mobNav');
+  const mobOverlay = document.getElementById('mobOverlay');
+  const mobClose = document.getElementById('mobClose');
+  ham?.addEventListener('click', () => { mobNav?.classList.add('open'); mobOverlay?.classList.add('open'); });
+  mobClose?.addEventListener('click', () => { mobNav?.classList.remove('open'); mobOverlay?.classList.remove('open'); });
+  mobOverlay?.addEventListener('click', () => { mobNav?.classList.remove('open'); mobOverlay?.classList.remove('open'); });
+
+  VLX.updateCartUI();
+};
+
+// ===================== 3D BOTTLE HELPER =====================
+VLX.createBottle = function(canvas, colorHex, capHex, isInteractive) {
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const updateSize = () => {
+    const w = canvas.clientWidth || canvas.parentElement?.clientWidth || 400;
+    const h = canvas.clientHeight || canvas.parentElement?.clientHeight || 400;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  };
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  camera.position.set(0, 0, 5.5);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+  const dl = new THREE.DirectionalLight(0x22c55e, 3);
+  dl.position.set(5, 8, 5); scene.add(dl);
+  const dl2 = new THREE.DirectionalLight(0xffffff, 1.5);
+  dl2.position.set(-5, -3, 5); scene.add(dl2);
+  const pt = new THREE.PointLight(0x22c55e, 4, 12);
+  pt.position.set(2, 4, 3); scene.add(pt);
+  const pt2 = new THREE.PointLight(0x3b82f6, 2, 10);
+  pt2.position.set(-3, -2, 2); scene.add(pt2);
+
+  const group = new THREE.Group();
+
+  const bodyMat = new THREE.MeshPhysicalMaterial({
+    color: colorHex, metalness: 0.1, roughness: 0.2,
+    transparent: true, opacity: 0.92, clearcoat: 1,
+    clearcoatRoughness: 0.05, transmission: 0.35, thickness: 1.2
+  });
+  const capMat = new THREE.MeshPhysicalMaterial({ color: capHex, metalness: 0.6, roughness: 0.2, clearcoat: 1 });
+  const labelMat = new THREE.MeshStandardMaterial({ color: capHex, roughness: 0.85, emissive: capHex, emissiveIntensity: 0.15 });
+
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(.75, .9, 3.2, 32), bodyMat);
+  const sho  = new THREE.Mesh(new THREE.CylinderGeometry(.58, .75, .5, 32), bodyMat); sho.position.y = 1.85;
+  const neck = new THREE.Mesh(new THREE.CylinderGeometry(.4, .58, .6, 32), bodyMat);  neck.position.y = 2.35;
+  const cap  = new THREE.Mesh(new THREE.CylinderGeometry(.45, .45, .55, 32), capMat); cap.position.y = 2.9;
+  const dome = new THREE.Mesh(new THREE.SphereGeometry(.45, 32, 16, 0, Math.PI*2, 0, Math.PI/2), capMat); dome.position.y = 3.17;
+  const lbl  = new THREE.Mesh(new THREE.CylinderGeometry(.765, .765, 1.8, 32), labelMat); lbl.position.y = .1;
+  const strip= new THREE.Mesh(new THREE.CylinderGeometry(.768, .768, .25, 32), new THREE.MeshStandardMaterial({color:0xf0faf4,roughness:.9})); strip.position.y = 1.0;
+
+  [body, sho, neck, cap, dome, lbl, strip].forEach(m => group.add(m));
+  group.position.y = -1.5;
+  scene.add(group);
+
+  let angle = 0, dragging = false, lastX = 0;
+
+  if (isInteractive) {
+    canvas.style.cursor = 'grab';
+    canvas.addEventListener('mousedown', e => { dragging = true; lastX = e.clientX; canvas.style.cursor = 'grabbing'; });
+    window.addEventListener('mousemove', e => { if (!dragging) return; angle += (e.clientX - lastX) * .012; lastX = e.clientX; group.rotation.y = angle; });
+    window.addEventListener('mouseup', () => { dragging = false; canvas.style.cursor = 'grab'; });
+    canvas.addEventListener('touchstart', e => { dragging = true; lastX = e.touches[0].clientX; });
+    canvas.addEventListener('touchmove', e => { if (!dragging) return; e.preventDefault(); angle += (e.touches[0].clientX - lastX) * .012; lastX = e.touches[0].clientX; group.rotation.y = angle; }, { passive: false });
+    canvas.addEventListener('touchend', () => { dragging = false; });
+  }
+
+  updateSize();
+  window.addEventListener('resize', updateSize);
+
+  let t = 0;
+  const animate = () => {
+    requestAnimationFrame(animate);
+    t += 0.016;
+    if (!dragging) group.rotation.y += 0.008;
+    group.position.y = -1.5 + Math.sin(t * 0.6) * 0.15;
+    renderer.render(scene, camera);
+  };
+  animate();
+  return { renderer, group };
+};
+
+
+document.addEventListener('DOMContentLoaded',()=>{
+  VLX.initNav();
+  // Show username in navbar on all pages
+  (function(){
+    const u = JSON.parse(localStorage.getItem('vlx_user')||'null');
+    const btn = document.getElementById('navUserBtn');
+    const nm  = document.getElementById('navUserName');
+    if (u && btn && nm) {
+      const first = u.name ? u.name.split(' ')[0] : 'Account';
+      nm.textContent = first;
+      btn.style.borderColor = 'var(--borderg)';
+      btn.style.background  = 'rgba(34,197,94,.07)';
+      btn.style.color       = 'var(--gl)';
+    }
+  })();
+  const wl=JSON.parse(localStorage.getItem('vlx_wishlist')||'[]');
+  const wb=document.getElementById('wishBadge');
+  if(wb&&wl.length>0){wb.style.display='flex';wb.textContent=wl.length;}
+  
+  // WISHLIST functions
+  function getWishlist() { return JSON.parse(localStorage.getItem('vlx_wishlist') || '[]'); }
+  function saveWishlist(wl) { localStorage.setItem('vlx_wishlist', JSON.stringify(wl)); }
+
+  function renderWishlist() {
+    let wl = getWishlist();
+    const sort = document.getElementById('wlSort')?.value || 'added';
+    if (sort === 'price-asc')  wl = [...wl].sort((a,b) => a.price - b.price);
+    if (sort === 'price-desc') wl = [...wl].sort((a,b) => b.price - a.price);
+    if (sort === 'name')       wl = [...wl].sort((a,b) => a.name.localeCompare(b.name));
+
+    const wlEmpty   = document.getElementById('wlEmpty');
+    const wlContent = document.getElementById('wlContent');
+    const wlGrid    = document.getElementById('wlGrid');
+    const wlCount   = document.getElementById('wlCount');
+    const wb        = document.getElementById('wishBadge');
+
+    if (wl.length === 0) {
+      wlEmpty.style.display = 'block'; wlContent.style.display = 'none';
+      if (wb) wb.style.display = 'none';
+    } else {
+      wlEmpty.style.display = 'none'; wlContent.style.display = 'block';
+      if (wb) { wb.style.display = 'flex'; wb.textContent = wl.length; }
+      wlCount.textContent = wl.length + ' item' + (wl.length !== 1 ? 's' : '') + ' saved';
+      wlGrid.innerHTML = wl.map(p => `
+        <div class="wl-card" id="wlcard-${p.id}">
+          <button class="wl-remove-btn" onclick="removeFromWishlist(${p.id})" title="Remove">✕</button>
+          <a href="product.html?id=${p.id}">
+            <div class="wl-card-img" style="background:${p.bg}"><div class="prod-emoji">${p.emoji}</div></div>
+          </a>
+          <div class="wl-card-body">
+            <div class="tag ${p.badge==='bestseller'?'tag-orange':p.badge==='new'?'tag-green':'tag-red'}" style="margin-bottom:.6rem;display:inline-block">${p.badge==='bestseller'?'Best Seller':p.badge==='new'?'New Arrival':'On Sale'}</div>
+            <div class="name">${p.name}</div>
+            <div class="sub">${p.sub}</div>
+            <div class="stars">${'★'.repeat(Math.floor(p.rating))} <span style="font-size:.72rem;color:var(--gray-dim)">(${p.reviews.toLocaleString()})</span></div>
+          </div>
+          <div class="wl-card-foot">
+            <div>
+              <span style="font-family:'Syne',sans-serif;font-size:1.2rem;font-weight:800;color:var(--gl)">$${p.price}</span>
+              ${p.oldPrice ? `<span style="font-size:.78rem;color:rgba(255,255,255,.25);text-decoration:line-through;margin-left:.3rem">$${p.oldPrice}</span>` : ''}
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="VLX.addToCart(${p.id})">Add to Cart</button>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Recommendations: products NOT in wishlist
+    const wlIds = wl.map(x => x.id);
+    const recs = PRODUCTS.filter(p => !wlIds.includes(p.id)).slice(0, 4);
+    document.getElementById('wlRecs').innerHTML = recs.map(p => `
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;cursor:pointer;transition:all .35s" onclick="location.href='product.html?id=${p.id}'" onmouseover="this.style.transform='translateY(-5px)'" onmouseout="this.style.transform=''">
+        <div style="height:150px;background:${p.bg};display:flex;align-items:center;justify-content:center;font-size:3.5rem">${p.emoji}</div>
+        <div style="padding:1.1rem">
+          <div style="font-family:'Syne',sans-serif;font-weight:700;font-size:.9rem;margin-bottom:.3rem">${p.name}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:.8rem">
+            <span style="font-family:'Syne',sans-serif;font-weight:800;color:var(--gl)">$${p.price}</span>
+            <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();addToWishlist(${p.id})">🤍 Save</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function addToWishlist(id) {
+    const product = PRODUCTS.find(p => p.id === id);
+    if (!product) return;
+    let wl = getWishlist();
+    if (!wl.find(i => i.id === id)) {
+      wl.push(product);
+      saveWishlist(wl);
+      VLX.showToast('🤍 ' + product.name + ' added to wishlist!');
+      renderWishlist();
+    } else {
+      VLX.showToast('Already in your wishlist!');
+    }
+  }
+
+  function removeFromWishlist(id) {
+    let wl = getWishlist().filter(i => i.id !== id);
+    saveWishlist(wl);
+    const card = document.getElementById('wlcard-' + id);
+    if (card) { card.style.opacity='0'; card.style.transform='scale(.9)'; setTimeout(()=>renderWishlist(),300); }
+    else renderWishlist();
+    VLX.showToast('Removed from wishlist');
+  }
+
+  function addAllToCart() {
+    const wl = getWishlist();
+    if (wl.length === 0) { VLX.showToast('Your wishlist is empty'); return; }
+    wl.forEach(p => VLX.addToCart(p.id));
+    VLX.showToast('🛒 All ' + wl.length + ' items added to cart!');
+  }
+
+  function clearWishlist() {
+    if (!confirm('Remove all items from your wishlist?')) return;
+    saveWishlist([]);
+    renderWishlist();
+    VLX.showToast('Wishlist cleared');
+  }
+
+  renderWishlist();
+
+});
+</script>
+</body>
+</html>

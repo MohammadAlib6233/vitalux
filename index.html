@@ -1,0 +1,1569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>VITALUX — Premium Science-Backed Supplements</title>
+<meta name="description" content="Premium vitamins and supplements backed by science. Shop multivitamins, omega-3, protein, brain health and immunity boosters."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+
+/* ======================== VARIABLES ======================== */
+:root {
+  --green:#16a34a; --gl:#22c55e; --gp:#a7f3d0; --gd:#064e3b;
+  --orange:#f97316; --blue:#3b82f6; --purple:#8b5cf6;
+  --yellow:#eab308; --red:#ef4444; --pink:#ec4899; --cyan:#06b6d4;
+  --dark:#05100a; --dark2:#081408; --dark3:#0b1e10; --dark4:#0e2614;
+  --white:#f0faf4;
+  --gray:rgba(255,255,255,.5); --gray-dim:rgba(255,255,255,.25);
+  --border:rgba(255,255,255,.07); --border-g:rgba(34,197,94,.25);
+  --card-bg:rgba(255,255,255,.03);
+  --glow:0 0 40px rgba(34,197,94,.2); --glow-s:0 0 60px rgba(34,197,94,.35);
+  --nav-h:72px; --radius:18px;
+}
+
+/* ======================== RESET ======================== */
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { font-family:'DM Sans',sans-serif; background:var(--dark); color:var(--white); overflow-x:hidden; line-height:1.6; }
+img { max-width:100%; display:block; }
+a { text-decoration:none; color:inherit; }
+button { font-family:inherit; cursor:pointer; border:none; background:none; }
+ul { list-style:none; }
+::-webkit-scrollbar { width:3px; }
+::-webkit-scrollbar-track { background:var(--dark); }
+::-webkit-scrollbar-thumb { background:var(--green); border-radius:2px; }
+
+/* ======================== NAVBAR ======================== */
+.navbar {
+  position:fixed; top:0; left:0; right:0; z-index:999;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 3rem; height:var(--nav-h); transition:.4s;
+}
+.navbar.scrolled {
+  background:rgba(5,16,10,.96); backdrop-filter:blur(24px);
+  border-bottom:1px solid var(--border); box-shadow:0 4px 30px rgba(0,0,0,.4);
+}
+.nav-logo {
+  font-family:'Bebas Neue',sans-serif; font-size:1.9rem; letter-spacing:4px;
+  background:linear-gradient(135deg,var(--gl),var(--gp));
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent; cursor:pointer;
+}
+.nav-links { display:flex; align-items:center; gap:.2rem; }
+.nav-links li a {
+  display:flex; align-items:center; gap:.35rem; padding:.5rem 1rem;
+  border-radius:8px; color:rgba(255,255,255,.65); font-size:.88rem;
+  transition:color .2s,background .2s;
+}
+.nav-links li a:hover, .nav-links li a.active { color:var(--gl); background:rgba(34,197,94,.07); }
+.nav-dropdown { position:relative; }
+.nav-dropdown > a::after { content:'▾'; font-size:.7rem; opacity:.5; margin-left:.1rem; }
+.dropdown-menu {
+  position:absolute; top:calc(100% + 8px); left:0; background:var(--dark4);
+  border:1px solid var(--border); border-radius:14px; padding:.6rem;
+  min-width:210px; opacity:0; visibility:hidden;
+  transform:translateY(-8px); transition:all .25s;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+.nav-dropdown:hover .dropdown-menu { opacity:1; visibility:visible; transform:translateY(0); }
+.dropdown-menu a {
+  display:flex; align-items:center; gap:.6rem; padding:.55rem .9rem;
+  border-radius:9px; color:rgba(255,255,255,.6); font-size:.84rem; transition:all .15s;
+}
+.dropdown-menu a:hover { background:rgba(34,197,94,.1); color:var(--gl); }
+.nav-right { display:flex; align-items:center; gap:.7rem; }
+.nav-cart-btn {
+  position:relative; display:flex; align-items:center; gap:.5rem;
+  padding:.5rem 1rem; border-radius:10px; border:1px solid var(--border);
+  color:var(--white); font-size:.82rem; transition:all .2s;
+}
+.nav-cart-btn:hover { border-color:var(--green); color:var(--gl); }
+.cart-badge {
+  position:absolute; top:-6px; right:-6px; background:var(--green); color:#fff;
+  font-size:.58rem; font-weight:700; width:17px; height:17px; border-radius:50%;
+  display:flex; align-items:center; justify-content:center;
+}
+.hamburger { display:none; flex-direction:column; gap:5px; padding:.4rem; border:1px solid var(--border); border-radius:8px; }
+.hamburger span { width:20px; height:2px; background:var(--white); display:block; transition:.3s; }
+
+/* Mobile Nav */
+.mob-nav {
+  position:fixed; top:0; right:-300px; width:280px; height:100vh;
+  background:var(--dark3); border-left:1px solid var(--border); z-index:1100;
+  padding:1.5rem; transition:right .4s cubic-bezier(.4,0,.2,1); overflow-y:auto;
+}
+.mob-nav.open { right:0; }
+.mob-nav-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:2rem; }
+.mob-close { width:32px; height:32px; border-radius:50%; border:1px solid var(--border); color:var(--white); font-size:.85rem; display:flex; align-items:center; justify-content:center; }
+.mob-nav a { display:block; padding:.8rem 0; color:rgba(255,255,255,.7); border-bottom:1px solid var(--border); font-size:.95rem; transition:color .2s; }
+.mob-nav a:hover { color:var(--gl); }
+.mob-overlay { position:fixed; inset:0; background:rgba(0,0,0,.7); z-index:1099; display:none; backdrop-filter:blur(4px); }
+.mob-overlay.open { display:block; }
+
+/* ======================== BUTTONS ======================== */
+.btn {
+  display:inline-flex; align-items:center; justify-content:center; gap:.5rem;
+  font-family:'Syne',sans-serif; font-weight:600; font-size:.88rem; letter-spacing:.3px;
+  border-radius:50px; padding:.8rem 1.9rem; transition:all .3s; cursor:pointer; border:none;
+}
+.btn-primary { background:var(--green); color:#fff; }
+.btn-primary:hover { background:var(--gl); transform:translateY(-2px); box-shadow:0 10px 28px rgba(34,197,94,.38); }
+.btn-ghost { background:transparent; color:var(--white); border:1px solid var(--border); }
+.btn-ghost:hover { border-color:var(--green); color:var(--gl); }
+.btn-outline { background:transparent; color:var(--gl); border:1px solid var(--border-g); }
+.btn-outline:hover { background:rgba(34,197,94,.1); }
+.btn-lg { padding:1rem 2.2rem; font-size:.96rem; }
+.btn-sm { padding:.45rem 1rem; font-size:.78rem; }
+.btn-full { width:100%; }
+
+/* ======================== SECTION HEADERS ======================== */
+.sec-head { text-align:center; margin-bottom:3.5rem; }
+.sec-head.left { text-align:left; }
+.eyebrow {
+  display:inline-block; font-size:.68rem; letter-spacing:3px; text-transform:uppercase;
+  color:var(--gl); border:1px solid var(--border-g); padding:.28rem .85rem;
+  border-radius:50px; margin-bottom:.9rem; font-weight:500;
+}
+.sec-head h2 { font-family:'Syne',sans-serif; font-size:clamp(1.9rem,3.5vw,3rem); font-weight:800; line-height:1.1; }
+.sec-head h2 em { font-style:normal; background:linear-gradient(135deg,var(--gl),var(--gp)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+.sec-desc { margin-top:.8rem; color:var(--gray); font-size:.92rem; max-width:500px; margin-left:auto; margin-right:auto; }
+.sec-head.left .sec-desc { margin-left:0; }
+
+/* ======================== TAGS / BADGES ======================== */
+.tag { display:inline-block; font-size:.62rem; letter-spacing:1px; text-transform:uppercase; padding:.2rem .55rem; border-radius:50px; font-weight:600; }
+.tag-orange { background:rgba(249,115,22,.15); color:var(--orange); border:1px solid rgba(249,115,22,.3); }
+.tag-green  { background:rgba(34,197,94,.15);  color:var(--gl);     border:1px solid var(--border-g); }
+.tag-red    { background:rgba(239,68,68,.15);   color:var(--red);    border:1px solid rgba(239,68,68,.3); }
+.tag-blue   { background:rgba(59,130,246,.15);  color:var(--blue);   border:1px solid rgba(59,130,246,.3); }
+.tag-purple { background:rgba(139,92,246,.15);  color:var(--purple); border:1px solid rgba(139,92,246,.3); }
+.stars { color:var(--yellow); font-size:.85rem; letter-spacing:.5px; }
+
+/* ======================== PRODUCT CARDS (shared) ======================== */
+.prod-card { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; cursor:pointer; transition:all .4s; }
+.prod-card:hover { transform:translateY(-8px); border-color:rgba(34,197,94,.25); box-shadow:0 20px 50px rgba(0,0,0,.4),var(--glow); }
+.prod-img-area { height:190px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+.prod-emoji { font-size:4.8rem; filter:drop-shadow(0 10px 20px rgba(0,0,0,.5)); transition:.4s; position:relative; z-index:2; }
+.prod-card:hover .prod-emoji { transform:scale(1.12) rotate(-5deg); }
+.prod-body { padding:1.4rem; }
+.prod-name { font-family:'Syne',sans-serif; font-size:.98rem; font-weight:700; margin-bottom:.25rem; line-height:1.3; }
+.prod-sub { font-size:.76rem; color:rgba(255,255,255,.35); margin-bottom:.6rem; }
+.rev-count { font-size:.72rem; color:var(--gray-dim); margin-left:.3rem; }
+.prod-foot { display:flex; align-items:center; justify-content:space-between; margin-top:1.1rem; padding-top:1.1rem; border-top:1px solid var(--border); }
+.prod-price { font-family:'Syne',sans-serif; font-size:1.3rem; font-weight:800; color:var(--gl); }
+.old-price { font-size:.78rem; color:rgba(255,255,255,.25); text-decoration:line-through; margin-left:.3rem; }
+.add-btn { width:36px; height:36px; border-radius:50%; background:var(--green); color:#fff; font-size:1.1rem; display:flex; align-items:center; justify-content:center; transition:all .2s; flex-shrink:0; }
+.add-btn:hover { background:var(--gl); transform:scale(1.1); box-shadow:0 5px 15px rgba(34,197,94,.4); }
+
+/* ======================== CART SIDEBAR ======================== */
+.cart-overlay { position:fixed; inset:0; background:rgba(0,0,0,.65); z-index:1200; display:none; backdrop-filter:blur(5px); }
+.cart-overlay.open { display:block; }
+.cart-sidebar { position:fixed; top:0; right:-420px; width:400px; height:100vh; background:var(--dark3); border-left:1px solid var(--border-g); z-index:1201; display:flex; flex-direction:column; transition:right .4s cubic-bezier(.4,0,.2,1); }
+.cart-sidebar.open { right:0; }
+.cart-head { display:flex; align-items:center; justify-content:space-between; padding:1.4rem 1.6rem; border-bottom:1px solid var(--border); }
+.cart-head h3 { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700; }
+.cart-close-btn { width:32px; height:32px; border-radius:50%; border:1px solid var(--border); color:var(--white); font-size:.85rem; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+.cart-close-btn:hover { border-color:var(--red); color:var(--red); }
+.cart-body { flex:1; overflow-y:auto; padding:1.2rem 1.6rem; }
+.cart-empty { text-align:center; padding:3.5rem 0; }
+.cart-empty-icon { font-size:3.5rem; margin-bottom:1rem; opacity:.4; }
+.cart-empty p { color:var(--gray-dim); font-size:.88rem; }
+.cart-item { display:flex; align-items:flex-start; gap:1rem; padding:1rem 0; border-bottom:1px solid var(--border); animation:fadeUp .3s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+.cart-item-img { font-size:2.4rem; flex-shrink:0; }
+.cart-item-info { flex:1; min-width:0; }
+.cart-item-name { font-family:'Syne',sans-serif; font-size:.86rem; font-weight:700; margin-bottom:.15rem; line-height:1.3; }
+.cart-item-sub { font-size:.74rem; color:var(--gray-dim); margin-bottom:.35rem; }
+.cart-item-price { color:var(--gl); font-weight:600; font-size:.9rem; }
+.cart-qty-row { display:flex; align-items:center; gap:.5rem; margin-top:.4rem; }
+.qty-btn { width:24px; height:24px; border-radius:50%; border:1px solid var(--border); color:var(--white); font-size:.9rem; display:flex; align-items:center; justify-content:center; transition:all .2s; }
+.qty-btn:hover { border-color:var(--green); color:var(--gl); }
+.cart-item-qty { font-size:.84rem; min-width:18px; text-align:center; }
+.cart-remove { color:rgba(255,255,255,.2); font-size:.8rem; padding:.2rem; transition:color .2s; align-self:flex-start; }
+.cart-remove:hover { color:var(--red); }
+.cart-foot { padding:1.4rem 1.6rem; border-top:1px solid var(--border); }
+.cart-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:.5rem; font-size:.85rem; color:var(--gray); }
+.cart-total-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:1.2rem; }
+.ct-label { font-family:'Syne',sans-serif; font-weight:700; font-size:1rem; }
+.ct-val { font-family:'Syne',sans-serif; font-weight:800; font-size:1.2rem; color:var(--gl); }
+.cart-free-ship { font-size:.75rem; color:var(--gl); text-align:center; margin-bottom:1rem; background:rgba(34,197,94,.08); padding:.45rem; border-radius:8px; border:1px solid var(--border-g); }
+
+/* ======================== TOAST ======================== */
+#toast { position:fixed; bottom:2rem; left:50%; transform:translateX(-50%) translateY(80px); background:var(--dark4); border:1px solid var(--green); color:var(--white); padding:.85rem 1.6rem; border-radius:50px; font-family:'Syne',sans-serif; font-size:.85rem; font-weight:600; z-index:9999; opacity:0; transition:all .35s; box-shadow:0 10px 40px rgba(0,0,0,.4),var(--glow); white-space:nowrap; }
+#toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+/* ======================== FOOTER ======================== */
+footer { background:#030a05; border-top:1px solid var(--border); }
+.footer-main { display:grid; grid-template-columns:1.8fr repeat(3,1fr); gap:3rem; padding:5rem 3rem 3rem; max-width:1280px; margin:0 auto; }
+.footer-logo { font-family:'Bebas Neue',sans-serif; font-size:2.2rem; letter-spacing:4px; background:linear-gradient(135deg,var(--gl),var(--gp)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; display:inline-block; margin-bottom:1rem; }
+.footer-brand p { color:rgba(255,255,255,.35); font-size:.83rem; line-height:1.75; max-width:250px; margin-bottom:1.5rem; }
+.social-row { display:flex; gap:.55rem; }
+.social-link { width:36px; height:36px; border-radius:9px; border:1px solid var(--border); display:flex; align-items:center; justify-content:center; color:rgba(255,255,255,.4); font-size:.8rem; font-weight:700; transition:all .2s; }
+.social-link:hover { border-color:var(--green); color:var(--gl); }
+.footer-col h4 { font-family:'Syne',sans-serif; font-size:.86rem; font-weight:700; color:var(--white); margin-bottom:1.1rem; }
+.footer-col a { display:block; color:rgba(255,255,255,.36); font-size:.82rem; margin-bottom:.5rem; transition:color .2s; }
+.footer-col a:hover { color:var(--gl); }
+.footer-bottom { display:flex; align-items:center; justify-content:space-between; padding:1.3rem 3rem; border-top:1px solid var(--border); max-width:1280px; margin:0 auto; font-size:.77rem; color:rgba(255,255,255,.26); }
+.footer-legal { display:flex; gap:1.5rem; }
+.footer-legal a { color:rgba(255,255,255,.26); transition:color .2s; }
+.footer-legal a:hover { color:var(--gl); }
+
+/* ======================== UTILS ======================== */
+.page-wrap { padding-top:var(--nav-h); }
+.section { padding:7rem 3rem; }
+.container { max-width:1280px; margin:0 auto; }
+
+/* ======================== RESPONSIVE ======================== */
+@media(max-width:1024px) { .footer-main { grid-template-columns:1fr 1fr; gap:2rem; } }
+@media(max-width:768px) {
+  .navbar { padding:0 1.5rem; }
+  .nav-links { display:none; }
+  .hamburger { display:flex; }
+  .footer-main { grid-template-columns:1fr; padding:3rem 1.5rem; }
+  .footer-bottom { padding:1.2rem 1.5rem; flex-direction:column; gap:.8rem; text-align:center; }
+  .section { padding:5rem 1.5rem; }
+  .cart-sidebar { width:100%; right:-100%; }
+}
+
+/* ======================== HOME PAGE ======================== */
+
+/* HERO */
+.hero { position:relative; height:100vh; min-height:700px; display:flex; align-items:center; overflow:hidden; }
+#heroCanvas { position:absolute; inset:0; width:100%; height:100%; }
+.hero-overlay { position:absolute; inset:0; background:radial-gradient(ellipse 80% 80% at 65% 50%,rgba(34,197,94,.05),transparent),linear-gradient(to right,rgba(5,16,10,.88) 38%,rgba(5,16,10,.3) 70%,transparent); pointer-events:none; }
+.hero-content { position:relative; z-index:10; padding:0 3rem; max-width:680px; }
+.hero-eyebrow { display:inline-flex; align-items:center; gap:.5rem; font-size:.7rem; letter-spacing:3px; text-transform:uppercase; color:var(--gl); border:1px solid var(--border-g); padding:.3rem 1rem; border-radius:50px; margin-bottom:1.5rem; font-weight:500; }
+.hero-eyebrow::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--gl); animation:blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.hero-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(4rem,9vw,8.5rem); line-height:.9; letter-spacing:2px; margin-bottom:1.5rem; }
+.hero-title .t1 { display:block; color:rgba(255,255,255,.22); }
+.hero-title .t2 { display:block; background:linear-gradient(135deg,var(--gl) 0%,var(--gp) 50%,var(--gl) 100%); background-size:200%; -webkit-background-clip:text; -webkit-text-fill-color:transparent; animation:shimmer 4s linear infinite; }
+@keyframes shimmer { 0%{background-position:0%} 100%{background-position:200%} }
+.hero-title .t3 { display:block; font-family:'Syne',sans-serif; font-size:clamp(1.5rem,3vw,3rem); font-weight:800; letter-spacing:1px; margin-top:.4rem; color:var(--white); }
+.hero-sub { font-size:1rem; color:rgba(255,255,255,.55); line-height:1.75; margin-bottom:2.5rem; max-width:470px; }
+.hero-btns { display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:3rem; }
+.hero-stats { display:flex; align-items:center; gap:2rem; }
+.stat-item { display:flex; flex-direction:column; }
+.stat-num { font-family:'Syne',sans-serif; font-size:1.5rem; font-weight:800; color:var(--gl); }
+.stat-lbl { font-size:.65rem; color:rgba(255,255,255,.38); letter-spacing:1px; text-transform:uppercase; }
+.stat-div { width:1px; height:30px; background:var(--border); }
+.scroll-hint { position:absolute; bottom:2.5rem; left:3rem; display:flex; align-items:center; gap:.75rem; color:rgba(255,255,255,.3); font-size:.68rem; letter-spacing:2px; text-transform:uppercase; z-index:10; }
+.scroll-line { width:36px; height:1px; background:var(--gl); animation:scr 2s ease-in-out infinite; }
+@keyframes scr { 0%,100%{transform:scaleX(1)} 50%{transform:scaleX(.4);opacity:.3} }
+
+/* TRUST BAR */
+.trust-bar { background:var(--dark2); padding:1.4rem 3rem; display:flex; align-items:center; justify-content:center; gap:3rem; flex-wrap:wrap; border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+.trust-item { display:flex; align-items:center; gap:.5rem; font-size:.8rem; color:rgba(255,255,255,.45); }
+.trust-icon { font-size:1.1rem; }
+
+/* CATEGORIES */
+.cats-section { background:var(--dark2); }
+.cats-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:1.4rem; max-width:1280px; margin:0 auto; }
+.cat-card { position:relative; background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); padding:1.8rem; cursor:pointer; overflow:hidden; transition:.4s; }
+.cat-card::before { content:''; position:absolute; inset:0; background:radial-gradient(circle at 50% 110%,var(--ac,rgba(34,197,94,.12)),transparent 60%); opacity:0; transition:.4s; }
+.cat-card:hover { transform:translateY(-6px); border-color:rgba(255,255,255,.13); }
+.cat-card:hover::before { opacity:1; }
+.cat-icon-big { font-size:2.5rem; margin-bottom:1rem; display:block; }
+.cat-card h3 { font-family:'Syne',sans-serif; font-size:1.1rem; font-weight:700; margin-bottom:.4rem; }
+.cat-card p { color:rgba(255,255,255,.42); font-size:.8rem; line-height:1.55; margin-bottom:.8rem; }
+.cat-link { color:var(--gl); font-size:.82rem; font-weight:600; display:flex; align-items:center; gap:.3rem; transition:gap .2s; }
+.cat-card:hover .cat-link { gap:.6rem; }
+.cat-count { font-size:.7rem; color:rgba(255,255,255,.28); margin-top:.3rem; }
+
+/* FEATURED PRODUCTS */
+.products-section { background:var(--dark); }
+.filter-row { display:flex; gap:.6rem; flex-wrap:wrap; justify-content:center; margin-bottom:3rem; }
+.flt { background:transparent; border:1px solid var(--border); color:rgba(255,255,255,.55); padding:.45rem 1.1rem; border-radius:50px; font-size:.82rem; transition:.2s; font-family:'DM Sans',sans-serif; }
+.flt:hover, .flt.on { background:var(--green); border-color:var(--green); color:#fff; }
+.prods-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(252px,1fr)); gap:1.8rem; max-width:1280px; margin:0 auto; }
+.prod-anim { animation:fadeUp .5s ease forwards; opacity:0; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+/* BENEFITS */
+.benefits-section { background:var(--dark2); position:relative; overflow:hidden; }
+.benefits-section::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 50%,rgba(22,163,74,.06),transparent 70%); pointer-events:none; }
+.benefits-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1.4rem; max-width:1280px; margin:0 auto; position:relative; }
+.benefit-card { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); padding:2rem; transition:.35s; }
+.benefit-card:hover { transform:translateY(-4px); border-color:rgba(255,255,255,.12); }
+.benefit-icon-wrap { width:58px; height:58px; border-radius:15px; display:flex; align-items:center; justify-content:center; font-size:1.7rem; margin-bottom:1.1rem; }
+.benefit-card h3 { font-family:'Syne',sans-serif; font-size:1.05rem; font-weight:700; margin-bottom:.5rem; }
+.benefit-card p { color:rgba(255,255,255,.45); font-size:.84rem; line-height:1.65; }
+
+/* INGREDIENTS */
+.ingr-section { background:var(--dark); position:relative; overflow:hidden; }
+#ingrCanvas { position:absolute; inset:0; width:100%; height:100%; opacity:.35; pointer-events:none; }
+.ingr-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:1.4rem; max-width:1200px; margin:0 auto; position:relative; z-index:2; }
+.ingr-card { background:rgba(255,255,255,.04); border:1px solid var(--border); border-radius:var(--radius); padding:1.8rem 1.4rem; text-align:center; transition:.3s; }
+.ingr-card:hover { transform:translateY(-5px); border-color:rgba(255,255,255,.12); }
+.ingr-orb { width:68px; height:68px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:1.9rem; margin:0 auto 1rem; }
+.ingr-card h4 { font-family:'Syne',sans-serif; font-weight:700; font-size:1.05rem; margin-bottom:.3rem; }
+.ingr-card p { color:rgba(255,255,255,.38); font-size:.78rem; margin-bottom:.9rem; }
+.ingr-bar { width:100%; height:4px; background:rgba(255,255,255,.08); border-radius:2px; overflow:hidden; margin-bottom:.4rem; }
+.ingr-fill { height:100%; border-radius:2px; transition:width 1.5s ease; }
+.ingr-purity { font-size:.7rem; color:rgba(255,255,255,.45); }
+
+/* REVIEWS */
+.reviews-section { background:var(--dark2); }
+.slider-wrap { overflow:hidden; position:relative; max-width:1200px; margin:0 auto; }
+.review-track { display:flex; gap:1.4rem; transition:transform .5s ease; }
+.review-card { flex-shrink:0; background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); padding:1.8rem; }
+.review-head { display:flex; align-items:center; gap:.85rem; margin-bottom:.9rem; }
+.reviewer-av { width:44px; height:44px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:1.1rem; flex-shrink:0; }
+.reviewer-av span { color:#fff; }
+.reviewer-info strong { font-family:'Syne',sans-serif; font-size:.9rem; font-weight:700; display:block; }
+.reviewer-info small { color:rgba(255,255,255,.38); font-size:.74rem; }
+.review-stars { margin-bottom:.65rem; }
+.review-card p { color:rgba(255,255,255,.58); font-size:.86rem; line-height:1.7; font-style:italic; }
+.slider-controls { display:flex; align-items:center; justify-content:center; gap:1.5rem; margin-top:2rem; }
+.slider-btn { width:44px; height:44px; border-radius:50%; border:1px solid var(--border); color:var(--white); font-size:1.1rem; transition:all .2s; }
+.slider-btn:hover { border-color:var(--green); color:var(--gl); }
+.slider-dots { display:flex; gap:.5rem; }
+.dot { width:7px; height:7px; border-radius:50%; background:var(--border); cursor:pointer; transition:.2s; }
+.dot.active { background:var(--gl); transform:scale(1.3); }
+
+/* BLOG */
+.blog-section { background:var(--dark); }
+.blog-grid { display:grid; grid-template-columns:2fr 1fr 1fr; grid-template-rows:auto auto; gap:1.5rem; max-width:1200px; margin:0 auto; }
+.blog-card { background:var(--card-bg); border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; transition:.35s; }
+.blog-card:hover { transform:translateY(-4px); border-color:rgba(255,255,255,.12); }
+.blog-card.feat { grid-row:1/3; }
+.blog-img { width:100%; height:190px; display:flex; align-items:center; justify-content:center; font-size:3.5rem; }
+.blog-card.feat .blog-img { height:290px; }
+.blog-body { padding:1.4rem; }
+.blog-body h3 { font-family:'Syne',sans-serif; font-size:1rem; font-weight:700; line-height:1.35; margin-bottom:.5rem; }
+.blog-body p { color:rgba(255,255,255,.45); font-size:.83rem; line-height:1.55; margin-bottom:.9rem; }
+.blog-link { color:var(--gl); font-size:.82rem; font-weight:600; transition:gap .2s; display:inline-flex; align-items:center; gap:.3rem; }
+.blog-link:hover { gap:.5rem; }
+
+/* NEWSLETTER */
+.newsletter-section { background:var(--dark2); text-align:center; padding:7rem 3rem; position:relative; overflow:hidden; }
+.newsletter-section::before { content:''; position:absolute; inset:0; background:radial-gradient(ellipse at 50% 50%,rgba(22,163,74,.1),transparent 70%); pointer-events:none; }
+.nl-inner { position:relative; z-index:2; max-width:560px; margin:0 auto; }
+.nl-inner h2 { font-family:'Syne',sans-serif; font-size:clamp(1.8rem,3vw,2.6rem); font-weight:800; margin:.8rem 0 1rem; }
+.nl-inner p { color:var(--gray); margin-bottom:2rem; }
+.nl-form { display:flex; gap:.7rem; max-width:440px; margin:0 auto 1rem; }
+.nl-form input { flex:1; background:rgba(255,255,255,.06); border:1px solid var(--border); color:var(--white); padding:.8rem 1.2rem; border-radius:50px; font-family:'DM Sans',sans-serif; font-size:.9rem; transition:border-color .2s; outline:none; }
+.nl-form input:focus { border-color:var(--green); }
+.nl-form input::placeholder { color:rgba(255,255,255,.3); }
+.nl-inner small { color:rgba(255,255,255,.28); font-size:.74rem; }
+
+/* HOME RESPONSIVE */
+@media(max-width:900px) {
+  .blog-grid { grid-template-columns:1fr; }
+  .blog-card.feat { grid-row:auto; }
+  .review-card { width:calc(100% - 0px); }
+}
+@media(max-width:768px) {
+  .hero-content { padding:0 1.5rem; }
+  .scroll-hint { left:1.5rem; }
+  .trust-bar { gap:1.5rem; padding:1.2rem 1.5rem; }
+  .nl-form { flex-direction:column; }
+  .hero-stats { gap:1.2rem; }
+}
+
+
+/* === HERO OVERRIDES === */
+.hero {
+  position:relative; min-height:100vh;
+  display:flex; align-items:center; overflow:hidden;
+  padding-top: 72px;
+}
+#heroCanvas {
+  position:absolute; inset:0; width:100%; height:100%;
+}
+.hero-overlay {
+  position:absolute; inset:0;
+  background: linear-gradient(to right, rgba(5,16,10,.92) 35%, rgba(5,16,10,.6) 60%, rgba(5,16,10,.15) 100%),
+              linear-gradient(to bottom, rgba(5,16,10,.4) 0%, transparent 30%);
+  pointer-events:none;
+}
+.hero-content {
+  position:relative; z-index:10;
+  width:100%; max-width:1280px;
+  margin:0 auto;
+  padding:4rem 3rem 5rem;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  min-height:calc(100vh - 72px);
+}
+.hero-inner {
+  max-width:600px;
+}
+.hero-eyebrow {
+  display:inline-flex; align-items:center; gap:.6rem;
+  font-size:.72rem; letter-spacing:3px; text-transform:uppercase;
+  color:var(--gl); border:1px solid var(--borderg);
+  padding:.3rem 1rem; border-radius:50px; margin-bottom:1.8rem;
+  font-weight:500;
+}
+.hero-eyebrow::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--gl); animation:blink 2s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.hero-title {
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(3.8rem,7vw,7.5rem);
+  line-height:.92; letter-spacing:1px; margin-bottom:1.5rem;
+}
+.hero-title .t1 { display:block; color:rgba(255,255,255,.2); }
+.hero-title .t2 {
+  display:block;
+  background:linear-gradient(135deg,var(--gl) 0%,var(--gp) 50%,var(--gl) 100%);
+  background-size:200%; -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  animation:shimmer 4s linear infinite;
+}
+.hero-title .t3 {
+  display:block; font-family:'Syne',sans-serif;
+  font-size:clamp(1.4rem,2.5vw,2.6rem); font-weight:800;
+  letter-spacing:.5px; margin-top:.5rem; color:var(--white);
+}
+.hero-sub {
+  font-size:1rem; color:rgba(255,255,255,.58); line-height:1.75;
+  margin-bottom:2.2rem; max-width:480px;
+}
+.hero-btns { display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:3rem; }
+.hero-stats {
+  display:flex; align-items:center; gap:0;
+  border-top:1px solid var(--border); padding-top:2rem;
+  flex-wrap:wrap; row-gap:1.2rem;
+}
+.stat-item { display:flex; flex-direction:column; padding:0 2rem; border-right:1px solid var(--border); }
+.stat-item:first-child { padding-left:0; }
+.stat-item:last-child { border-right:none; }
+.stat-num { font-family:'Syne',sans-serif; font-size:2.4rem; font-weight:800; color:var(--gl); line-height:1; }
+.stat-lbl { font-size:.65rem; color:rgba(255,255,255,.38); letter-spacing:1px; text-transform:uppercase; margin-top:.25rem; }
+.scroll-hint {
+  position:absolute; bottom:2rem; left:50%; transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:.5rem;
+  color:rgba(255,255,255,.3); font-size:.68rem; letter-spacing:2px;
+  text-transform:uppercase; z-index:10; cursor:pointer; transition:color .2s;
+}
+.scroll-hint:hover { color:var(--gl); }
+.scroll-wheel { width:22px; height:34px; border:2px solid currentColor; border-radius:11px; position:relative; }
+.scroll-wheel::after { content:''; width:3px; height:7px; background:currentColor; border-radius:2px; position:absolute; top:5px; left:50%; transform:translateX(-50%); animation:scrollpulse 1.8s ease-in-out infinite; }
+@keyframes scrollpulse { 0%,100%{opacity:1;transform:translateX(-50%) translateY(0)} 50%{opacity:.3;transform:translateX(-50%) translateY(4px)} }
+
+/* Large screens: push content slightly left so 3D canvas shows on right */
+@media(min-width:1200px) {
+  .hero-inner { max-width:580px; }
+  .hero-title { font-size:clamp(5rem,6.5vw,7.5rem); }
+}
+@media(max-width:768px) {
+  .hero-content { padding:2rem 1.5rem 4rem; }
+  .hero-title { font-size:clamp(3.2rem,10vw,5rem); }
+  .stat-item { padding:0 1rem; }
+  .hero-btns { flex-direction:column; }
+  .hero-btns .btn { width:100%; justify-content:center; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <a href="index.html" class="nav-logo">VITALUX</a>
+  <ul class="nav-links">
+    <li><a href="index.html"  class="active">Home</a></li>
+    <li class="nav-dropdown">
+      <a href="shop.html">Shop</a>
+      <div class="dropdown-menu">
+        <a href="shop.html?cat=multivitamins"><span class="dm-icon">💊</span>Multivitamins</a>
+        <a href="shop.html?cat=immunity"><span class="dm-icon">🛡️</span>Immunity</a>
+        <a href="shop.html?cat=protein"><span class="dm-icon">💪</span>Protein</a>
+        <a href="shop.html?cat=omega"><span class="dm-icon">🐟</span>Omega-3</a>
+        <a href="shop.html?cat=brain"><span class="dm-icon">🧠</span>Brain Health</a>
+        <a href="shop.html?cat=energy"><span class="dm-icon">⚡</span>Energy</a>
+        <a href="shop.html?cat=beauty"><span class="dm-icon">✨</span>Beauty</a>
+      </div>
+    </li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="blog.html">Research</a></li>
+  </ul>
+  <div class="nav-right">
+    <a href="search.html" style="width:38px;height:38px;border-radius:10px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--white);font-size:1rem;text-decoration:none;transition:.2s" title="Search">🔍</a>
+    <a href="wishlist.html" style="width:38px;height:38px;border-radius:10px;border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--white);font-size:1rem;text-decoration:none;position:relative;transition:.2s" title="Wishlist">🤍<span id="wishBadge" style="position:absolute;top:-5px;right:-5px;background:var(--pnk);color:#fff;font-size:.55rem;font-weight:700;width:16px;height:16px;border-radius:50%;display:none;align-items:center;justify-content:center">0</span></a>
+    <a href="account.html" id="navUserBtn" style="display:flex;align-items:center;gap:.4rem;padding:.4rem .8rem;border-radius:10px;border:1px solid var(--border);color:var(--white);font-size:.78rem;font-family:'Syne',sans-serif;font-weight:700;text-decoration:none;transition:.2s" title="My Account">👤 <span id="navUserName">Account</span></a>
+    <button class="nav-cart-btn" id="cartBtn">
+      🛒 Cart <span class="cart-badge" id="cartBadge">0</span>
+    </button>
+    <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div class="mob-nav" id="mobNav">
+  <div class="mob-nav-top"><span class="nav-logo" style="font-size:1.5rem">VITALUX</span><button class="mob-close" id="mobClose">✕</button></div>
+  <a href="index.html">Home</a>
+  <a href="shop.html">Shop All</a>
+  <a href="shop.html?cat=multivitamins">Multivitamins</a>
+  <a href="shop.html?cat=immunity">Immunity</a>
+  <a href="shop.html?cat=protein">Protein</a>
+  <a href="shop.html?cat=omega">Omega-3</a>
+  <a href="shop.html?cat=brain">Brain Health</a>
+  <a href="shop.html?cat=energy">Energy</a>
+  <a href="about.html">About</a>
+  <a href="blog.html">Research Blog</a>
+  <a href="checkout.html" style="color:var(--gl)">🛒 Cart / Checkout</a>
+</div>
+<div class="mob-overlay" id="mobOverlay"></div>
+
+<!-- CART SIDEBAR -->
+<div class="cart-overlay" id="cartOverlay"></div>
+<aside class="cart-sidebar" id="cartSidebar">
+  <div class="cart-head">
+    <h3>🛒 Your Cart</h3>
+    <button class="cart-close-btn" id="cartCloseBtn">✕</button>
+  </div>
+  <div class="cart-body" id="cartBody">
+    <div class="cart-empty"><div class="cart-empty-icon">🧪</div><p>Your cart is empty</p></div>
+  </div>
+  <div class="cart-foot" id="cartFoot" style="display:none">
+    <div class="cart-free-ship" id="cartShipMsg">🚚 Add $50.00 more for free shipping</div>
+    <div class="cart-row"><span>Subtotal</span><span id="cartTotalVal">$0.00</span></div>
+    <div class="cart-total-row"><span class="ct-label">Total</span><span class="ct-val" id="cartTotalVal2">$0.00</span></div>
+    <a href="checkout.html" class="btn btn-primary btn-full" style="text-align:center;display:flex">Proceed to Checkout →</a>
+  </div>
+</aside>
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero" id="heroSection">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Clinically Formulated · Science Backed</div>
+      <h1 class="hero-title">
+        <span class="t1">Premium</span>
+        <span class="t2">Nutrition</span>
+        <span class="t3">Backed by Science</span>
+      </h1>
+      <p class="hero-sub">High-quality vitamins and supplements engineered for maximum bioavailability, real results, and your long-term vitality.</p>
+      <div class="hero-btns">
+        <a href="shop.html" class="btn btn-primary btn-lg">Shop Supplements</a>
+        <a href="#benefits" class="btn btn-ghost btn-lg">Explore Benefits</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item"><span class="stat-num">50M+</span><span class="stat-lbl">Capsules Sold</span></div>
+        <div class="stat-div"></div>
+        <div class="stat-item"><span class="stat-num">98%</span><span class="stat-lbl">Purity Rate</span></div>
+        <div class="stat-div"></div>
+        <div class="stat-item"><span class="stat-num">ISO</span><span class="stat-lbl">Certified Labs</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <div class="scroll-wheel"></div>
+    <span>Scroll to explore</span>
+  </div>
+</section>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item"><span class="trust-icon">🔬</span> Clinically Studied Ingredients</div>
+  <div class="trust-item"><span class="trust-icon">✅</span> Third-Party Lab Tested</div>
+  <div class="trust-item"><span class="trust-icon">🌿</span> Non-GMO & Clean Label</div>
+  <div class="trust-item"><span class="trust-icon">🚚</span> Free Shipping Over $50</div>
+  <div class="trust-item"><span class="trust-icon">↩️</span> 30-Day Money Back</div>
+</div>
+
+<!-- ==================== CATEGORIES ==================== -->
+<section class="cats-section section" id="categories">
+  <div class="sec-head">
+    <div class="eyebrow">Our Range</div>
+    <h2>Supplement <em>Categories</em></h2>
+    <p class="sec-desc">Seven targeted formulas, each precision-engineered for a specific health goal</p>
+  </div>
+  <div class="cats-grid container">
+    <div class="cat-card" style="--ac:rgba(34,197,94,.15)" onclick="location.href='shop.html?cat=multivitamins'">
+      <span class="cat-icon-big">💊</span>
+      <h3>Multivitamins</h3>
+      <p>Complete daily nutrition with 25+ bioavailable vitamins and minerals in one formula.</p>
+      <div class="cat-link">Shop Range <span>→</span></div>
+      <div class="cat-count">3 products</div>
+    </div>
+    <div class="cat-card" style="--ac:rgba(249,115,22,.15)" onclick="location.href='shop.html?cat=immunity'">
+      <span class="cat-icon-big">🛡️</span>
+      <h3>Immunity Boosters</h3>
+      <p>Elderberry, Zinc, Vitamin C and Quercetin complexes for year-round immune defence.</p>
+      <div class="cat-link">Shop Range <span>→</span></div>
+      <div class="cat-count">2 products</div>
+    </div>
+    <div class="cat-card" style="--ac:rgba(59,130,246,.15)" onclick="location.href='shop.html?cat=protein'">
+      <span class="cat-icon-big">💪</span>
+      <h3>Protein Supplements</h3>
+      <p>Whey isolate and plant-based proteins engineered for maximum muscle recovery.</p>
+      <div class="cat-link">Shop Range <span>→</span></div>
+      <div class="cat-count">1 product</div>
+    </div>
+    <div class="cat-card" style="--ac:rgba(6,182,212,.15)" onclick="location.href='shop.html?cat=omega'">
+      <span class="cat-icon-big">🐟</span>
+      <h3>Omega-3</h3>
+      <p>IFOS 5-star certified triple-strength EPA/DHA for heart, brain, and joint health.</p>
+      <div class="cat-link">Shop Range <span>→</span></div>
+      <div class="cat-count">1 product</div>
+    </div>
+    <div class="cat-card" style="--ac:rgba(236,72,153,.15)" onclick="location.href='shop.html?cat=beauty'">
+      <span class="cat-icon-big">✨</span>
+      <h3>Hair, Skin & Nails</h3>
+      <p>Biotin, Marine Collagen, and Hyaluronic Acid for radiance from within.</p>
+      <div class="cat-link">Shop Range <span>→</span></div>
+      <div class="cat-count">2 products</div>
+    </div>
+    <div class="cat-card" style="--ac:rgba(234,179,8,.15)" onclick="location.href='shop.html?cat=energy'">
+      <span class="cat-icon-big">⚡</span>
+      <h3>Energy & Performance</h3>
+      <p>CoQ10, adaptogens and B-vitamins for sustained, crash-free energy all day.</p>
+      <div class="cat-link">Shop Range <span>→</span></div>
+      <div class="cat-count">2 products</div>
+    </div>
+    <div class="cat-card" style="--ac:rgba(139,92,246,.15)" onclick="location.href='shop.html?cat=brain'">
+      <span class="cat-icon-big">🧠</span>
+      <h3>Brain Health</h3>
+      <p>Nootropic stacks with Lion's Mane and Bacopa to sharpen focus and memory.</p>
+      <div class="cat-link">Shop Range <span>→</span></div>
+      <div class="cat-count">1 product</div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== FEATURED PRODUCTS ==================== -->
+<section class="products-section section" id="products">
+  <div class="sec-head">
+    <div class="eyebrow">Best Sellers</div>
+    <h2>Featured <em>Products</em></h2>
+    <p class="sec-desc">Scientifically formulated for maximum bioavailability and measurable results</p>
+  </div>
+  <div class="filter-row" id="filterRow">
+    <button class="flt on" data-cat="all">All</button>
+    <button class="flt" data-cat="multivitamins">Multivitamins</button>
+    <button class="flt" data-cat="immunity">Immunity</button>
+    <button class="flt" data-cat="protein">Protein</button>
+    <button class="flt" data-cat="omega">Omega-3</button>
+    <button class="flt" data-cat="energy">Energy</button>
+    <button class="flt" data-cat="brain">Brain</button>
+    <button class="flt" data-cat="beauty">Beauty</button>
+  </div>
+  <div class="prods-grid container" id="prodsGrid"></div>
+  <div style="text-align:center;margin-top:3rem">
+    <a href="shop.html" class="btn btn-outline btn-lg">View All Products →</a>
+  </div>
+</section>
+
+<!-- ==================== BENEFITS ==================== -->
+<section class="benefits-section section" id="benefits">
+  <div class="sec-head">
+    <div class="eyebrow">Why VITALUX</div>
+    <h2>Science-Driven <em>Benefits</em></h2>
+    <p class="sec-desc">Every formula is backed by peer-reviewed research and third-party tested for purity</p>
+  </div>
+  <div class="benefits-grid container">
+    <div class="benefit-card">
+      <div class="benefit-icon-wrap" style="background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.25)">🛡️</div>
+      <h3>Immune Support</h3>
+      <p>Our immune complexes combine Elderberry, Vitamin C, Zinc, and Quercetin to activate both innate and adaptive immunity for year-round protection.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon-wrap" style="background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.25)">❤️</div>
+      <h3>Heart Health</h3>
+      <p>Triple-strength Omega-3 EPA/DHA supports healthy triglyceride levels, arterial flexibility, and cardiovascular function in clinical studies.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon-wrap" style="background:rgba(234,179,8,.12);border:1px solid rgba(234,179,8,.25)">⚡</div>
+      <h3>Energy Boost</h3>
+      <p>Methylated B-vitamins and CoQ10 Ubiquinol support mitochondrial ATP production for sustained energy without stimulants or afternoon crashes.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon-wrap" style="background:rgba(139,92,246,.12);border:1px solid rgba(139,92,246,.25)">🧠</div>
+      <h3>Brain Function</h3>
+      <p>Lion's Mane, Bacopa Monnieri, and Phosphatidylserine support neurogenesis, working memory, and long-term cognitive performance.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon-wrap" style="background:rgba(59,130,246,.12);border:1px solid rgba(59,130,246,.25)">💪</div>
+      <h3>Muscle Recovery</h3>
+      <p>Complete amino acid profiles from Whey Isolate and Magnesium Glycinate accelerate muscle repair, reduce soreness, and build lean mass.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon-wrap" style="background:rgba(236,72,153,.12);border:1px solid rgba(236,72,153,.25)">✨</div>
+      <h3>Skin & Hair Health</h3>
+      <p>Biotin 5000mcg, Marine Collagen Peptides, and Hyaluronic Acid promote visible improvements in hair thickness, skin hydration, and nail strength.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== INGREDIENTS ==================== -->
+<section class="ingr-section section" id="ingredients">
+  <canvas id="ingrCanvas"></canvas>
+  <div class="sec-head" style="position:relative;z-index:2">
+    <div class="eyebrow">Full Transparency</div>
+    <h2>Pure <em>Ingredients</em></h2>
+    <p class="sec-desc">Every ingredient is third-party tested, non-GMO certified, and free from artificial additives</p>
+  </div>
+  <div class="ingr-grid" id="ingrGrid">
+    <div class="ingr-card">
+      <div class="ingr-orb" style="background:linear-gradient(135deg,#ff7043,#ff9800)">🍊</div>
+      <h4>Vitamin C</h4>
+      <p>1000mg · Buffered Ascorbate</p>
+      <div class="ingr-bar"><div class="ingr-fill" style="width:92%;background:#ff7043"></div></div>
+      <span class="ingr-purity">92% Bioavailability</span>
+    </div>
+    <div class="ingr-card">
+      <div class="ingr-orb" style="background:linear-gradient(135deg,#f59e0b,#d97706)">🌿</div>
+      <h4>Turmeric Curcumin</h4>
+      <p>500mg · 95% Curcuminoids</p>
+      <div class="ingr-bar"><div class="ingr-fill" style="width:95%;background:#f59e0b"></div></div>
+      <span class="ingr-purity">95% Standardized Extract</span>
+    </div>
+    <div class="ingr-card">
+      <div class="ingr-orb" style="background:linear-gradient(135deg,#06b6d4,#0891b2)">🐟</div>
+      <h4>Omega-3 Fish Oil</h4>
+      <p>2400mg · EPA/DHA Concentrated</p>
+      <div class="ingr-bar"><div class="ingr-fill" style="width:88%;background:#06b6d4"></div></div>
+      <span class="ingr-purity">88% EPA/DHA Ratio</span>
+    </div>
+    <div class="ingr-card">
+      <div class="ingr-orb" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">⚗️</div>
+      <h4>Magnesium Glycinate</h4>
+      <p>400mg · Chelated Form</p>
+      <div class="ingr-bar"><div class="ingr-fill" style="width:96%;background:#6366f1"></div></div>
+      <span class="ingr-purity">96% Absorption Rate</span>
+    </div>
+    <div class="ingr-card">
+      <div class="ingr-orb" style="background:linear-gradient(135deg,#22c55e,#16a34a)">🔬</div>
+      <h4>Zinc Picolinate</h4>
+      <p>25mg · Picolinate Form</p>
+      <div class="ingr-bar"><div class="ingr-fill" style="width:90%;background:#22c55e"></div></div>
+      <span class="ingr-purity">90% Bioavailability</span>
+    </div>
+    <div class="ingr-card">
+      <div class="ingr-orb" style="background:linear-gradient(135deg,#ec4899,#db2777)">💎</div>
+      <h4>Marine Collagen</h4>
+      <p>10,000mg · Type I, II & III</p>
+      <div class="ingr-bar"><div class="ingr-fill" style="width:99%;background:#ec4899"></div></div>
+      <span class="ingr-purity">99% Hydrolyzed Peptides</span>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== REVIEWS ==================== -->
+<section class="reviews-section section" id="reviews">
+  <div class="sec-head">
+    <div class="eyebrow">Customer Stories</div>
+    <h2>Real <em>Results</em></h2>
+    <p class="sec-desc">Over 200,000 customers trust VITALUX for their daily nutrition</p>
+  </div>
+  <div class="slider-wrap">
+    <div class="review-track" id="reviewTrack">
+      <div class="review-card">
+        <div class="review-head">
+          <div class="reviewer-av" style="background:linear-gradient(135deg,#22c55e,#16a34a)"><span>S</span></div>
+          <div class="reviewer-info"><strong>Sarah M.</strong><small>Verified · Multivitamin Daily</small></div>
+        </div>
+        <div class="review-stars stars">★★★★★</div>
+        <p>"After 3 months on VITALUX Multi, my energy is completely transformed. I used to crash by 2pm — now I power through 10-hour workdays without issue."</p>
+      </div>
+      <div class="review-card">
+        <div class="review-head">
+          <div class="reviewer-av" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8)"><span>J</span></div>
+          <div class="reviewer-info"><strong>James K.</strong><small>Verified · Omega-3 Elite</small></div>
+        </div>
+        <div class="review-stars stars">★★★★★</div>
+        <p>"My cardiologist recommended fish oil and I tried many brands. VITALUX has zero fishy aftertaste and my HDL improved by 15 points in just 90 days."</p>
+      </div>
+      <div class="review-card">
+        <div class="review-head">
+          <div class="reviewer-av" style="background:linear-gradient(135deg,#ec4899,#db2777)"><span>A</span></div>
+          <div class="reviewer-info"><strong>Aisha R.</strong><small>Verified · Hair & Skin</small></div>
+        </div>
+        <div class="review-stars stars">★★★★★</div>
+        <p>"My hair was thinning post-pregnancy. Six weeks in and I'm seeing serious regrowth. The Marine Collagen and Biotin combo genuinely works."</p>
+      </div>
+      <div class="review-card">
+        <div class="review-head">
+          <div class="reviewer-av" style="background:linear-gradient(135deg,#8b5cf6,#7c3aed)"><span>M</span></div>
+          <div class="reviewer-info"><strong>Marcus T.</strong><small>Verified · Brain Boost Pro</small></div>
+        </div>
+        <div class="review-stars stars">★★★★★</div>
+        <p>"As a software engineer, focus is everything. Brain Boost with Lion's Mane has genuinely sharpened my concentration. I code for 6+ hours without brain fog."</p>
+      </div>
+      <div class="review-card">
+        <div class="review-head">
+          <div class="reviewer-av" style="background:linear-gradient(135deg,#f97316,#ea580c)"><span>L</span></div>
+          <div class="reviewer-info"><strong>Lisa C.</strong><small>Verified · Immunity Shield</small></div>
+        </div>
+        <div class="review-stars stars">★★★★★</div>
+        <p>"Last winter I was sick every other month. This year — zero sick days since starting Immunity Shield. The Elderberry and Zinc combo is phenomenal."</p>
+      </div>
+      <div class="review-card">
+        <div class="review-head">
+          <div class="reviewer-av" style="background:linear-gradient(135deg,#eab308,#ca8a04)"><span>D</span></div>
+          <div class="reviewer-info"><strong>David P.</strong><small>Verified · Energy Stack</small></div>
+        </div>
+        <div class="review-stars stars">★★★★★</div>
+        <p>"I replaced my daily pre-workout coffee with the Energy Stack. The CoQ10 and Ashwagandha combination gives me steady energy all day long. No crash."</p>
+      </div>
+    </div>
+    <div class="slider-controls">
+      <button class="slider-btn" id="sliderPrev">←</button>
+      <div class="slider-dots" id="sliderDots"></div>
+      <button class="slider-btn" id="sliderNext">→</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== BLOG ==================== -->
+<section class="blog-section section" id="blog">
+  <div class="sec-head">
+    <div class="eyebrow">Research & Wellness</div>
+    <h2>Health <em>Insights</em></h2>
+  </div>
+  <div class="blog-grid container">
+    <article class="blog-card feat" onclick="location.href='blog.html'">
+      <div class="blog-img" style="background:linear-gradient(135deg,#064e3b,#065f46,#16a34a)">🧬</div>
+      <div class="blog-body">
+        <span class="tag tag-green" style="margin-bottom:.7rem;display:inline-block">Research</span>
+        <h3>The Science Behind Multivitamin Bioavailability</h3>
+        <p>New meta-analyses confirm that methylated and chelated forms of vitamins outperform synthetic alternatives by up to 3x in absorption rates across all demographics.</p>
+        <a class="blog-link" href="blog.html">Read Full Article →</a>
+      </div>
+    </article>
+    <article class="blog-card" onclick="location.href='blog.html'">
+      <div class="blog-img" style="background:linear-gradient(135deg,#0c4a6e,#0369a1)">❤️</div>
+      <div class="blog-body">
+        <span class="tag tag-blue" style="margin-bottom:.7rem;display:inline-block">Cardiology</span>
+        <h3>How Omega-3 Transforms Heart Health</h3>
+        <p>EPA and DHA reduce triglycerides and inflammation markers in landmark cardiovascular trials.</p>
+        <a class="blog-link" href="blog.html">Read Article →</a>
+      </div>
+    </article>
+    <article class="blog-card" onclick="location.href='blog.html'">
+      <div class="blog-img" style="background:linear-gradient(135deg,#4c1d95,#6d28d9)">🛡️</div>
+      <div class="blog-body">
+        <span class="tag tag-purple" style="margin-bottom:.7rem;display:inline-block">Immunity</span>
+        <h3>Top 5 Supplements for Immune Defence</h3>
+        <p>Zinc, Vitamin D3, Elderberry, Quercetin, and Vitamin C — the evidence-based immunity stack.</p>
+        <a class="blog-link" href="blog.html">Read Article →</a>
+      </div>
+    </article>
+    <article class="blog-card" onclick="location.href='blog.html'">
+      <div class="blog-img" style="background:linear-gradient(135deg,#78350f,#b45309)">⚡</div>
+      <div class="blog-body">
+        <span class="tag tag-orange" style="margin-bottom:.7rem;display:inline-block">Nutrition</span>
+        <h3>Daily Nutrition Habits for Peak Wellness</h3>
+        <p>Timing, food synergies, and supplementation strategies that maximise your daily results.</p>
+        <a class="blog-link" href="blog.html">Read Article →</a>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- ==================== NEWSLETTER ==================== -->
+<section class="newsletter-section" id="newsletter">
+  <div class="nl-inner">
+    <div class="eyebrow">Join 200,000+ Members</div>
+    <h2>Get Health Tips & <em>Exclusive Deals</em></h2>
+    <p>Science-backed wellness insights and member-exclusive supplement discounts delivered monthly.</p>
+    <form class="nl-form" id="nlForm">
+      <input type="email" placeholder="Enter your email address" required/>
+      <button type="submit" class="btn btn-primary">Subscribe Free</button>
+    </form>
+    <small>No spam. Unsubscribe anytime. We respect your privacy.</small>
+  </div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <div class="footer-logo">VITALUX</div>
+      <p>Premium science-backed supplements for modern health optimisation. Trusted by millions worldwide.</p>
+      <div class="social-row">
+        <a href="https://twitter.com" target="_blank" class="social-link">𝕏</a>
+        <a href="https://linkedin.com" target="_blank" class="social-link">in</a>
+        <a href="https://instagram.com" target="_blank" class="social-link">ig</a>
+        <a href="https://youtube.com" target="_blank" class="social-link">yt</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <a href="shop.html">All Products</a>
+      <a href="shop.html?cat=multivitamins">Multivitamins</a>
+      <a href="shop.html?cat=immunity">Immunity</a>
+      <a href="shop.html?cat=protein">Protein</a>
+      <a href="shop.html?cat=omega">Omega-3</a>
+      <a href="shop.html?cat=brain">Brain Health</a>
+    </div>
+    <div class="footer-col">
+      <h4>Company</h4>
+      <a href="about.html">About Us</a>
+      <a href="blog.html">Research Blog</a>
+      <a href="about.html#certs">Certifications</a>
+      <a href="about.html#team">Our Team</a>
+      <a href="contact.html">Press & Media</a>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <a href="faq.html">FAQ</a>
+      <a href="shipping.html">Shipping Policy</a>
+      <a href="faq.html#returns">Returns</a>
+      <a href="track-order.html">Track Order</a>
+      <a href="contact.html">Contact Us</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 VITALUX. All rights reserved.</p>
+    <div class="footer-legal">
+      <a href="faq.html">Privacy Policy</a>
+      <a href="faq.html">Terms of Service</a>
+      <a href="faq.html">Cookie Policy</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ============================================================
+   VITALUX — Products Data & Shared State
+   ============================================================ */
+
+const PRODUCTS = [
+  {
+    id:1, name:'Multivitamin Daily Elite', sub:'90 Capsules · 3-Month Supply',
+    price:44.99, oldPrice:59.99, emoji:'💊',
+    cat:'multivitamins', badge:'bestseller', rating:4.9, reviews:2847,
+    bg:'linear-gradient(135deg,#064e3b,#065f46,#0d7a4a)',
+    desc:'Our most comprehensive multivitamin with 25+ vitamins and minerals in their most bioavailable forms. Methylated B-vitamins, chelated minerals, zero fillers.',
+    benefits:['Complete daily micronutrient coverage (25+ nutrients)','Methylated B-vitamins for superior absorption','Immune system fortification with Zinc & Selenium','Antioxidant protection from Vitamins C, E & Beta-Carotene','Energy production support via B-complex','Bone density support with Vitamin D3 & K2'],
+    ingredients:[{n:'Vitamin A (Beta-Carotene)',a:'5000 IU'},{n:'Vitamin C (Buffered)',a:'500mg'},{n:'Vitamin D3',a:'2000 IU'},{n:'Vitamin E (d-Alpha)',a:'400 IU'},{n:'Vitamin K2 (MK-7)',a:'100mcg'},{n:'B-Complex (Methylated)',a:'Full Spectrum'},{n:'Zinc Picolinate',a:'15mg'},{n:'Magnesium Glycinate',a:'100mg'},{n:'Selenium',a:'200mcg'},{n:'Chromium Picolinate',a:'200mcg'}],
+    usage:'Take 2 capsules daily with food. Best taken in the morning with breakfast for optimal absorption. Store in a cool, dry place below 25°C.',
+    inStock:true
+  },
+  {
+    id:2, name:'Immunity Shield Pro', sub:'60 Capsules · 2-Month Supply',
+    price:38.99, oldPrice:null, emoji:'🛡️',
+    cat:'immunity', badge:'new', rating:4.8, reviews:1204,
+    bg:'linear-gradient(135deg,#7c2d12,#9a3412,#c2410c)',
+    desc:'Advanced immune complex featuring Elderberry Extract, Vitamin C 1000mg, Zinc, and Quercetin. Clinically studied ingredients for year-round immune resilience.',
+    benefits:['Activates innate and adaptive immune response','Rich in antioxidant polyphenols from Elderberry','Reduces duration and severity of seasonal illness','Supports respiratory health and mucosal barriers','Anti-inflammatory cytokine modulation','Zinc Picolinate for T-cell function'],
+    ingredients:[{n:'Elderberry Extract (4:1)',a:'400mg'},{n:'Vitamin C (Ascorbic Acid)',a:'1000mg'},{n:'Zinc Picolinate',a:'25mg'},{n:'Quercetin Dihydrate',a:'500mg'},{n:'Echinacea Extract',a:'200mg'},{n:'Vitamin D3',a:'5000 IU'},{n:'Beta-Glucan (1,3/1,6)',a:'250mg'}],
+    usage:'Take 2 capsules daily during active cold/flu season. For acute immune support, take 3 capsules daily for up to 7 consecutive days.',
+    inStock:true
+  },
+  {
+    id:3, name:'Omega-3 Elite Triple Strength', sub:'90 Softgels · 3-Month Supply',
+    price:52.99, oldPrice:69.99, emoji:'🐟',
+    cat:'omega', badge:'bestseller', rating:4.9, reviews:3102,
+    bg:'linear-gradient(135deg,#0c4a6e,#0369a1,#0284c7)',
+    desc:'Ultra-pure, molecularly distilled Omega-3 fish oil with 2400mg EPA/DHA per serving. IFOS 5-Star certified, no fishy aftertaste, enteric coated softgels.',
+    benefits:['Heart health & healthy triglyceride levels','Brain function, memory and cognitive support','Joint comfort, lubrication and mobility','Mood regulation and mental clarity','Healthy inflammatory response','Eye health and macular support'],
+    ingredients:[{n:'EPA (Eicosapentaenoic Acid)',a:'1400mg'},{n:'DHA (Docosahexaenoic Acid)',a:'1000mg'},{n:'Other Omega-3 Fatty Acids',a:'200mg'},{n:'Fish Gelatin Capsule',a:'-'},{n:'d-Alpha Tocopherol (Vit E)',a:'5 IU'},{n:'Natural Lemon Flavour',a:'trace'}],
+    usage:'Take 3 softgels daily with a meal containing fat for best absorption. Refrigerate after opening. Best consumed within 90 days of opening.',
+    inStock:true
+  },
+  {
+    id:4, name:'Whey Protein Isolate Pro', sub:'2.5kg · 83 Servings',
+    price:74.99, oldPrice:89.99, emoji:'💪',
+    cat:'protein', badge:'bestseller', rating:4.8, reviews:5621,
+    bg:'linear-gradient(135deg,#1e3a5f,#1d4ed8,#2563eb)',
+    desc:'Cold-processed whey isolate delivering 27g of complete protein per scoop. Minimal carbs, zero artificial sweeteners, rapid absorption for peak recovery.',
+    benefits:['27g pure protein per serving (38g scoop)','Complete essential amino acid profile','Fast post-workout absorption (< 30 min)','Only 1g sugar, 2g carbs per serving','Supports lean muscle growth and retention','Digestive enzyme blend for gut comfort'],
+    ingredients:[{n:'Whey Protein Isolate 90%',a:'30g'},{n:'Protein per serving',a:'27g'},{n:'Total Carbohydrates',a:'2g'},{n:'Total Fats',a:'0.5g'},{n:'Digestive Enzyme Blend',a:'50mg'},{n:'Sunflower Lecithin',a:'trace'},{n:'Stevia Leaf Extract',a:'trace'}],
+    usage:'Mix 1 scoop (38g) with 240–280ml water, milk or plant-based milk. Shake for 20 seconds. Consume within 30 minutes post-workout or between meals as a protein supplement.',
+    inStock:true
+  },
+  {
+    id:5, name:'Brain Boost Pro', sub:'60 Capsules · 2-Month Supply',
+    price:56.99, oldPrice:null, emoji:'🧠',
+    cat:'brain', badge:'new', rating:4.7, reviews:892,
+    bg:'linear-gradient(135deg,#3b0764,#6d28d9,#7c3aed)',
+    desc:'Premium nootropic formula with clinically-dosed Lion\'s Mane, Bacopa Monnieri, and Phosphatidylserine. Engineered for sustained focus, memory consolidation, and neurogenesis.',
+    benefits:['Enhances working memory and recall','Promotes neurogenesis via NGF stimulation','Reduces cognitive fatigue and brain fog','Supports long-term brain plasticity','Improves sustained concentration and focus','Adaptogenic stress resilience (HPA axis)'],
+    ingredients:[{n:"Lion's Mane Extract (50% poly)",a:'600mg'},{n:'Bacopa Monnieri (55% bacosides)',a:'300mg'},{n:'Phosphatidylserine (PS)',a:'200mg'},{n:'Alpha-GPC (50%)',a:'150mg'},{n:'Rhodiola Rosea (3% rosavins)',a:'200mg'},{n:'Huperzine A (1%)',a:'100mcg'},{n:'B-Vitamin Cofactor Blend',a:'25mg'}],
+    usage:'Take 2 capsules with breakfast. Cognitive benefits build over 4–6 weeks of consistent use. Best combined with 7–9 hours of sleep and adequate hydration.',
+    inStock:true
+  },
+  {
+    id:6, name:'Hair & Skin Radiance', sub:'60 Capsules · 2-Month Supply',
+    price:42.99, oldPrice:54.99, emoji:'✨',
+    cat:'beauty', badge:'bestseller', rating:4.8, reviews:1876,
+    bg:'linear-gradient(135deg,#701a75,#be185d,#db2777)',
+    desc:'Complete beauty-from-within formula with 5000mcg Biotin, Marine Collagen Peptides, and Hyaluronic Acid. Visibly stronger hair, radiant skin, and resilient nails.',
+    benefits:['Stimulates hair follicle growth cycle','Reduces daily hair shedding (telogen effluvium)','Plumps and hydrates skin from within','Strengthens brittle, peeling nails','Provides potent antioxidant skin protection','Supports joint and connective tissue health'],
+    ingredients:[{n:'Biotin (Vitamin B7)',a:'5000mcg'},{n:'Marine Collagen Peptides (Type I&III)',a:'2000mg'},{n:'Hyaluronic Acid (High MW)',a:'150mg'},{n:'Vitamin E (d-Alpha Tocopherol)',a:'400 IU'},{n:'Bamboo Silica',a:'25mg'},{n:'Selenium (Selenomethionine)',a:'200mcg'},{n:'Vitamin C (as Ascorbate)',a:'250mg'}],
+    usage:'Take 2 capsules daily with food, ideally in the morning. Visible hair and skin improvements typically noticed after 6–8 weeks of consistent use.',
+    inStock:true
+  },
+  {
+    id:7, name:'Energy & Performance Stack', sub:'90 Capsules · 3-Month Supply',
+    price:48.99, oldPrice:62.99, emoji:'⚡',
+    cat:'energy', badge:'sale', rating:4.7, reviews:1423,
+    bg:'linear-gradient(135deg,#713f12,#b45309,#d97706)',
+    desc:'Natural energy complex featuring CoQ10 Ubiquinol, Methylcobalamin B12, and adaptogenic Ashwagandha KSM-66. Clean, sustained energy without stimulants or afternoon crashes.',
+    benefits:['Mitochondrial ATP energy production','Adrenal fatigue support and cortisol balance','Zero caffeine — no jitteriness or crash','Both mental and physical performance support','Stress resilience via adaptogenic herbs','Antioxidant protection at cellular level'],
+    ingredients:[{n:'CoQ10 (Ubiquinol active form)',a:'200mg'},{n:'Vitamin B12 (Methylcobalamin)',a:'1000mcg'},{n:'Ashwagandha KSM-66®',a:'300mg'},{n:'Panax Ginseng (30% ginsenosides)',a:'400mg'},{n:'NADH (stabilized)',a:'10mg'},{n:'Magnesium Malate',a:'200mg'},{n:'Ribose (D-Ribose)',a:'500mg'}],
+    usage:'Take 3 capsules each morning with food. Cycle pattern: 5 days on, 2 days off for best adaptogenic effect. Avoid taking within 4 hours of bedtime.',
+    inStock:true
+  },
+  {
+    id:8, name:'Magnesium Glycinate Sleep', sub:'120 Capsules · 2-Month Supply',
+    price:34.99, oldPrice:null, emoji:'🌙',
+    cat:'multivitamins', badge:'new', rating:4.9, reviews:2311,
+    bg:'linear-gradient(135deg,#0f172a,#1e293b,#1e3a5f)',
+    desc:'Highly absorbable Magnesium Glycinate formulated for deep, restorative sleep. With L-Theanine and Ashwagandha for nervous system calm and cortisol reduction.',
+    benefits:['Improves sleep onset latency and REM quality','Reduces nighttime muscle cramps and restlessness','Calms overactive nervous system activity','Reduces cortisol and anxiety markers','Bone density and skeletal muscle support','GABA-ergic pathway support for relaxation'],
+    ingredients:[{n:'Magnesium Glycinate',a:'400mg'},{n:'L-Theanine',a:'200mg'},{n:'Ashwagandha (KSM-66)',a:'150mg'},{n:'Glycine',a:'1000mg'},{n:'Passion Flower Extract',a:'100mg'},{n:'Tart Cherry Extract',a:'150mg'}],
+    usage:'Take 3 capsules 30–60 minutes before bedtime. Take with a small snack if you have a sensitive stomach. Do not exceed recommended dose.',
+    inStock:true
+  },
+  {
+    id:9, name:'Vitamin D3 + K2 Complex', sub:'120 Capsules · 4-Month Supply',
+    price:28.99, oldPrice:36.99, emoji:'☀️',
+    cat:'multivitamins', badge:'bestseller', rating:4.8, reviews:3455,
+    bg:'linear-gradient(135deg,#78350f,#92400e,#b45309)',
+    desc:'The synergistic D3+K2 combination for optimal calcium utilization. 5000 IU D3 with MK-7 K2 ensures calcium is directed to bones and away from arteries.',
+    benefits:['Immune system modulation and response','Bone mineralization and calcium absorption','Cardiovascular health — arterial flexibility','Mood regulation and seasonal wellbeing','Muscle function and nerve signalling','Testosterone and hormonal support'],
+    ingredients:[{n:'Vitamin D3 (Cholecalciferol)',a:'5000 IU'},{n:'Vitamin K2 (MK-7 form)',a:'200mcg'},{n:'Organic Olive Oil (carrier)',a:'50mg'},{n:'Non-GMO Sunflower Lecithin',a:'trace'}],
+    usage:'Take 1 capsule daily with your largest meal of the day. Fat-soluble — always take with a meal containing dietary fat for optimal absorption.',
+    inStock:true
+  },
+  {
+    id:10, name:'Collagen Peptides Advanced', sub:'300g · 30 Servings',
+    price:62.99, oldPrice:79.99, emoji:'💎',
+    cat:'beauty', badge:'bestseller', rating:4.7, reviews:2108,
+    bg:'linear-gradient(135deg,#4c1d95,#5b21b6,#7c3aed)',
+    desc:'Hydrolyzed Marine Collagen Peptides (Type I, II & III) with Vitamin C co-factor for maximum collagen synthesis. Unflavored powder, mixes instantly in any beverage.',
+    benefits:['Skin elasticity, hydration and firmness','Joint cartilage regeneration and comfort','Gut lining integrity and permeability support','Hair growth, thickness and shine','Nail strength and growth stimulation','Bone matrix protein reinforcement'],
+    ingredients:[{n:'Marine Collagen Peptides (Hydrolyzed)',a:'10,000mg'},{n:'Type I Collagen',a:'7000mg'},{n:'Type III Collagen',a:'2000mg'},{n:'Type II Collagen',a:'1000mg'},{n:'Vitamin C (Ascorbic Acid)',a:'200mg'},{n:'Hyaluronic Acid',a:'50mg'}],
+    usage:'Mix 1 scoop (10g) into hot or cold water, coffee, smoothies or food. Odorless and tasteless. Consume once daily — best taken in the morning or post-workout.',
+    inStock:true
+  },
+  {
+    id:11, name:'Zinc Picolinate Elite', sub:'120 Capsules · 4-Month Supply',
+    price:22.99, oldPrice:null, emoji:'🔬',
+    cat:'immunity', badge:'new', rating:4.7, reviews:1087,
+    bg:'linear-gradient(135deg,#134e4a,#0f766e,#0d9488)',
+    desc:'Pharmaceutical-grade Zinc Picolinate — the most bioavailable zinc chelate. Essential for immune function, testosterone production, wound healing, and enzyme activity.',
+    benefits:['Immune cell development and function','Testosterone biosynthesis support','Wound healing and tissue regeneration','Protein synthesis and enzyme cofactor','Skin health and acne reduction','Taste and smell sensation maintenance'],
+    ingredients:[{n:'Zinc Picolinate',a:'50mg'},{n:'Elemental Zinc (from picolinate)',a:'25mg'},{n:'Picolinic Acid (carrier)',a:'25mg'}],
+    usage:'Take 1 capsule daily with food. Taking on an empty stomach may cause nausea in some individuals. Do not exceed 40mg elemental zinc daily without medical supervision.',
+    inStock:true
+  },
+  {
+    id:12, name:'Pre-Workout Ignite', sub:'300g · 30 Servings',
+    price:44.99, oldPrice:54.99, emoji:'🔥',
+    cat:'energy', badge:'sale', rating:4.6, reviews:1932,
+    bg:'linear-gradient(135deg,#7f1d1d,#991b1b,#dc2626)',
+    desc:'Performance pre-workout with clinically-dosed Citrulline Malate, Beta-Alanine, and natural caffeine. Maximum pump, endurance and focus without proprietary blends.',
+    benefits:['Explosive muscular power output','Nitric oxide production for muscle pumps','Reduced fatigue via buffered lactic acid','Laser-sharp mental focus and drive','Improved blood flow and oxygen delivery','No crash, no jitters — clean energy profile'],
+    ingredients:[{n:'L-Citrulline Malate (2:1)',a:'6000mg'},{n:'Beta-Alanine',a:'3200mg'},{n:'Betaine Anhydrous',a:'2500mg'},{n:'Caffeine Anhydrous (natural)',a:'200mg'},{n:'L-Tyrosine',a:'1000mg'},{n:'Alpha-GPC (50%)',a:'300mg'},{n:'Electrolyte Blend',a:'500mg'}],
+    usage:'Mix 1 scoop with 300ml cold water. Consume 20–30 minutes before training. Start with half a scoop to assess tolerance. Do not exceed 1 scoop per day.',
+    inStock:true
+  }
+];
+
+// ===================== SHARED CART STATE =====================
+window.VLX = window.VLX || {};
+
+VLX.cart = JSON.parse(localStorage.getItem('vlx_cart') || '[]');
+
+VLX.saveCart = function() {
+  localStorage.setItem('vlx_cart', JSON.stringify(VLX.cart));
+};
+
+VLX.addToCart = function(productId, qty = 1) {
+  const product = PRODUCTS.find(p => p.id === productId);
+  if (!product) return;
+  const existing = VLX.cart.find(i => i.id === productId);
+  if (existing) existing.qty += qty;
+  else VLX.cart.push({ id: product.id, name: product.name, sub: product.sub, price: product.price, emoji: product.emoji, qty });
+  VLX.saveCart();
+  VLX.updateCartUI();
+  VLX.showToast('✅ ' + product.name + ' added to cart');
+  VLX.openCart();
+};
+
+VLX.removeFromCart = function(id) {
+  VLX.cart = VLX.cart.filter(i => i.id !== id);
+  VLX.saveCart();
+  VLX.updateCartUI();
+};
+
+VLX.updateQty = function(id, delta) {
+  const item = VLX.cart.find(i => i.id === id);
+  if (!item) return;
+  item.qty = Math.max(0, item.qty + delta);
+  if (item.qty === 0) VLX.cart = VLX.cart.filter(i => i.id !== id);
+  VLX.saveCart();
+  VLX.updateCartUI();
+};
+
+VLX.cartTotal = function() {
+  return VLX.cart.reduce((s, i) => s + i.price * i.qty, 0);
+};
+
+VLX.cartCount = function() {
+  return VLX.cart.reduce((s, i) => s + i.qty, 0);
+};
+
+VLX.updateCartUI = function() {
+  const count = VLX.cartCount();
+  document.querySelectorAll('.cart-badge').forEach(el => el.textContent = count);
+
+  const body = document.getElementById('cartBody');
+  const foot = document.getElementById('cartFoot');
+  if (!body) return;
+
+  if (VLX.cart.length === 0) {
+    body.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🧪</div><p>Your cart is empty</p></div>`;
+    if (foot) foot.style.display = 'none';
+    return;
+  }
+
+  body.innerHTML = VLX.cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-img">${item.emoji}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-sub">${item.sub}</div>
+        <div class="cart-item-price">$${(item.price * item.qty).toFixed(2)}</div>
+        <div class="cart-qty-row">
+          <button class="qty-btn" onclick="VLX.updateQty(${item.id},-1)">−</button>
+          <span class="cart-item-qty">${item.qty}</span>
+          <button class="qty-btn" onclick="VLX.updateQty(${item.id},1)">+</button>
+        </div>
+      </div>
+      <button class="cart-remove" onclick="VLX.removeFromCart(${item.id})">✕</button>
+    </div>
+  `).join('');
+
+  if (foot) {
+    foot.style.display = 'block';
+    const total = VLX.cartTotal();
+    const el = document.getElementById('cartTotalVal');
+    if (el) el.textContent = '$' + total.toFixed(2);
+    const ship = document.getElementById('cartShipMsg');
+    if (ship) {
+      if (total >= 50) ship.textContent = '🎉 You qualify for FREE shipping!';
+      else ship.textContent = `🚚 Add $${(50 - total).toFixed(2)} more for free shipping`;
+    }
+  }
+};
+
+VLX.openCart = function() {
+  document.getElementById('cartSidebar')?.classList.add('open');
+  document.getElementById('cartOverlay')?.classList.add('open');
+};
+
+VLX.closeCart = function() {
+  document.getElementById('cartSidebar')?.classList.remove('open');
+  document.getElementById('cartOverlay')?.classList.remove('open');
+};
+
+VLX.showToast = function(msg) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove('show'), 3200);
+};
+
+// ===================== NAVBAR INIT =====================
+VLX.initNav = function() {
+  const nav = document.querySelector('.navbar');
+  window.addEventListener('scroll', () => {
+    nav?.classList.toggle('scrolled', window.scrollY > 50);
+  }, { passive: true });
+
+  document.getElementById('cartBtn')?.addEventListener('click', VLX.openCart);
+  document.getElementById('cartOverlay')?.addEventListener('click', VLX.closeCart);
+  document.getElementById('cartCloseBtn')?.addEventListener('click', VLX.closeCart);
+
+  const ham = document.getElementById('hamburger');
+  const mobNav = document.getElementById('mobNav');
+  const mobOverlay = document.getElementById('mobOverlay');
+  const mobClose = document.getElementById('mobClose');
+  ham?.addEventListener('click', () => { mobNav?.classList.add('open'); mobOverlay?.classList.add('open'); });
+  mobClose?.addEventListener('click', () => { mobNav?.classList.remove('open'); mobOverlay?.classList.remove('open'); });
+  mobOverlay?.addEventListener('click', () => { mobNav?.classList.remove('open'); mobOverlay?.classList.remove('open'); });
+
+  VLX.updateCartUI();
+};
+
+// ===================== 3D BOTTLE HELPER =====================
+VLX.createBottle = function(canvas, colorHex, capHex, isInteractive) {
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const updateSize = () => {
+    const w = canvas.clientWidth || canvas.parentElement?.clientWidth || 400;
+    const h = canvas.clientHeight || canvas.parentElement?.clientHeight || 400;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  };
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 100);
+  camera.position.set(0, 0, 5.5);
+
+  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+  const dl = new THREE.DirectionalLight(0x22c55e, 3);
+  dl.position.set(5, 8, 5); scene.add(dl);
+  const dl2 = new THREE.DirectionalLight(0xffffff, 1.5);
+  dl2.position.set(-5, -3, 5); scene.add(dl2);
+  const pt = new THREE.PointLight(0x22c55e, 4, 12);
+  pt.position.set(2, 4, 3); scene.add(pt);
+  const pt2 = new THREE.PointLight(0x3b82f6, 2, 10);
+  pt2.position.set(-3, -2, 2); scene.add(pt2);
+
+  const group = new THREE.Group();
+
+  const bodyMat = new THREE.MeshPhysicalMaterial({
+    color: colorHex, metalness: 0.1, roughness: 0.2,
+    transparent: true, opacity: 0.92, clearcoat: 1,
+    clearcoatRoughness: 0.05, transmission: 0.35, thickness: 1.2
+  });
+  const capMat = new THREE.MeshPhysicalMaterial({ color: capHex, metalness: 0.6, roughness: 0.2, clearcoat: 1 });
+  const labelMat = new THREE.MeshStandardMaterial({ color: capHex, roughness: 0.85, emissive: capHex, emissiveIntensity: 0.15 });
+
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(.75, .9, 3.2, 32), bodyMat);
+  const sho  = new THREE.Mesh(new THREE.CylinderGeometry(.58, .75, .5, 32), bodyMat); sho.position.y = 1.85;
+  const neck = new THREE.Mesh(new THREE.CylinderGeometry(.4, .58, .6, 32), bodyMat);  neck.position.y = 2.35;
+  const cap  = new THREE.Mesh(new THREE.CylinderGeometry(.45, .45, .55, 32), capMat); cap.position.y = 2.9;
+  const dome = new THREE.Mesh(new THREE.SphereGeometry(.45, 32, 16, 0, Math.PI*2, 0, Math.PI/2), capMat); dome.position.y = 3.17;
+  const lbl  = new THREE.Mesh(new THREE.CylinderGeometry(.765, .765, 1.8, 32), labelMat); lbl.position.y = .1;
+  const strip= new THREE.Mesh(new THREE.CylinderGeometry(.768, .768, .25, 32), new THREE.MeshStandardMaterial({color:0xf0faf4,roughness:.9})); strip.position.y = 1.0;
+
+  [body, sho, neck, cap, dome, lbl, strip].forEach(m => group.add(m));
+  group.position.y = -1.5;
+  scene.add(group);
+
+  let angle = 0, dragging = false, lastX = 0;
+
+  if (isInteractive) {
+    canvas.style.cursor = 'grab';
+    canvas.addEventListener('mousedown', e => { dragging = true; lastX = e.clientX; canvas.style.cursor = 'grabbing'; });
+    window.addEventListener('mousemove', e => { if (!dragging) return; angle += (e.clientX - lastX) * .012; lastX = e.clientX; group.rotation.y = angle; });
+    window.addEventListener('mouseup', () => { dragging = false; canvas.style.cursor = 'grab'; });
+    canvas.addEventListener('touchstart', e => { dragging = true; lastX = e.touches[0].clientX; });
+    canvas.addEventListener('touchmove', e => { if (!dragging) return; e.preventDefault(); angle += (e.touches[0].clientX - lastX) * .012; lastX = e.touches[0].clientX; group.rotation.y = angle; }, { passive: false });
+    canvas.addEventListener('touchend', () => { dragging = false; });
+  }
+
+  updateSize();
+  window.addEventListener('resize', updateSize);
+
+  let t = 0;
+  const animate = () => {
+    requestAnimationFrame(animate);
+    t += 0.016;
+    if (!dragging) group.rotation.y += 0.008;
+    group.position.y = -1.5 + Math.sin(t * 0.6) * 0.15;
+    renderer.render(scene, camera);
+  };
+  animate();
+  return { renderer, group };
+};
+
+// ============================================================
+//  VITALUX — Home Page Script
+// ============================================================
+gsap.registerPlugin(ScrollTrigger);
+
+document.addEventListener('DOMContentLoaded', () => {
+  VLX.initNav();
+  // Show username in navbar on all pages
+  (function(){
+    const u = JSON.parse(localStorage.getItem('vlx_user')||'null');
+    const btn = document.getElementById('navUserBtn');
+    const nm  = document.getElementById('navUserName');
+    if (u && btn && nm) {
+      const first = u.name ? u.name.split(' ')[0] : 'Account';
+      nm.textContent = first;
+      btn.style.borderColor = 'var(--borderg)';
+      btn.style.background  = 'rgba(34,197,94,.07)';
+      btn.style.color       = 'var(--gl)';
+    }
+  })();
+  initHeroCanvas();
+  initProductGrid('all');
+  initFilterButtons();
+  initReviewSlider();
+  initScrollAnimations();
+  initNewsletterForm();
+  initIngrCanvas();
+});
+
+// ======================== HERO THREE.JS ========================
+function initHeroCanvas() {
+  const canvas = document.getElementById('heroCanvas');
+  if (!canvas) return;
+
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  const scene  = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
+  camera.position.set(4, 0.5, 8);
+
+  const resize = () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+  };
+  resize();
+  window.addEventListener('resize', resize);
+
+  // Lighting
+  scene.add(new THREE.AmbientLight(0x1a3020, 0.8));
+  const kl = new THREE.DirectionalLight(0x22c55e, 2.5); kl.position.set(5,10,5); scene.add(kl);
+  const fl = new THREE.DirectionalLight(0x3b82f6, 0.8); fl.position.set(-5,-2,3); scene.add(fl);
+  const rl = new THREE.DirectionalLight(0xffffff, 1.2); rl.position.set(0,-5,-5); scene.add(rl);
+  const gpt = new THREE.PointLight(0x22c55e, 3, 15); gpt.position.set(2,2,3); scene.add(gpt);
+  const bpt = new THREE.PointLight(0x3b82f6, 2, 12); bpt.position.set(-4,-2,2); scene.add(bpt);
+
+  // Main bottle group
+  const btlGroup = new THREE.Group();
+  const bMat = new THREE.MeshPhysicalMaterial({
+    color:0x064e3b, metalness:.1, roughness:.2,
+    transparent:true, opacity:.92, clearcoat:1,
+    clearcoatRoughness:.05, transmission:.4, thickness:1.3
+  });
+  const cMat = new THREE.MeshPhysicalMaterial({ color:0x22c55e, metalness:.6, roughness:.2, clearcoat:1 });
+  const lMat = new THREE.MeshStandardMaterial({ color:0x16a34a, roughness:.85, emissive:0x064e3b, emissiveIntensity:.3 });
+
+  const addMesh = (geo, mat, py) => { const m = new THREE.Mesh(geo, mat); m.position.y = py; btlGroup.add(m); return m; };
+  addMesh(new THREE.CylinderGeometry(.75,.9,3.2,32), bMat, 0);
+  addMesh(new THREE.CylinderGeometry(.58,.75,.5,32), bMat, 1.85);
+  addMesh(new THREE.CylinderGeometry(.4,.58,.6,32), bMat, 2.35);
+  addMesh(new THREE.CylinderGeometry(.45,.45,.55,32), cMat, 2.9);
+  addMesh(new THREE.SphereGeometry(.45,32,16,0,Math.PI*2,0,Math.PI/2), cMat, 3.17);
+  addMesh(new THREE.CylinderGeometry(.77,.77,1.8,32), lMat, .1);
+  addMesh(new THREE.CylinderGeometry(.78,.78,.25,32), new THREE.MeshStandardMaterial({color:0xa7f3d0,roughness:.9}), 1.0);
+
+  btlGroup.position.set(2,0,0);
+  scene.add(btlGroup);
+
+  // Floating capsules
+  const capsules = [];
+  const capPositions = [[-2.5,1.5,1],[-3,-1,.5],[-1.5,-2,-1],[5,1,-2],[5.5,-.5,1],[4,2,-1],[-2,2.5,-2],[6,2,-3],[3,-2,2]];
+  const capColors = [0x22c55e,0x3b82f6,0xf97316,0x8b5cf6,0xf59e0b];
+  capPositions.forEach((pos,i) => {
+    const g = new THREE.Group();
+    const r = .14+Math.random()*.06, l = .5+Math.random()*.2;
+    const cm = new THREE.MeshPhysicalMaterial({ color:capColors[i%5], metalness:.1, roughness:.3, transparent:true, opacity:.9, clearcoat:.8 });
+    [new THREE.CylinderGeometry(r,r,l,20), new THREE.SphereGeometry(r,20,10), new THREE.SphereGeometry(r,20,10)].forEach((geo,j) => {
+      const m = new THREE.Mesh(geo,cm); m.position.y = j===1?l/2:j===2?-l/2:0; g.add(m);
+    });
+    g.position.set(...pos);
+    g.rotation.set(Math.random()*Math.PI, Math.random()*Math.PI, Math.random()*Math.PI);
+    scene.add(g);
+    capsules.push({ mesh:g, spd:.3+Math.random()*.5, amp:.3+Math.random()*.4, rot:.005+Math.random()*.01, iy:pos[1], ph:Math.random()*Math.PI*2 });
+  });
+
+  // Particle background
+  const pGeo = new THREE.BufferGeometry();
+  const pPos = new Float32Array(300*3);
+  for (let i=0;i<300;i++) { pPos[i*3]=(Math.random()-.5)*22; pPos[i*3+1]=(Math.random()-.5)*14; pPos[i*3+2]=(Math.random()-.5)*12-5; }
+  pGeo.setAttribute('position',new THREE.BufferAttribute(pPos,3));
+  const pts = new THREE.Points(pGeo, new THREE.PointsMaterial({color:0x22c55e,size:.05,transparent:true,opacity:.55}));
+  scene.add(pts);
+
+  let mx=0, my=0;
+  window.addEventListener('mousemove', e => { mx=(e.clientX/innerWidth-.5)*2; my=(e.clientY/innerHeight-.5)*2; }, {passive:true});
+
+  // GSAP hero text entrance
+  gsap.from('.hero-eyebrow', {opacity:0,y:20,duration:.8,delay:.3});
+  gsap.from('.t1', {opacity:0,x:-50,duration:.9,delay:.5});
+  gsap.from('.t2', {opacity:0,x:-50,duration:.9,delay:.7});
+  gsap.from('.t3', {opacity:0,x:-50,duration:.9,delay:.9});
+  gsap.from('.hero-sub',   {opacity:0,y:15,duration:.8,delay:1.1});
+  gsap.from('.hero-btns',  {opacity:0,y:15,duration:.8,delay:1.3});
+  gsap.from('.hero-stats', {opacity:0,y:15,duration:.8,delay:1.5});
+  gsap.from('.scroll-hint',{opacity:0,duration:.8,delay:2});
+
+  let t=0;
+  (function animate() {
+    requestAnimationFrame(animate);
+    t+=.016;
+    btlGroup.rotation.y = t*.4 + mx*.25;
+    btlGroup.position.y = Math.sin(t*.5)*.2;
+    capsules.forEach(c => {
+      c.mesh.rotation.x+=c.rot*.7; c.mesh.rotation.y+=c.rot;
+      c.mesh.position.y = c.iy+Math.sin(t*c.spd+c.ph)*c.amp;
+    });
+    pts.rotation.y = t*.025;
+    camera.position.x += (4+mx*.4-camera.position.x)*.05;
+    camera.position.y += (.5+my*-.25-camera.position.y)*.05;
+    camera.lookAt(2,0,0);
+    renderer.render(scene,camera);
+  })();
+}
+
+// ======================== INGREDIENT CANVAS ========================
+function initIngrCanvas() {
+  const canvas = document.getElementById('ingrCanvas');
+  if (!canvas) return;
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias:true, alpha:true });
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(60, 1, 0.1, 100);
+  camera.position.z = 5;
+
+  const resize = () => {
+    const w = canvas.clientWidth||window.innerWidth, h = canvas.clientHeight||400;
+    renderer.setSize(w,h); camera.aspect=w/h; camera.updateProjectionMatrix();
+  };
+  resize(); window.addEventListener('resize',resize);
+
+  const colors = [0xff7043,0xf59e0b,0x06b6d4,0x6366f1,0x22c55e,0xec4899];
+  const spheres = colors.map((c,i) => {
+    const m = new THREE.Mesh(new THREE.SphereGeometry(.15+Math.random()*.1,16,16), new THREE.MeshStandardMaterial({color:c,emissive:c,emissiveIntensity:.4,transparent:true,opacity:.7}));
+    m.position.set((Math.random()-.5)*12,(Math.random()-.5)*6,(Math.random()-.5)*4-2);
+    scene.add(m);
+    return { mesh:m, spd:(.3+Math.random()*.5)*[1,-1][i%2], iy:m.position.y, ph:Math.random()*Math.PI*2 };
+  });
+  scene.add(new THREE.AmbientLight(0xffffff,.5));
+
+  let t=0;
+  (function animate() {
+    requestAnimationFrame(animate);
+    t+=.012;
+    spheres.forEach(s => { s.mesh.position.y=s.iy+Math.sin(t*s.spd+s.ph)*.5; s.mesh.rotation.y+=.008; });
+    renderer.render(scene,camera);
+  })();
+}
+
+// ======================== PRODUCT GRID ========================
+function initProductGrid(activeCat) {
+  const grid = document.getElementById('prodsGrid');
+  if (!grid) return;
+
+  const filtered = activeCat === 'all' ? PRODUCTS : PRODUCTS.filter(p => p.cat === activeCat);
+  grid.innerHTML = filtered.map((p, i) => `
+    <div class="prod-card prod-anim" style="animation-delay:${i*0.07}s" onclick="location.href='product.html?id=${p.id}'">
+      <div class="prod-img-area" style="background:${p.bg}">
+        <div class="prod-emoji">${p.emoji}</div>
+      </div>
+      <div class="prod-body">
+        <span class="tag ${p.badge==='bestseller'?'tag-orange':p.badge==='new'?'tag-green':'tag-red'}" style="margin-bottom:.7rem;display:inline-block">
+          ${p.badge==='bestseller'?'Best Seller':p.badge==='new'?'New Arrival':'On Sale'}
+        </span>
+        <div class="prod-name">${p.name}</div>
+        <div class="prod-sub">${p.sub}</div>
+        <div><span class="stars">${'★'.repeat(Math.floor(p.rating))}${'☆'.repeat(5-Math.floor(p.rating))}</span><span class="rev-count">${p.rating} (${p.reviews.toLocaleString()})</span></div>
+        <div class="prod-foot">
+          <div>
+            <span class="prod-price">$${p.price}</span>
+            ${p.oldPrice?`<span class="old-price">$${p.oldPrice}</span>`:''}
+          </div>
+          <button class="add-btn" title="Add to cart" onclick="event.stopPropagation();VLX.addToCart(${p.id})">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function initFilterButtons() {
+  const filterRow = document.getElementById('filterRow');
+  if (!filterRow) return;
+  filterRow.addEventListener('click', e => {
+    const btn = e.target.closest('.flt');
+    if (!btn) return;
+    filterRow.querySelectorAll('.flt').forEach(b => b.classList.remove('on'));
+    btn.classList.add('on');
+    initProductGrid(btn.dataset.cat);
+  });
+}
+
+// ======================== REVIEW SLIDER ========================
+function initReviewSlider() {
+  const track = document.getElementById('reviewTrack');
+  const dotsEl = document.getElementById('sliderDots');
+  if (!track || !dotsEl) return;
+
+  const cards = track.querySelectorAll('.review-card');
+  let idx = 0;
+
+  const getVisible = () => window.innerWidth > 1000 ? 3 : window.innerWidth > 640 ? 2 : 1;
+
+  const updateCards = () => {
+    const vis = getVisible();
+    const w = (track.parentElement.clientWidth - (vis-1)*22.4) / vis;
+    cards.forEach(c => { c.style.width = w + 'px'; c.style.minWidth = w + 'px'; });
+  };
+
+  const totalPages = () => Math.ceil(cards.length / getVisible());
+
+  const buildDots = () => {
+    dotsEl.innerHTML = '';
+    for (let i=0; i<totalPages(); i++) {
+      const d = document.createElement('button');
+      d.className = 'dot' + (i===idx?' active':'');
+      d.addEventListener('click', () => goTo(i));
+      dotsEl.appendChild(d);
+    }
+  };
+
+  const goTo = (page) => {
+    idx = Math.max(0, Math.min(page, totalPages()-1));
+    const vis = getVisible();
+    const w = (track.parentElement.clientWidth - (vis-1)*22.4) / vis;
+    track.style.transform = `translateX(-${idx * vis * (w+22.4)}px)`;
+    dotsEl.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i===idx));
+  };
+
+  updateCards(); buildDots();
+  window.addEventListener('resize', () => { updateCards(); buildDots(); goTo(0); });
+
+  document.getElementById('sliderPrev')?.addEventListener('click', () => goTo(idx-1));
+  document.getElementById('sliderNext')?.addEventListener('click', () => goTo((idx+1) % totalPages()));
+
+  setInterval(() => goTo((idx+1) % totalPages()), 5000);
+}
+
+// ======================== SCROLL ANIMATIONS ========================
+function initScrollAnimations() {
+  const animItems = [
+    { selector:'.cat-card',       y:35, stagger:.08 },
+    { selector:'.benefit-card',   y:30, stagger:.09 },
+    { selector:'.ingr-card',      y:30, stagger:.1  },
+    { selector:'.blog-card',      y:25, stagger:.1  },
+    { selector:'.trust-item',     y:20, stagger:.08 },
+    { selector:'.sec-head',       y:20, stagger:0   },
+  ];
+
+  animItems.forEach(({ selector, y, stagger }) => {
+    gsap.utils.toArray(selector).forEach((el, i) => {
+      gsap.from(el, {
+        scrollTrigger:{ trigger:el, start:'top 88%', toggleActions:'play none none none' },
+        opacity:0, y, duration:.65, delay: stagger ? 0 : 0,
+        ease:'power2.out'
+      });
+    });
+  });
+
+  // Products section parallax
+  gsap.from('#prodsGrid', {
+    scrollTrigger:{ trigger:'#products', start:'top 80%' },
+    opacity:0, y:30, duration:.7, ease:'power2.out'
+  });
+}
+
+// ======================== NEWSLETTER ========================
+function initNewsletterForm() {
+  document.getElementById('nlForm')?.addEventListener('submit', e => {
+    e.preventDefault();
+    VLX.showToast('✅ Subscribed! Welcome to the VITALUX community.');
+    e.target.reset();
+  });
+}
+
+</script>
+</body>
+</html>
